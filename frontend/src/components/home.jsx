@@ -1,4 +1,6 @@
-import React from "react";
+import React , {useEffect} from "react";
+import $ from 'jquery';
+import 'owl.carousel'
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import carousel1 from "../img/carousel-1.jpg";
@@ -9,6 +11,25 @@ import LatestUser from "./latestUser";
 import Feature from "./feature";
 import Aboutpart1 from "./aboutpart1";
 function Home() {
+  
+    useEffect(() => {
+        $(document).ready(function() {
+  $(window).scroll(function () {
+    if ($(this).scrollTop() > 100) {
+      $('.back-to-top').fadeIn('slow');
+    } else {
+      $('.back-to-top').fadeOut('slow');
+    }
+  });
+  $('.back-to-top').click(function () {
+    $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+    return false;
+  });
+  
+    
+        })
+
+}, []);
   return (
     <>
       <div class="container-fluid p-0">
@@ -19,7 +40,7 @@ function Home() {
         >
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img class="w-100" src={carousel1} alt="Image" />
+              <img class="w-100" src={carousel1} alt="carousel1" />
               <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                 <div class="p-3" style={{ maxWidth: "900px" }}>
                   <h5 class="text-white text-uppercase">
@@ -29,13 +50,13 @@ function Home() {
                     We Provide Solution On Your Business
                   </h1>
                   <a
-                    href=""
+                    href="/jdhsj"
                     class="btn btn-primary py-md-3 px-md-5 me-3 rounded-pill"
                   >
                     Get Quote
                   </a>
                   <a
-                    href=""
+                    href="/hasdas"
                     class="btn btn-secondary py-md-3 px-md-5 rounded-pill"
                   >
                     Contact Us
@@ -44,7 +65,7 @@ function Home() {
               </div>
             </div>
             <div class="carousel-item">
-              <img class="w-100" src={carousel2} alt="Image" />
+              <img class="w-100" src={carousel2} alt="carousel2" />
               <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                 <div class="p-3" style={{ maxWidth: "900px" }}>
                   <h5 class="text-white text-uppercase">
@@ -54,13 +75,13 @@ function Home() {
                     Take Our Help To Reach The Top Level
                   </h1>
                   <a
-                    href=""
+                    href="get"
                     class="btn btn-primary py-md-3 px-md-5 me-3 rounded-pill"
                   >
                     Get Quote
                   </a>
                   <a
-                    href=""
+                    href="contact"
                     class="btn btn-secondary py-md-3 px-md-5 rounded-pill"
                   >
                     Contact Us

@@ -1,8 +1,39 @@
-import React from 'react'
+import React , { useEffect } from 'react'
+import $ from 'jquery';
+import 'owl.carousel'
 import '../css/bootstrap.min.css'
 import '../css/main.css'
 import {Link} from 'react-router-dom'
+
 function Header() {
+    useEffect(() => {
+        $(document).ready(function() {
+          // Your jQuery code here
+         
+          $(window).scroll(function () {
+            if ($(this).scrollTop() > 40) {
+              $('.navbar').addClass('sticky-top');
+            } else {
+              $('.navbar').removeClass('sticky-top');
+            }
+          });
+          function toggleNavbarMethod() {
+            if ($(window).width() > 992) {
+              $('.navbar .dropdown').on('mouseover', function () {
+                $('.dropdown-toggle', this).trigger('click');
+              }).on('mouseout', function () {
+                $('.dropdown-toggle', this).trigger('click').blur();
+              });
+            } else {
+              $('.navbar .dropdown').off('mouseover').off('mouseout');
+            }
+          }
+          toggleNavbarMethod()
+          $(window).resize(toggleNavbarMethod);
+
+        });
+       
+        }, []);
   return (
     <>
       <div class="container-fluid bg-secondary ps-5 pe-0 d-none d-lg-block">
@@ -45,7 +76,7 @@ function Header() {
                 <Link to='/service'>
                 <a href="service.html" class="nav-item nav-link">Service</a></Link>
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Start now </a>
+                    <a href="toggle" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Start now </a>
                     <div class="dropdown-menu m-0">
                     <Link to='/detail'>
                     <Link to='/register'>
@@ -56,7 +87,8 @@ function Header() {
                 <Link to='/email'>
                 <a href="service.html" class="dropdown-item">Quote Form</a></Link>
                 
-                        
+                <Link to='/redux'>
+                <a href="redux" class="dropdown-item">redux </a></Link>
                     </div>
                 </div>
                 <Link to='/contact'>

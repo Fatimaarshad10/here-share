@@ -11,12 +11,12 @@ import Blog from "./components/blog";
 import Formage from "./components/formpage";
 import Register from "./SignUp/register";
 import Login from "./SignUp/login";
+import Redux from './components/updateservice'
 function App() {
   return (
     <>
 
     <div>
-
     <Header />
       <Routes>
       <Route path="/" element={<Home />} />
@@ -28,11 +28,12 @@ function App() {
         <Route path="/service" element={<Service />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/redux" element={<Redux/>} />
 
 
       </Routes>
-      <Footer/>
 
+      <Footer/>
       </div>
     </>
   );
