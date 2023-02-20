@@ -2,7 +2,7 @@ import React  from 'react'
 import { allemail } from '../api/emaildata'
 import {useDispatch} from 'react-redux'
 import { adduser } from '../store/slices/userSlice'
-import { deleteAlluser } from '../store/slices/userSlice'
+import { deleteAlluser } from '../store/action/index'
 import Display from './display'
 function Text() {
   const dispatch = useDispatch()
