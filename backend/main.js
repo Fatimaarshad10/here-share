@@ -5,10 +5,13 @@ const cors = require('cors');
 const main = express();
 const Users = require("./routes/user");
 const cookie = require('cookie-parser')
+const morgan = require('morgan')
 //Middleware
+main.use(cookie());
 main.use(cors());
 main.use(express.json());
-main.use(cookie());
+main.use(morgan());
+main.use(express.urlencoded({extended:false}));
 main.use((req, res, next) => {
   console.log(req.path, req.method);
   next();

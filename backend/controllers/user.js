@@ -17,15 +17,8 @@ const Register = async (req, res) => {
       return res.status(409).send("User Already Exist. Please Login");
     }
     const User1 = new User({ name, email, password ,admin});
-    const token = jwt.sign(
-        { user_id: user._id, email },
-        process.env.TOKEN_KEY,
-        {
-          expiresIn: "2h",
-        }
-      );
-      // save user token
-      User1.token = token;
+    
+      
     const salt = await bcrypt.genSalt(10)
     User1.password = await bcrypt.hash(User1.password,salt)
     await User1.save();
@@ -56,11 +49,12 @@ const Login = async (req, res) => {
       const token = jwt.sign({ user_id: user._id, email }, process.env.TOKEN_KEY, {
         expiresIn: "2h",
       });
-
-      res.cookie("jwt", token, {
-        httpOnly: true,
-        sameSite: "strict",
-      });
+      res.cookie('auth', token,{
+        expires:new Date(Date.now() + 60000),
+        httpOnly: false,
+        secure : true,
+        sameSite: 'strict' ,
+      })
       res.status(200).json({ message: "Login successful" });
     } catch (err) {
       res.status(400).send(err.message);
