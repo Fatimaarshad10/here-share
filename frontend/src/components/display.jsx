@@ -8,7 +8,6 @@ function Display() {
     const data = useSelector((state)=>{
         return state.users
     })
-console.log(data)
 const remove = (id)=>{
   dispatch(removeuser(id))
  console.log(removeuser(id))

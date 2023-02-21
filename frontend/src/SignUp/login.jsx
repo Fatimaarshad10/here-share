@@ -1,26 +1,41 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../store/action/authaction";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
+import Cookies from "js-cookie";
 import register from "../img/pexels-photo-6457561.jpeg";
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [admin, setAdmin] = useState("");
+  const dispatch = useDispatch();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    dispatch(login(email, password, admin));
+  };
+  const auth = Cookies.get("auth");
+  console.log(auth);
+
   return (
     <>
-    <div class="container-fluid bg-secondary px-0">
+      <div class="container-fluid bg-secondary px-0">
         <div class="row g-0">
           <div class="col-lg-6 py-6 px-5">
             <h1 class="display-5 mb-4">Log in</h1>
-            <form>
+            <form onSubmit={handleLogin}>
               <div class="row g-3">
-               
                 <div class="col-12">
                   <div class="form-floating">
                     <input
                       type="email"
                       class="form-control"
                       id="form-floating-2"
-                      placeholder="name@example.com"
+                      placeholder="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
-                    <label for="form-floating-2">Email address</label>
+                    <label htmlFor="form-floating-2">Email address</label>
                   </div>
                 </div>
                 <div class="col-12">
@@ -29,20 +44,27 @@ function Login() {
                       type="password"
                       class="form-control"
                       id="form-floating-3"
-                      placeholder="Subject"
+                      placeholder="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
-                    <label for="form-floating-3">Password</label>
+                    <label htmlFor="form-floating-3">Password</label>
                   </div>
                 </div>
                 <div class="col-12">
-                            <div class="form-floating">
-                                <select class="form-select" id="floatingSelect" aria-label="Financial Consultancy">
-                                    <option selected>Admin </option>
-                                    <option value="1">User</option>
-                                </select>
-                                <label for="floatingSelect">Select category</label>
-                            </div>
-                        </div>
+                  <div class="form-floating">
+                    <select
+                      class="form-select"
+                      id="floatingSelect"
+                      value={admin}
+                      onChange={(e) => setAdmin(e.target.value)}
+                    >
+                      <option value={true}>Admin </option>
+                      <option value={false}>User</option>
+                    </select>
+                    <label htmlFor="floatingSelect">Select category</label>
+                  </div>
+                </div>
                 <div class="col-12">
                   <button class="btn btn-primary w-100 py-3 mt-4" type="submit">
                     Submit
@@ -59,7 +81,7 @@ function Login() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default Login
+export default Login;
