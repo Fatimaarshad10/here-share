@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../store/action/authaction";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
-import Cookies from "js-cookie";
 import register from "../img/pexels-photo-6457561.jpeg";
+import { useNavigate} from "react-router-dom";
 function Login() {
+  const navigate = useNavigate()
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState("");
   const dispatch = useDispatch();
+ 
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(login(email, password, admin));
-  };
-  const auth = Cookies.get("auth");
-  console.log(auth);
+    navigate('/')
 
+  };
   return (
     <>
+     
       <div class="container-fluid bg-secondary px-0">
         <div class="row g-0">
           <div class="col-lg-6 py-6 px-5">
@@ -66,11 +69,14 @@ function Login() {
                   </div>
                 </div>
                 <div class="col-12">
-                  <button class="btn btn-primary w-100 py-3 mt-4" type="submit">
+            
+                  <button class="btn btn-primary w-100 py-3 mt-4" type="submit" >
                     Submit
+                   
                   </button>
                 </div>
               </div>
+
             </form>
           </div>
           <div class="col-lg-6" style={{ minHeight: "10px" }}>
@@ -80,6 +86,7 @@ function Login() {
           </div>
         </div>
       </div>
+       
     </>
   );
 }

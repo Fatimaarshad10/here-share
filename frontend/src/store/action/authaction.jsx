@@ -14,7 +14,9 @@ export const login = (email, password, admin) => async (dispatch) => {
       admin,
       withCredentials: true,
     });
-    dispatch(loginSuccess(res));
+    dispatch(loginSuccess(res.user));
+    console.log(res)
+  
   } catch (error) {
     dispatch(loginFailure(error));
   }

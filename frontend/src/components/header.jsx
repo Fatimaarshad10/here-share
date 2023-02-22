@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import $ from "jquery";
 import "owl.carousel";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router";
-
+import { Navigate } from "react-router-dom";
 function Header() {
-  const navigate = useNavigate();
-  const removeCookie = (e) => {
-    e.preventDefault();
-    Cookies.remove("auth");
-    navigate("/register");
+  
+  const removeCookie = () => {
+    const data = Cookies.remove("auth");
+    if(data){
+    return Navigate("/register");
+    }
+    else{
+      return console.log('Cookie exist')
+    }
   };
 
   useEffect(() => {
@@ -123,7 +126,7 @@ function Header() {
                 Start now{" "}
               </a>
               <div class="dropdown-menu m-0">
-                <Link to="/detail">
+                
                   <Link to="/register">
                     <a href="service.html" class="dropdown-item">
                       Sign up{" "}
@@ -134,11 +137,11 @@ function Header() {
                       Log in{" "}
                     </a>
                   </Link>
-                  <Link to="/logout" onClick={removeCookie}>
-                    <a href="service.html" class="dropdown-item">
-                      Log out{" "}
+                  
+                    <a href="register" class="dropdown-item" onClick={removeCookie}>
+                      Log out
                     </a>
-                  </Link>
+                    <Link to="/detail">
                   <a href="service.html" class="dropdown-item">
                     Blog Detail
                   </a>

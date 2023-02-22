@@ -4,7 +4,11 @@ import { register } from "../store/action/authaction";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import registerPhoto from "../img/pexels-photo-6457561.jpeg";
+import { useNavigate} from "react-router-dom";
+
 function Register() {
+  const navigate = useNavigate()
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +18,8 @@ function Register() {
   const handleRegister = (e) => {
     e.preventDefault();
     dispatch(register(name, email, password, admin));
+    navigate('/login')
+
   };
 
   return (
