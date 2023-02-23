@@ -14,6 +14,7 @@ import Login from "./SignUp/login";
 import Redux from './components/updateservice'
 import  Data from './list/page'
 import initialArticles from "./list/data";
+import ProtectedRoute from './SignUp/route.jsx'
 // import Test from './components/text'
 function App() {
   return (
@@ -29,13 +30,14 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/email" element={<Formage />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/service" element={<Service />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/logout"/></Route>
+     <Route path="/login" element={<Login />} />
         <Route path="/redux" element={<Redux/>} />
         <Route path="/hacker" element={ <Data data={initialArticles}/>} />
-
 
       </Routes>
 

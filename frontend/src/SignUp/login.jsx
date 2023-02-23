@@ -7,26 +7,25 @@ import register from "../img/pexels-photo-6457561.jpeg";
 import { useNavigate} from "react-router-dom";
 function Login() {
   const navigate = useNavigate()
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState("");
   const dispatch = useDispatch();
- 
+
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(login(email, password, admin));
     navigate('/')
-
   };
   return (
     <>
-     
+    
       <div class="container-fluid bg-secondary px-0">
         <div class="row g-0">
           <div class="col-lg-6 py-6 px-5">
             <h1 class="display-5 mb-4">Log in</h1>
             <form onSubmit={handleLogin}>
+            
               <div class="row g-3">
                 <div class="col-12">
                   <div class="form-floating">

@@ -6,9 +6,13 @@ import "../css/main.css";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 function Header() {
-  
+const isLoggedIn = useSelector(state => state.isLoggedIn);
+console.log(isLoggedIn)
+
   const removeCookie = () => {
+    localStorage.removeItem('user')
     const data = Cookies.remove("auth");
     if(data){
     return Navigate("/register");
@@ -17,6 +21,8 @@ function Header() {
       return console.log('Cookie exist')
     }
   };
+
+  
 
   useEffect(() => {
     $(document).ready(function () {
@@ -81,6 +87,7 @@ function Header() {
                 <p class="m-0">
                   <i class="fa fa-phone-alt me-2"></i>+012 345 6789
                 </p>
+                
               </div>
             </div>
           </div>
@@ -117,7 +124,9 @@ function Header() {
                 Service
               </a>
             </Link>
+
             <div class="nav-item dropdown">
+
               <a
                 href="toggle"
                 class="nav-link dropdown-toggle"
@@ -125,22 +134,26 @@ function Header() {
               >
                 Start now{" "}
               </a>
+              
               <div class="dropdown-menu m-0">
-                
-                  <Link to="/register">
+                <div>
+               
+                 
+                    <div>
+                    <Link to="/register">
                     <a href="service.html" class="dropdown-item">
-                      Sign up{" "}
+                      Sign up
                     </a>
                   </Link>
                   <Link to="/login">
                     <a href="service.html" class="dropdown-item">
-                      Log in{" "}
+                      Log in
                     </a>
                   </Link>
+                  </div>
+
                   
-                    <a href="register" class="dropdown-item" onClick={removeCookie}>
-                      Log out
-                    </a>
+                    </div>
                     <Link to="/detail">
                   <a href="service.html" class="dropdown-item">
                     Blog Detail
@@ -162,6 +175,11 @@ function Header() {
                     hacker rank{" "}
                   </a>
                 </Link>
+                <Link to="/logout">
+                       <a href="register" class="dropdown-item" onClick={removeCookie}>
+                      Log out
+                    </a>
+                    </Link>
               </div>
             </div>
             <Link to="/contact">

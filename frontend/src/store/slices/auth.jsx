@@ -4,13 +4,12 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     isLoggedIn: false,
-    user: [],
+    user: {},
   },
   reducers: {
     loginSuccess: (state, action) => {
       state.isLoggedIn = true;
       state.user = action.payload;
-      
       
 
     },
@@ -20,7 +19,7 @@ const userSlice = createSlice({
     },
     registerSuccess: (state, action) => {
       state.isLoggedIn = true;
-      state.user = action.payload;
+      state.user= action.payload;
     },
     registerFailure: (state, action) => {
       state.isLoggedIn = false;
@@ -29,7 +28,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginSuccess, loginFailure, registerSuccess, registerFailure } =
-  userSlice.actions;
+export const { loginSuccess, loginFailure, registerSuccess, registerFailure } =userSlice.actions;
 
 export default userSlice.reducer;

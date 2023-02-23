@@ -2,14 +2,19 @@ import { createSlice } from "@reduxjs/toolkit";
 import { deleteAlluser } from "../action";
 const userSlice = createSlice({
   name: "user",
-  initialState:[],
+  initialState:{
+    isLoggedIn: false,
+    users : []
+  },
   reducers: {
     adduser(state, action) {
-      state.push(action.payload)
+
+      state.users.push(action.payload)
+      state.isLoggedIn = true;
     },
     removeuser(state, action) {
       const data  = state.filter(item => item.id !== action.payload)
-      state.pop(data)
+      state.users.pop(data)
     },
     // deleteAlluser(state , action) {
     //   return state = [ ]

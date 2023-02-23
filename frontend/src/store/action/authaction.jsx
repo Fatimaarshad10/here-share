@@ -5,7 +5,6 @@ import {
   registerFailure,
 } from "../slices/auth";
 import axios from "axios";
-
 export const login = (email, password, admin) => async (dispatch) => {
   try {
     const res = await axios.post("user/login", {
@@ -16,6 +15,7 @@ export const login = (email, password, admin) => async (dispatch) => {
     });
     dispatch(loginSuccess(res.user));
     console.log(res)
+    localStorage.setItem('user' , res.data.message)
   
   } catch (error) {
     dispatch(loginFailure(error));
