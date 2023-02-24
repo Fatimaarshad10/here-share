@@ -11,11 +11,7 @@ import Blog from "./components/blog";
 import Formage from "./components/formpage";
 import Register from "./SignUp/register";
 import Login from "./SignUp/login";
-import Redux from './components/updateservice'
-import  Data from './list/page'
-import initialArticles from "./list/data";
 import ProtectedRoute from './SignUp/route.jsx'
-// import Test from './components/text'
 function App() {
   return (
     <>
@@ -23,7 +19,6 @@ function App() {
     <div>
      
     <Header />
-    {/* <Test/> */}
       <Routes>
       <Route path="/" element={<Home />} />
         <Route path="/blog" element={<Blog />} />
@@ -36,8 +31,6 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/logout"/></Route>
      <Route path="/login" element={<Login />} />
-        <Route path="/redux" element={<Redux/>} />
-        <Route path="/hacker" element={ <Data data={initialArticles}/>} />
 
       </Routes>
 

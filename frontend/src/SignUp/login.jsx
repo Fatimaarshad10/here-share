@@ -1,22 +1,21 @@
 import React, { useState} from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../store/action/authaction";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import register from "../img/pexels-photo-6457561.jpeg";
-import { useNavigate} from "react-router-dom";
+
 function Login() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [admin, setAdmin] = useState("");
-  const dispatch = useDispatch();
+  const [admin, setAdmin] = useState(false);
 
+ 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(login(email, password, admin));
-    navigate('/')
+    // navigate('/')
   };
+
+   
   return (
     <>
     

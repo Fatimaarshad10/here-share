@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState } from "react";
 import $ from "jquery";
 import "owl.carousel";
 import "../css/bootstrap.min.css";
@@ -6,20 +6,27 @@ import "../css/main.css";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-function Header() {
-const isLoggedIn = useSelector(state => state.isLoggedIn);
-console.log(isLoggedIn)
 
+function Header() {
+ 
+  const [cookieExists, setCookieExists] = useState(true);
+
+  useEffect(() => {
+    const checkCookieExists = () => {
+      if (!document.cookie.includes('auth')) {
+        setCookieExists(false);
+      }
+    };
+
+    checkCookieExists();
+  }, []);
   const removeCookie = () => {
     localStorage.removeItem('user')
-    const data = Cookies.remove("auth");
+    var data = Cookies.remove("auth");
     if(data){
     return Navigate("/register");
     }
-    else{
-      return console.log('Cookie exist')
-    }
+   
   };
 
   
@@ -136,10 +143,18 @@ console.log(isLoggedIn)
               </a>
               
               <div class="dropdown-menu m-0">
-                <div>
+                
+               {cookieExists ? (
+                   
+                   <Link to="/logout">
+                   <a href="register" class="dropdown-item" onClick={removeCookie}>
+                  Log out
+                </a>
+                </Link>
                
-                 
-                    <div>
+                  
+               ):(
+                <div>
                     <Link to="/register">
                     <a href="service.html" class="dropdown-item">
                       Sign up
@@ -151,14 +166,8 @@ console.log(isLoggedIn)
                     </a>
                   </Link>
                   </div>
-
-                  
-                    </div>
-                    <Link to="/detail">
-                  <a href="service.html" class="dropdown-item">
-                    Blog Detail
-                  </a>
-                </Link>
+                   
+               )}
                 <Link to="/email">
                   <a href="service.html" class="dropdown-item">
                     Quote Form
@@ -175,11 +184,11 @@ console.log(isLoggedIn)
                     hacker rank{" "}
                   </a>
                 </Link>
-                <Link to="/logout">
-                       <a href="register" class="dropdown-item" onClick={removeCookie}>
-                      Log out
-                    </a>
-                    </Link>
+                <Link to="/detail">
+                  <a href="service.html" class="dropdown-item">
+                    Blog Detail
+                  </a>
+                </Link>
               </div>
             </div>
             <Link to="/contact">
