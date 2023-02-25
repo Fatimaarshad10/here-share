@@ -1,13 +1,12 @@
-import React, { useState  , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
-import GoogleButton from 'react-google-button'
+import GoogleButton from "react-google-button";
 import registerPhoto from "../img/pexels-photo-6457561.jpeg";
-import { useNavigate} from "react-router-dom";
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function Register() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,37 +17,18 @@ function Register() {
   //   navigate('/login')
 
   // };
-
-  const  loginWithGoogle = () =>{
-    axios.get('http://localhost:4000/auth/google')
-    .then(response => {
-        console.log(response.data); 
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-  useEffect(() => {
-    const url = 'http://localhost:4000/auth/google/callback';
-    axios.get(url)
-      .then(response => {
-        const accessToken = response.data.accessToken;
-        // store the access token in cookies or local storage
-        console.log(accessToken);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+// Login with google authentication
+  const loginWithGoogle = () => {
+    window.open("http://localhost:4000/user/auth/google", "_self");
+  };
   return (
     <>
       <div class="container-fluid bg-secondary px-0">
         <div class="row g-0">
           <div class="col-lg-6 py-6 px-5">
             <h1 class="display-5 mb-4">Sign Up</h1>
-            
-             
-            <form >
+
+            <form>
               <div class="row g-3">
                 <div class="col-6">
                   <div class="form-floating">
@@ -104,19 +84,14 @@ function Register() {
                   </div>
                 </div>
                 <div class="col-12">
-
-              <GoogleButton type="light" onClick={loginWithGoogle} />
+                  <GoogleButton type="light" onClick={loginWithGoogle} />
                 </div>
-                
-                  <button class="btn btn-primary w-100 py-3 mt-4" type="submit">
-                    Submit
-                  </button>
-                  
-                
+
+                <button class="btn btn-primary w-100 py-3 mt-4 " type="submit">
+                  Submit
+                </button>
               </div>
-              
             </form>
-            <button onClick={loginWithGoogle}>google</button>
           </div>
           <div class="col-lg-6" style={{ minHeight: "10px" }}>
             <div class="position-relative h-100 ">

@@ -1,4 +1,4 @@
-import React, { useEffect ,useState } from "react";
+import React, { useEffect, useState } from "react";
 import $ from "jquery";
 import "owl.carousel";
 import "../css/bootstrap.min.css";
@@ -8,28 +8,47 @@ import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
 
 function Header() {
- 
   const [cookieExists, setCookieExists] = useState(true);
+  const [user, setUser] = useState("");
+  // google authentication User Data 
+  const getUser = () => {
+    fetch("http://localhost:4000/user/success", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json()) // extract JSON data from response
+      .then((data) => setUser(data)) // set user state with data
+      .catch((err) => console.log(err)); // handle any errors
+  };
+  // render when the api is call 
+  useEffect(() => {
+    getUser();
+  }, []);
+  // Logout the google authentication user 
+  const logout = () => {
+    window.open("http://localhost:4000/user/logout", "_self");
+  };
 
   useEffect(() => {
     const checkCookieExists = () => {
-      if (!document.cookie.includes('auth')) {
+      if (!document.cookie.includes("auth")) {
         setCookieExists(false);
       }
     };
-
     checkCookieExists();
   }, []);
-  const removeCookie = () => {
-    localStorage.removeItem('user')
-    var data = Cookies.remove("auth");
-    if(data){
-    return Navigate("/register");
-    }
-   
-  };
-
   
+  // User cookie 
+  const removeCookie = () => {
+    localStorage.removeItem("user");
+    var data = Cookies.remove("auth");
+    if (data) {
+      return Navigate("/register");
+    }
+  };
 
   useEffect(() => {
     $(document).ready(function () {
@@ -87,14 +106,13 @@ function Header() {
               <div class="me-3 pe-3 border-end py-2">
                 <p class="m-0">
                   <i class="fa fa-envelope-open me-2"></i>
-                  hereandshare@example.com
+                  {user.displayName}
                 </p>
               </div>
               <div class="py-2">
                 <p class="m-0">
                   <i class="fa fa-phone-alt me-2"></i>+012 345 6789
                 </p>
-                
               </div>
             </div>
           </div>
@@ -133,7 +151,6 @@ function Header() {
             </Link>
 
             <div class="nav-item dropdown">
-
               <a
                 href="toggle"
                 class="nav-link dropdown-toggle"
@@ -141,33 +158,29 @@ function Header() {
               >
                 Start now{" "}
               </a>
-              
+
               <div class="dropdown-menu m-0">
-                
-               {cookieExists ? (
-                   
-                   <Link to="/logout">
-                   <a href="register" class="dropdown-item" onClick={removeCookie}>
-                  Log out
-                </a>
-                </Link>
-               
-                  
-               ):(
-                <div>
+                {cookieExists ? (
+                  <></>
+                ) : (
+                  <div>
+                    <Link to="/logout">
+                      <a href="register" class="dropdown-item" onClick={logout}>
+                        Log out
+                      </a>
+                    </Link>
                     <Link to="/register">
-                    <a href="service.html" class="dropdown-item">
-                      Sign up
-                    </a>
-                  </Link>
-                  <Link to="/login">
-                    <a href="service.html" class="dropdown-item">
-                      Log in
-                    </a>
-                  </Link>
+                      <a href="service.html" class="dropdown-item">
+                        Sign up
+                      </a>
+                    </Link>
+                    <Link to="/login">
+                      <a href="service.html" class="dropdown-item">
+                        Log in
+                      </a>
+                    </Link>
                   </div>
-                   
-               )}
+                )}
                 <Link to="/email">
                   <a href="service.html" class="dropdown-item">
                     Quote Form
