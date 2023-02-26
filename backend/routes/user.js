@@ -88,8 +88,9 @@ UserRoute.get("/logout", (req, res) => {
       console.error(err);
     } else {
         // Must be blank the UserProfile remove in logout 
-      userProfile = "";
       res.clearCookie("connect.sid");
+      
+
       // Redirect the user to the login page or some other page
       res.redirect("http://localhost:3000/");
     }

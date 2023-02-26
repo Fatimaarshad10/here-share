@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
+import { useDispatch } from "react-redux";
+import { register , logOut } from "../store/redux/authSlice";
 import GoogleButton from "react-google-button";
 import registerPhoto from "../img/pexels-photo-6457561.jpeg";
 import { useNavigate } from "react-router-dom";
-
 function Register() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState("");
+const dispatch = useDispatch();
+const logout = ()=>{
+  dispatch(logOut)
+}
+  const handleRegister = () => {
+    dispatch(register({name , email , password , admin}))    
+    navigate('/login')
 
-  // const handleRegister = (e) => {
-  //   e.preventDefault()
-  //   navigate('/login')
-
-  // };
+  };
 // Login with google authentication
   const loginWithGoogle = () => {
     window.open("http://localhost:4000/user/auth/google", "_self");
@@ -28,7 +32,7 @@ function Register() {
           <div class="col-lg-6 py-6 px-5">
             <h1 class="display-5 mb-4">Sign Up</h1>
 
-            <form>
+            <form onSubmit={handleRegister}>
               <div class="row g-3">
                 <div class="col-6">
                   <div class="form-floating">
@@ -93,6 +97,7 @@ function Register() {
               </div>
             </form>
           </div>
+          <button onClick={logout}>logout</button>
           <div class="col-lg-6" style={{ minHeight: "10px" }}>
             <div class="position-relative h-100 ">
               <img src={registerPhoto} class="img-fluid w-100 h-100" />

@@ -2,17 +2,23 @@ import React, { useState} from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import register from "../img/pexels-photo-6457561.jpeg";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login} from "../store/redux/authSlice";
 
 function Login() {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
+const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState(false);
 
- 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    // navigate('/')
+
+  const handleLogin = () => {
+    dispatch(login({ email , password , admin}))    
+    navigate('/')
+
   };
 
    

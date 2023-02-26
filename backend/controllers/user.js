@@ -10,28 +10,29 @@ const User1 = async (req, res) => {
 /* User Register   */
 
 const Register = async (req, res) => {
+    const { name, email, password ,admin} = req.body;
     try {
-        const {name, email, password, admin} = req.body;
-        // Fill all inputs 
-        if (!name || !email || !password || !admin) 
-            throw "Please fill all inputs";
-        // Find the user 
-        if (await User.findOne({email})) 
-            throw "User already exists";
-        // Create a New user 
-        const newUser = await new User({
-            name,
-            email,
-            password: await bcrypt.hash(password, await bcrypt.genSalt(10)),
-            admin
-        }).save();
-        res.json({message: "Registration is done"});
-
+      if (!name || !email || !password|| !admin) {
+        throw Error(" Fill Input Field");
+      }
+      const oldUser = await User.findOne({ email });
+  
+      if (oldUser) {
+        return res.status(409).send("User Already Exist. Please Login");
+      }
+      const User1 = new User({ name, email, password ,admin});
+      const salt = await bcrypt.genSalt(10)
+      User1.password = await bcrypt.hash(User1.password,salt)
+      
+      await User1.save();
+      
+      res.status(200).json("user registered successfully");
+      
     } catch (err) {
-        // catch the error 
-        res.status(400).json(err);
+      res.status(400).send(err.message);
+      
     }
-};
+  };
 
 /* User logout  */
 const Login = async (req, res) => {
@@ -39,16 +40,18 @@ const Login = async (req, res) => {
     try {
         // Fill all inputs 
         if (!email || !password || !admin) {
-            res.status(400).send({message: "fill the inputs "});
+            return res.status(409).send("Fill all the inputs ");
+
         }
         // Find the user 
         const user = await User.findOne({email: email, admin: admin});
         if (!user) {
-            res.status(400).send({message: "user is not found"});
+            return res.status(409).send("User is not found ");
+
         }
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-            res.status(400).send({message: "invalid password "});
+            return res.status(409).send("User password is not matched ");
         }
         // Passwords match, create and send JWT token in response
         const token = jwt.sign({
@@ -62,10 +65,10 @@ const Login = async (req, res) => {
             secure: true,
             sameSite: 'strict'
         })
-        res.status(200).json({message: "register us  successful"});
+        res.status(200).json(user);
     } catch (err) {
         // catch the error 
-        res.status(400).send({message: "user is not found "});
+        res.status(400).send(err.message);
     }
 };
 

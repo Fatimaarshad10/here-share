@@ -6,10 +6,20 @@ import "../css/main.css";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
+import { logOut } from "../store/redux/authSlice";
+
 
 function Header() {
+const dispatch = useDispatch();
+
   const [cookieExists, setCookieExists] = useState(true);
   const [user, setUser] = useState("");
+  const locaData = useSelector(state => state.user.email);
+  console.log(locaData)
+  const googleCookie = Cookies.get('connect.sid')
   // google authentication User Data 
   const getUser = () => {
     fetch("http://localhost:4000/user/success", {
@@ -27,8 +37,11 @@ function Header() {
   useEffect(() => {
     getUser();
   }, []);
+  const logout = ()=>{
+    dispatch(logOut)
+  }
   // Logout the google authentication user 
-  const logout = () => {
+  const logout1 = () => {
     window.open("http://localhost:4000/user/logout", "_self");
   };
 
@@ -43,13 +56,12 @@ function Header() {
   
   // User cookie 
   const removeCookie = () => {
-    localStorage.removeItem("user");
     var data = Cookies.remove("auth");
     if (data) {
       return Navigate("/register");
     }
   };
-
+ 
   useEffect(() => {
     $(document).ready(function () {
       // Your jQuery code here
@@ -160,15 +172,20 @@ function Header() {
               </a>
 
               <div class="dropdown-menu m-0">
-                {cookieExists ? (
-                  <></>
+              <a href="register" class="dropdown-item" onClick={logout1 }>
+                    google logout
+                  </a>
+                {  locaData ? (
+                  <>
+                 
+                  <a href="register" class="dropdown-item" onClick={logout }>
+                    Log out
+                  </a>
+                
+                  </>
                 ) : (
                   <div>
-                    <Link to="/logout">
-                      <a href="register" class="dropdown-item" onClick={logout}>
-                        Log out
-                      </a>
-                    </Link>
+                    
                     <Link to="/register">
                       <a href="service.html" class="dropdown-item">
                         Sign up
