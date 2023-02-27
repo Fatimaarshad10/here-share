@@ -54,21 +54,12 @@ const Login = async (req, res) => {
             return res.status(409).send("User password is not matched ");
         }
         // Passwords match, create and send JWT token in response
-        const token = jwt.sign({
-            user_id: user._id,
-            email
-        }, process.env.TOKEN_KEY, {expiresIn: "2h"});
-        // create a cookie 
-        res.cookie('auth', token, {
-            expires: new Date(Date.now() + 60000),
-            httpOnly: false,
-            secure: true,
-            sameSite: 'strict'
-        })
+res.cookie('ath', 'audba')
+        
         res.status(200).json(user);
     } catch (err) {
         // catch the error 
-        res.status(400).send(err.message);
+        res.status(400).send(err);
     }
 };
 

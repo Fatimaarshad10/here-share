@@ -4,22 +4,19 @@ import "owl.carousel";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
-import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
 import { logOut } from "../store/redux/authSlice";
+import Cookies from 'js-cookie';
+
+import Avatar from 'react-avatar';
 
 
 function Header() {
 const dispatch = useDispatch();
-
-  const [cookieExists, setCookieExists] = useState(true);
   const [user, setUser] = useState("");
-  const locaData = useSelector(state => state.user.email);
-  console.log(locaData)
-  const googleCookie = Cookies.get('connect.sid')
+  const localData = useSelector(state => state.user.email );
+  console.log(localData)
   // google authentication User Data 
   const getUser = () => {
     fetch("http://localhost:4000/user/success", {
@@ -37,31 +34,25 @@ const dispatch = useDispatch();
   useEffect(() => {
     getUser();
   }, []);
-  const logout = ()=>{
+  // const logout = ()=>{
+  //   dispatch(logOut)
+  // }
+  // // Logout the google authentication user 
+  // const googleLogout = () => {
+  //   window.open("http://localhost:4000/user/logout", "_self");
+  // };
+ const logout =()=>{
+  if(user.displayName){
+    return window.open("http://localhost:4000/user/logout", "_self");
+
+  }if(localData){
     dispatch(logOut)
   }
-  // Logout the google authentication user 
-  const logout1 = () => {
-    window.open("http://localhost:4000/user/logout", "_self");
-  };
-
-  useEffect(() => {
-    const checkCookieExists = () => {
-      if (!document.cookie.includes("auth")) {
-        setCookieExists(false);
-      }
-    };
-    checkCookieExists();
-  }, []);
-  
-  // User cookie 
-  const removeCookie = () => {
-    var data = Cookies.remove("auth");
-    if (data) {
-      return Navigate("/register");
-    }
-  };
- 
+ }
+ const authToken = Cookies.get('AuthCookie');
+ console.log(authToken)
+ console.log(user.displayName)
+const importantData = localData || user.displayName
   useEffect(() => {
     $(document).ready(function () {
       // Your jQuery code here
@@ -92,6 +83,7 @@ const dispatch = useDispatch();
   }, []);
   return (
     <>
+    
       <div class="container-fluid bg-secondary ps-5 pe-0 d-none d-lg-block">
         <div class="row gx-0">
           <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
@@ -117,10 +109,30 @@ const dispatch = useDispatch();
             <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
               <div class="me-3 pe-3 border-end py-2">
                 <p class="m-0">
-                  <i class="fa fa-envelope-open me-2"></i>
+
+                  {/* <i class="fa fa-envelope-open me-2"></i> */}
+                  {user.photos && user.photos.length > 0 && (
+                <img src={user.photos[0].value} alt="my-image" referrerPolicy="no-referrer"style={{borderRadius:'50%' , width:'30%'}}/>
+                  )}
                   {user.displayName}
                 </p>
+               <p>
+                {!localData ? (
+                  <>
+                  
+                  </>
+                ):(
+                  <>
+                <Avatar color={Avatar.getRandomColor('sitebase', ['red', 'green', 'blue'])} name={localData} />
+
+                  </>
+                )}
+
+               
+
+               </p>
               </div>
+             
               <div class="py-2">
                 <p class="m-0">
                   <i class="fa fa-phone-alt me-2"></i>+012 345 6789
@@ -172,18 +184,27 @@ const dispatch = useDispatch();
               </a>
 
               <div class="dropdown-menu m-0">
-              <a href="register" class="dropdown-item" onClick={logout1 }>
-                    google logout
-                  </a>
-                {  locaData ? (
-                  <>
-                 
-                  <a href="register" class="dropdown-item" onClick={logout }>
-                    Log out
-                  </a>
+              
+               {user.displayName ? (<>
                 
-                  </>
-                ) : (
+               <button class="btn btn-primary ms-3 w-50" onClick={logout} style={{}}>logout</button>
+               
+               </>):(
+                <>
+                </>
+               )}
+               {localData ? (<> <a href="register" class="dropdown-item" onClick={logout}>
+                    Log out
+                  </a></>):(
+                    <>
+                    </>
+                  )}
+                 
+             
+                  { importantData ? (
+                    <>
+                    </>
+                       ) : (
                   <div>
                     
                     <Link to="/register">

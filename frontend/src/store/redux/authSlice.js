@@ -31,6 +31,7 @@ export const login = createAsyncThunk('login', async(body)=>{
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        withCredentials:true , 
       },
     body: JSON.stringify(body)
   })

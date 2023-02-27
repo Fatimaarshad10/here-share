@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { useDispatch } from "react-redux";
-import { register , logOut } from "../store/redux/authSlice";
+import { register } from "../store/redux/authSlice";
 import GoogleButton from "react-google-button";
 import registerPhoto from "../img/pexels-photo-6457561.jpeg";
 import { useNavigate } from "react-router-dom";
@@ -13,9 +13,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState("");
 const dispatch = useDispatch();
-const logout = ()=>{
-  dispatch(logOut)
-}
+
   const handleRegister = () => {
     dispatch(register({name , email , password , admin}))    
     navigate('/login')
@@ -87,20 +85,20 @@ const logout = ()=>{
                     <label htmlFor="floatingSelect">Select category</label>
                   </div>
                 </div>
+                
                 <div class="col-12">
                   <GoogleButton type="light" onClick={loginWithGoogle} />
                 </div>
-
                 <button class="btn btn-primary w-100 py-3 mt-4 " type="submit">
                   Submit
                 </button>
               </div>
             </form>
           </div>
-          <button onClick={logout}>logout</button>
+          
           <div class="col-lg-6" style={{ minHeight: "10px" }}>
             <div class="position-relative h-100 ">
-              <img src={registerPhoto} class="img-fluid w-100 h-100" />
+              <img src={registerPhoto} class="img-fluid w-100 h-100" alt="registerPhoto" />
             </div>
           </div>
         </div>

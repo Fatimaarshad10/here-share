@@ -11,7 +11,6 @@ import Blog from "./components/blog";
 import Formage from "./components/formpage";
 import Register from "./SignUp/register";
 import Login from "./SignUp/login";
-import ProtectedRoute from './SignUp/route.jsx'
 function App() {
   return (
     <>
@@ -28,8 +27,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/service" element={<Service />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/logout"/></Route>
+       
      <Route path="/login" element={<Login />} />
 
       </Routes>

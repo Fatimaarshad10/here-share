@@ -1,25 +1,25 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
-const main = express();
-const Users = require("./routes/user");
 const cookie = require("cookie-parser");
-const bodyParser = require("body-parser");
 const session = require("express-session");
+const Users = require("./routes/user");
 const passport = require("passport");
+const mongoose = require("mongoose");
+const main = express();
+
 //Middleware
-main.use(cors());
-main.use(cookie());
+
 main.use(
   session({
-    resave: false,
-    saveUninitialized: true,
     secret: "SECRET",
+    cookie:{
+      sameSite:'strict'
+    }
   })
 );
-main.use(express.json());
-main.use(bodyParser.json());
+main.use(cors());
+main.use(cookie());
 main.use(passport.initialize());
 main.use(passport.session());
 main.use(express.urlencoded({ extended: "false" }));
