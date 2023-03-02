@@ -7,15 +7,12 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { logOut } from "../store/redux/authSlice";
-import Cookies from 'js-cookie';
-
 import Avatar from 'react-avatar';
-
-
 function Header() {
 const dispatch = useDispatch();
   const [user, setUser] = useState("");
   const localData = useSelector(state => state.user.email );
+
   console.log(localData)
   // google authentication User Data 
   const getUser = () => {
@@ -34,13 +31,6 @@ const dispatch = useDispatch();
   useEffect(() => {
     getUser();
   }, []);
-  // const logout = ()=>{
-  //   dispatch(logOut)
-  // }
-  // // Logout the google authentication user 
-  // const googleLogout = () => {
-  //   window.open("http://localhost:4000/user/logout", "_self");
-  // };
  const logout =()=>{
   if(user.displayName){
     return window.open("http://localhost:4000/user/logout", "_self");
@@ -49,9 +39,7 @@ const dispatch = useDispatch();
     dispatch(logOut)
   }
  }
- const authToken = Cookies.get('AuthCookie');
- console.log(authToken)
- console.log(user.displayName)
+
 const importantData = localData || user.displayName
   useEffect(() => {
     $(document).ready(function () {

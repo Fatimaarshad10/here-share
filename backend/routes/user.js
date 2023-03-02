@@ -4,11 +4,6 @@ const { Register, Login, User1 } = require("../controllers/user");
 const UserRoute = express.Router();
 // All users
 UserRoute.get("/", User1);
-// UserRoute.get("/cookie/logout",(req,res)=>{
-//   req.session.destroy()
-//   res.send('cookie is removed')
-// });
-
 // Register users
 UserRoute.post("/register", Register);
 // login users
@@ -18,8 +13,7 @@ UserRoute.post("/login", Login);
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
-/*  DeSerializeUSer  */
-
+// /*  DeSerializeUSer  */
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
@@ -56,20 +50,6 @@ UserRoute.get(
   passport.authenticate("google", { failureRedirect: "/error" }),
   function (req, res) {
     try {
-      // User.findOne({ email: userProfile.email }, ( existingUser) => {
-
-      //       if (existingUser) {
-      //         // User already exists, do something here
-      //         return res.status(200).json('user already exists');
-      //       }
-      //     const newUser = new User({
-      //       name: userProfile.displayName,
-      //       email: userProfile.emails[0].value,
-      //       password : 123,
-      //       admin : true
-      //     })
-      // newUser.save()
-      // return  res.status(400).json('good');
         req.login(userProfile , function (err) {
         if (err) {
           return next(err);
