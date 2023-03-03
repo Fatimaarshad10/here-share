@@ -16,7 +16,10 @@ main.use(
   session({
     secret: 'Secret',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 01 * 60 * 1000 // 1 minutes
+    }
   })
   
 );

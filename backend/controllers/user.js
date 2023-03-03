@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 /* All User Data   */
 const User1 = async (req, res) => {
@@ -33,28 +32,26 @@ const Register = async (req, res) => {
     }
 };
 
+
 const Login = async (req, res) => {
     const {email, password, admin} = req.body;
-    try { // Fill all inputs
+    try {
         if (!email || !password || !admin) {
-            return res.status(409).send("Fill all the inputs ");
+            throw Error("Fill Input Field");
+        }
+        const User2 = await User.findOne({email: email, admin: admin});
+        const HashPassword = await bcrypt.compare(JSON.stringify(password), JSON.stringify(User2.password));
+        if (HashPassword) {
+            res.status(200).json({message: "Valid password"});
+        }
+        req.session.userId = User2.id;
+        console.log(req.session.userId)
+        // res.cookie('data', req.session.userId, {httpOnly: true ,  maxAge: 20  * 60 * 1000});
 
-        }
-        // Find the user
-        const user = await User.findOne({email: email, admin: admin});
-        if (! user) {
-            return res.status(409).send("User is not found ");
-
-        }
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (! passwordMatch) {
-            return res.status(409).send("User password is not matched ");
-        }
-        // create cookie and send JWT token in response
-       
-        res.status(200).json(user);
-    } catch (err) { // catch the error
-        res.status(400).send(err);
+        res.status(200).json(User2);
+        console.log("user is login");
+    } catch (err) {
+        res.status(400).send(err.message);
     }
 };
 

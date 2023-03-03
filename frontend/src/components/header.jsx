@@ -4,16 +4,47 @@ import "owl.carousel";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { logOut } from "../store/redux/authSlice";
 import Avatar from 'react-avatar';
+
 function Header() {
-const dispatch = useDispatch();
+  const navigate = useNavigate()
+
   const [user, setUser] = useState("");
+  // const [complete, setComplete] = useState('')
+// if cookie is available then show the logout button
+  // function completeData() {
+  //   axios.get('http://localhost:3000/user/complete')
+  //     .then(response => {
+  //       console.log(response.data);
+  //       setComplete(response.data)
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // }
+  // simple logout 
+  
+function localLogout() {
+  axios.get('http://localhost:3000/user/session/logout')
+    .then(response => {
+      console.log(response.data);
+      // Redirect to register page
+      
+      window.location.href = 'http://localhost:3000/register';
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+
   const localData = useSelector(state => state.user.email );
 
-  console.log(localData)
+  // console.log(localData)
   // google authentication User Data 
   const getUser = () => {
     fetch("http://localhost:4000/user/success", {
@@ -30,17 +61,19 @@ const dispatch = useDispatch();
   // render when the api is call 
   useEffect(() => {
     getUser();
+    // completeData()
   }, []);
  const logout =()=>{
   if(user.displayName){
     return window.open("http://localhost:4000/user/logout", "_self");
+  }
 
-  }if(localData){
-    dispatch(logOut)
+  if(localData){
+    localLogout()
   }
  }
 
-const importantData = localData || user.displayName
+const importantData =  localData || user.displayName
   useEffect(() => {
     $(document).ready(function () {
       // Your jQuery code here
@@ -71,7 +104,7 @@ const importantData = localData || user.displayName
   }, []);
   return (
     <>
-    
+    <button onClick={localLogout}>simple logout </button>
       <div class="container-fluid bg-secondary ps-5 pe-0 d-none d-lg-block">
         <div class="row gx-0">
           <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
@@ -112,7 +145,7 @@ const importantData = localData || user.displayName
                 ):(
                   <>
                 <Avatar color={Avatar.getRandomColor('sitebase', ['red', 'green', 'blue'])} name={localData} />
-
+                {localData}
                   </>
                 )}
 

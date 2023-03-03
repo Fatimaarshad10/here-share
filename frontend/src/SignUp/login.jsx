@@ -16,7 +16,7 @@ const dispatch = useDispatch();
 
 
   const handleLogin = () => {
-    dispatch(login({ email , password , admin}))    
+    dispatch(login({ email , password , admin}))   
     navigate('/')
 
   };

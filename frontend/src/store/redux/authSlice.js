@@ -1,9 +1,8 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
-import {persistor} from '../index'
 const initialState = {
     admin: "",
     email: "",
-    error: 'error'
+    error: 'error',
 }
 export const register = createAsyncThunk('SignUp', async (body) => {
 
@@ -29,7 +28,8 @@ export const login = createAsyncThunk('login', async (body) => {
         },
         body: JSON.stringify(body)
     })
-    return await res.json();
+    return  await res.json();
+    
 
 })
 const authSlice = createSlice({
@@ -37,15 +37,11 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         addUser: (state, action) => {
-            state.email = localStorage.getItem("data")
         },
-        logOut: (state, action) => {
-            state.email = action.payload
-            persistor.pause();
-            localStorage.removeItem('data')
-            
-            
-        }
+        
+       
+          
+        
     },
     extraReducers: {
 
@@ -64,7 +60,6 @@ const authSlice = createSlice({
                 state.email = email
                 state.admin = admin
                 console.log({email, admin});
-                localStorage.setItem('data', JSON.stringify(email))
             }
         },
 
@@ -85,5 +80,5 @@ const authSlice = createSlice({
     }
     
 });
-export const {addUser, logOut} = authSlice.reducer
+export const {addUser} = authSlice.reducer
 export default authSlice.reducer
