@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { useDispatch } from "react-redux";
-import { register } from "../store/redux/authSlice";
 import GoogleButton from "react-google-button";
 import registerPhoto from "../img/pexels-photo-6457561.jpeg";
 import { useNavigate } from "react-router-dom";
+import { registerSuccess } from "../store/redux/authSlice";
 function Register() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -13,12 +13,29 @@ function Register() {
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState("");
 const dispatch = useDispatch();
-
-  const handleRegister = () => {
-    dispatch(register({name , email , password , admin}))    
+const handleSubmit = (event) => {
+  event.preventDefault();
+  // Call login API endpoint
+  fetch('http://localhost:3000/user/register', {
+    method: 'POST',
+    body: JSON.stringify({ name , email, password , admin }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Update Redux store with session information
+      dispatch(registerSuccess(data));
     navigate('/login')
 
-  };
+    })
+    .catch(error => {
+      console.error(error);
+    });
+};
+
 // Login with google authentication
   const loginWithGoogle = () => {
     window.open("http://localhost:4000/user/auth/google", "_self");
@@ -30,7 +47,7 @@ const dispatch = useDispatch();
           <div class="col-lg-6 py-6 px-5">
             <h1 class="display-5 mb-4">Sign Up</h1>
 
-            <form onSubmit={handleRegister}>
+            <form onSubmit={handleSubmit}>
               <div class="row g-3">
                 <div class="col-6">
                   <div class="form-floating">

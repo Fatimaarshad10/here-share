@@ -1,84 +1,29 @@
-import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+
 const initialState = {
-    admin: "",
-    email: "",
-    error: 'error',
-}
-export const register = createAsyncThunk('SignUp', async (body) => {
+  isAuthenticated: false,
+  session: null,
+};
 
-    const response = await fetch('http://localhost:4000/user/register', {
-        method: 'POST',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    });
-    return await response.json();
-
-
-});
-export const login = createAsyncThunk('login', async (body) => {
-    const res = await fetch('http://localhost:4000/user/login', {
-        method: "POST",
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            withCredentials:true ,
-        },
-        body: JSON.stringify(body)
-    })
-    return  await res.json();
-    
-
-})
 const authSlice = createSlice({
-    name: "user",
-    initialState,
-    reducers: {
-        addUser: (state, action) => {
-        },
-        
-       
-          
-        
+  name: 'user',
+  initialState,
+  reducers: {
+    loginSuccess: (state, action) => {
+      state.isAuthenticated = true;
+      state.session = action.payload;
     },
-    extraReducers: {
-
-        [login.fulfilled]: (state, {
-            payload: {
-                email,
-                admin,
-                error
-            }
-        }) => {
-
-            if (error) {
-                console.log(error)
-            } else {
-
-                state.email = email
-                state.admin = admin
-                console.log({email, admin});
-            }
-        },
-
-        // register
-
-        [register.fulfilled]: (state, {
-            payload: {
-                email,
-                error
-            }
-        }) => {
-            if (error) {
-                console.log(error)
-            } else {
-                state.email = email
-            }
-        }
-    }
-    
+    logoutSuccess: (state) => {
+      state.isAuthenticated = false;
+      state.session = null;
+    },
+    registerSuccess: (state, action) => {
+        state.isAuthenticated = true;
+      },
+     
+  },
 });
-export const {addUser} = authSlice.reducer
-export default authSlice.reducer
+
+export const { loginSuccess, logoutSuccess ,registerSuccess} = authSlice.actions;
+
+export default authSlice.reducer;

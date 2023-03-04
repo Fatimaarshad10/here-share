@@ -39,25 +39,42 @@ const Login = async (req, res) => {
         if (!email || !password || !admin) {
             throw Error("Fill Input Field");
         }
-        const User2 = await User.findOne({email: email, admin: admin});
-        const HashPassword = await bcrypt.compare(JSON.stringify(password), JSON.stringify(User2.password));
+        const loginUser = await User.findOne({email: email, admin: admin});
+        const HashPassword = await bcrypt.compare(JSON.stringify(password), JSON.stringify(loginUser.password));
         if (HashPassword) {
             res.status(200).json({message: "Valid password"});
         }
-        req.session.userId = User2.id;
-        console.log(req.session.userId)
-        // res.cookie('data', req.session.userId, {httpOnly: true ,  maxAge: 20  * 60 * 1000});
-
-        res.status(200).json(User2);
+         res.cookie('value', loginUser.admin);
+        res.status(200).json(loginUser);
         console.log("user is login");
+        
     } catch (err) {
         res.status(400).send(err.message);
     }
 };
+const Dashboard = async (req, res) => {
+    const authCookie = req.cookies.value;
+    console.log(authCookie)
+    if (authCookie) {
+       const user = await User.findOne({ admin: authCookie });
+       if (user) {
+          res.send(`Welcome ${user.name} to the dashboard`);
+       } else {
+          // User not found
+          res.status(404).send('User not found');
+       }
+    }else{
+        console.log('no data ')
+    }
+   
+};
+
+
 
 module.exports = {
 
     Register,
     Login,
-    User1
+    User1 , 
+    Dashboard
 };

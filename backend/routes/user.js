@@ -1,6 +1,6 @@
 const express = require("express");
 const passport = require("passport");
-const {Register, Login, User1} = require("../controllers/user");
+const {Register, Login, User1 , Dashboard} = require("../controllers/user");
 const UserRoute = express.Router();
 // All users
 UserRoute.get("/", User1);
@@ -8,17 +8,7 @@ UserRoute.get("/", User1);
 UserRoute.post("/register", Register);
 // login users
 UserRoute.post("/login", Login);
-// UserRoute.get('/complete', (req, res) => {
-//   const session = req.session;
-//   console.log(req.session.userId)
-//   if (session && session.userId) {
-//     // The user is logged in, so send "logout" response
-//     res.send('Logout');
-//   } else {
-//     // The user is not logged in, so send "user is not login yet" response
-//     res.send('User is not login yet');
-//   }
-// });
+UserRoute.get('/complete', Dashboard);
 UserRoute.get('/session/logout', (req, res) => {
     try {
         req.session.destroy(err => {
@@ -26,8 +16,7 @@ UserRoute.get('/session/logout', (req, res) => {
                 console.error(err);
                 res.status(500).send('Error logging out');
             } else {
-                res.clearCookie('connect.sid', {path: '/'});
-
+                res.clearCookie('data', {path: '/'});
                 res.status(200).send('Logged out successfully');
 
             }

@@ -4,7 +4,8 @@ import "../css/main.css";
 import register from "../img/pexels-photo-6457561.jpeg";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login} from "../store/redux/authSlice";
+import { loginSuccess  } from '../store/redux/authSlice';
+
 
 function Login() {
   const navigate = useNavigate()
@@ -13,14 +14,29 @@ const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState(false);
-
-
-  const handleLogin = () => {
-    dispatch(login({ email , password , admin}))   
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Call login API endpoint
+    fetch('http://localhost:3000/user/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password , admin }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Update Redux store with session information
+        dispatch(loginSuccess(data));
     navigate('/')
 
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
-
    
   return (
     <>
@@ -29,7 +45,7 @@ const dispatch = useDispatch();
         <div class="row g-0">
           <div class="col-lg-6 py-6 px-5">
             <h1 class="display-5 mb-4">Log in</h1>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSubmit}>
             
               <div class="row g-3">
                 <div class="col-12">
