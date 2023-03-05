@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
 
 const initialState = {
   isAuthenticated: false,
@@ -20,10 +21,22 @@ const authSlice = createSlice({
     registerSuccess: (state, action) => {
         state.isAuthenticated = true;
       },
+      logout:(state )=>{
+        state.session = ' '
+        // const data =  Cookies.remove('new')
+        // console.log(data )
+
+      },
+      exist :()=>{
+      
+        // const data =  Cookies.get('new')
+
+        // console.log((data))
+      }
      
   },
 });
 
-export const { loginSuccess, logoutSuccess ,registerSuccess} = authSlice.actions;
+export const { loginSuccess, logoutSuccess ,registerSuccess , logout , exist} = authSlice.actions;
 
 export default authSlice.reducer;

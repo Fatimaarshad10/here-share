@@ -4,24 +4,15 @@ import "owl.carousel";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { Link } from "react-router-dom";
-import axios from 'axios';
-
+import Avatar from 'react-avatar';
+import { useDispatch ,useSelector } from "react-redux";
 function Header() {
-
+const dispatch = useDispatch()
+const email = useSelector(state => state.user.session);
+console.log(email)
   const [user, setUser] = useState("");
-  const [loginData, setLoginData] = useState('')
+  const [userData, setUserData] = useState(null);
 
-// simple login success Data 
-const SuccessLogin = () => {
-  axios.get("http://localhost:4000/user/complete")
-   .then(response => {
-     console.log(response.data); // this will log the response from the server
-   })
-   .catch(error => {
-     console.error(error);
-   });
-  }
-  
   // google authentication User Data 
   const getUser = () => {
     fetch("http://localhost:4000/user/success", {
@@ -38,16 +29,39 @@ const SuccessLogin = () => {
   // render when the api is call 
   useEffect(() => {
     getUser();
-    SuccessLogin()
   }, []);
- const logout =()=>{
+  useEffect(() => {
+    
+    fetch("http://localhost:4000/user/success/data", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        credentials: "include",
+      },
+    })
+      .then((res) => res.json()) // extract JSON data from response
+      .then((data) => {
+        console.log(data); // log the data to see if it's different from userData
+      setUserData(data );
+      })
+      // set user state with data
+      .catch((err) => console.log(err)); // handle any errors
+    
+  }, []);
+ const logout1 =()=>{
   if(user.displayName){
     return window.open("http://localhost:4000/user/logout", "_self");
   }
  }
 
+const logoutAuth = ()=>{
+  window.open("http://localhost:4000/user/logout/cookie", "_self");
+
+}
+
  
-const importantData =   user.displayName
+const importantData =   user.displayName || userData !== null 
   useEffect(() => {
     $(document).ready(function () {
       // Your jQuery code here
@@ -111,16 +125,14 @@ const importantData =   user.displayName
                   {user.displayName}
                 </p>
                <p>
-                {/* {!localData ? (
+              
+                {userData == null ? (' ' ):(
                   <>
+                  <Avatar color={Avatar.getRandomColor('sitebase', ['red', 'green', 'blue'])} name={userData.email} />
+               {userData.email}
+                 </>
                   
-                  </>
-                ):(
-                  <>
-                <Avatar color={Avatar.getRandomColor('sitebase', ['red', 'green', 'blue'])} name={localData} />
-                {localData}
-                  </>
-                )} */}
+                )}
 
                
 
@@ -181,19 +193,20 @@ const importantData =   user.displayName
               
                {user.displayName ? (<>
                 
-               <button class="btn btn-primary ms-3 w-50" onClick={logout} style={{}}>logout</button>
+               <button class="btn btn-primary ms-3 w-50" onClick={logout1} style={{}}>logout</button>
                
                </>):(
                 <>
                 </>
                )}
-               {/* {localData ? (<> <a href="register" class="dropdown-item" onClick={logout}>
-                    Log out
-                  </a></>):(
+               {userData == null  ? (
                     <>
                     </>
-                  )}
-                  */}
+                  ) : (<> 
+                    <button class="btn btn-primary ms-3 w-50" onClick={logoutAuth} style={{}}>logout</button>
+                 
+                </>)}
+                 
              
                   { importantData ? (
                     <>

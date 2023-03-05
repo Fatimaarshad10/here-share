@@ -1,32 +1,17 @@
 const express = require("express");
 const passport = require("passport");
-const {Register, Login, User1 , Dashboard} = require("../controllers/user");
+const {  Users , Register, Login,  SuccessData ,  logoutCookie} = require("../controllers/user");
 const UserRoute = express.Router();
 // All users
-UserRoute.get("/", User1);
+UserRoute.get("/", Users);
 // Register users
 UserRoute.post("/register", Register);
 // login users
 UserRoute.post("/login", Login);
-UserRoute.get('/complete', Dashboard);
-UserRoute.get('/session/logout', (req, res) => {
-    try {
-        req.session.destroy(err => {
-            if (err) {
-                console.error(err);
-                res.status(500).send('Error logging out');
-            } else {
-                res.clearCookie('data', {path: '/'});
-                res.status(200).send('Logged out successfully');
-
-            }
-        });
-    } catch (err) {
-        return res.status(400).json(err);
-    }
-});
-
-
+// Success Data 
+UserRoute.get('/success/data',  SuccessData);
+// Login Cookie remove
+UserRoute.get("/logout/cookie", logoutCookie);
 /*  SerializeUSer  */
 passport.serializeUser((user, done) => {
     done(null, user.id)
@@ -35,7 +20,6 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
     done(null, user);
 });
-
 /*  Google AUTH  */
 let userProfile;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;

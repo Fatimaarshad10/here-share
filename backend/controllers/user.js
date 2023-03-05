@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require('bcrypt')
 /* All User Data   */
-const User1 = async (req, res) => {
+const Users = async (req, res) => {
     const userData = await User.find({});
     res.status(200).json(userData);
 
@@ -31,7 +31,7 @@ const Register = async (req, res) => {
 
     }
 };
-
+let emailData ; 
 
 const Login = async (req, res) => {
     const {email, password, admin} = req.body;
@@ -44,37 +44,45 @@ const Login = async (req, res) => {
         if (HashPassword) {
             res.status(200).json({message: "Valid password"});
         }
-         res.cookie('value', loginUser.admin);
+         res.cookie('new', loginUser.email);
         res.status(200).json(loginUser);
         console.log("user is login");
+         emailData = loginUser.email
         
     } catch (err) {
         res.status(400).send(err.message);
     }
 };
-const Dashboard = async (req, res) => {
-    const authCookie = req.cookies.value;
-    console.log(authCookie)
-    if (authCookie) {
-       const user = await User.findOne({ admin: authCookie });
-       if (user) {
-          res.send(`Welcome ${user.name} to the dashboard`);
-       } else {
-          // User not found
-          res.status(404).send('User not found');
-       }
+const SuccessData  = async (req, res) => {
+    if(emailData){
+        const loginUser = await User.findOne({email: emailData});
+        res.status(200).json(loginUser);
+
     }else{
-        console.log('no data ')
+        res.status(400).json('Cookie is not available');
     }
-   
 };
+const logoutCookie  = async (req, res) => {
+   
+        req.session.destroy(() => {
+            res.clearCookie('new', { domain: 'localhost',path: '/', httpOnly: false, secure: false });
 
-
-
+            res.clearCookie('connect.sid', {path: '/'})
+            emailData = ''
+            return res.redirect("http://localhost:3000/register");
+          });
+        
+        
+    
+        
+         
+           
+       
+};
 module.exports = {
-
+Users ,
     Register,
     Login,
-    User1 , 
-    Dashboard
+    SuccessData , 
+    logoutCookie
 };
