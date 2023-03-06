@@ -12,31 +12,30 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState("");
-const dispatch = useDispatch();
-const handleSubmit = (event) => {
-  event.preventDefault();
-  // Call login API endpoint
-  fetch('http://localhost:3000/user/register', {
-    method: 'POST',
-    body: JSON.stringify({ name , email, password , admin }),
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include'
-  })
-    .then(response => response.json())
-    .then(data => {
-      // Update Redux store with session information
-      dispatch(registerSuccess(data));
-    navigate('/login')
-
+  const dispatch = useDispatch();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Call login API endpoint
+    fetch("http://localhost:3000/user/register", {
+      method: "POST",
+      body: JSON.stringify({ name, email, password, admin }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
     })
-    .catch(error => {
-      console.error(error);
-    });
-};
+      .then((response) => response.json())
+      .then((data) => {
+        // Update Redux store with session information
+        dispatch(registerSuccess(data));
+        navigate("/login");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-// Login with google authentication
+  // Login with google authentication
   const loginWithGoogle = () => {
     window.open("http://localhost:4000/user/auth/google", "_self");
   };
@@ -102,7 +101,7 @@ const handleSubmit = (event) => {
                     <label htmlFor="floatingSelect">Select category</label>
                   </div>
                 </div>
-                
+
                 <div class="col-12">
                   <GoogleButton type="light" onClick={loginWithGoogle} />
                 </div>
@@ -112,10 +111,14 @@ const handleSubmit = (event) => {
               </div>
             </form>
           </div>
-          
+
           <div class="col-lg-6" style={{ minHeight: "10px" }}>
             <div class="position-relative h-100 ">
-              <img src={registerPhoto} class="img-fluid w-100 h-100" alt="registerPhoto" />
+              <img
+                src={registerPhoto}
+                class="img-fluid w-100 h-100"
+                alt="registerPhoto"
+              />
             </div>
           </div>
         </div>

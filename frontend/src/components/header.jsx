@@ -4,16 +4,17 @@ import "owl.carousel";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { Link } from "react-router-dom";
-import Avatar from 'react-avatar';
-import { useDispatch ,useSelector } from "react-redux";
+import Avatar from "react-avatar";
+import { persistor } from "../store/index";
+import { useDispatch, useSelector } from "react-redux";
 function Header() {
-const dispatch = useDispatch()
-const email = useSelector(state => state.user.session);
-console.log(email)
-  const [user, setUser] = useState("");
-  const [userData, setUserData] = useState(null);
+  const dispatch = useDispatch();
+  const UserData = useSelector((state) => state.user.session);
+  console.log(UserData);
 
-  // google authentication User Data 
+  const [user, setUser] = useState("");
+
+  // google authentication User Data
   const getUser = () => {
     fetch("http://localhost:4000/user/success", {
       method: "GET",
@@ -26,42 +27,22 @@ console.log(email)
       .then((data) => setUser(data)) // set user state with data
       .catch((err) => console.log(err)); // handle any errors
   };
-  // render when the api is call 
+  // render when the api is call
   useEffect(() => {
     getUser();
   }, []);
-  useEffect(() => {
-    
-    fetch("http://localhost:4000/user/success/data", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        credentials: "include",
-      },
-    })
-      .then((res) => res.json()) // extract JSON data from response
-      .then((data) => {
-        console.log(data); // log the data to see if it's different from userData
-      setUserData(data );
-      })
-      // set user state with data
-      .catch((err) => console.log(err)); // handle any errors
-    
-  }, []);
- const logout1 =()=>{
-  if(user.displayName){
-    return window.open("http://localhost:4000/user/logout", "_self");
-  }
- }
 
-const logoutAuth = ()=>{
-  window.open("http://localhost:4000/user/logout/cookie", "_self");
+  const logout1 = () => {
+    if (user.displayName) {
+      return window.open("http://localhost:4000/user/logout", "_self");
+    }
+    if (UserData !== null) {
+      window.open("http://localhost:4000/user/logout/cookie", "_self");
+      persistor.purge();
+    }
+  };
 
-}
-
- 
-const importantData =   user.displayName || userData !== null 
+  const importantData = user.displayName || UserData !== null;
   useEffect(() => {
     $(document).ready(function () {
       // Your jQuery code here
@@ -117,28 +98,36 @@ const importantData =   user.displayName || userData !== null
             <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
               <div class="me-3 pe-3 border-end py-2">
                 <p class="m-0">
-
                   {/* <i class="fa fa-envelope-open me-2"></i> */}
                   {user.photos && user.photos.length > 0 && (
-                <img src={user.photos[0].value} alt="my-image" referrerPolicy="no-referrer"style={{borderRadius:'50%' , width:'30%'}}/>
+                    <img
+                      src={user.photos[0].value}
+                      alt="my-image"
+                      referrerPolicy="no-referrer"
+                      style={{ borderRadius: "50%", width: "30%" }}
+                    />
                   )}
                   {user.displayName}
                 </p>
-               <p>
-              
-                {userData == null ? (' ' ):(
-                  <>
-                  <Avatar color={Avatar.getRandomColor('sitebase', ['red', 'green', 'blue'])} name={userData.email} />
-               {userData.email}
-                 </>
-                  
-                )}
-
-               
-
-               </p>
+                <p>
+                  {UserData == null ? (
+                    " "
+                  ) : (
+                    <>
+                      <Avatar
+                        color={Avatar.getRandomColor("sitebase", [
+                          "red",
+                          "green",
+                          "blue",
+                        ])}
+                        name={UserData.email}
+                      />
+                      {UserData.email}
+                    </>
+                  )}
+                </p>
               </div>
-             
+
               <div class="py-2">
                 <p class="m-0">
                   <i class="fa fa-phone-alt me-2"></i>+012 345 6789
@@ -190,30 +179,37 @@ const importantData =   user.displayName || userData !== null
               </a>
 
               <div class="dropdown-menu m-0">
-              
-               {user.displayName ? (<>
-                
-               <button class="btn btn-primary ms-3 w-50" onClick={logout1} style={{}}>logout</button>
-               
-               </>):(
-                <>
-                </>
-               )}
-               {userData == null  ? (
-                    <>
-                    </>
-                  ) : (<> 
-                    <button class="btn btn-primary ms-3 w-50" onClick={logoutAuth} style={{}}>logout</button>
-                 
-                </>)}
-                 
-             
-                  { importantData ? (
-                    <>
-                    </>
-                       ) : (
+                {user.displayName ? (
+                  <>
+                    <button
+                      class="btn btn-primary ms-3 w-50"
+                      onClick={logout1}
+                      style={{}}
+                    >
+                      logout
+                    </button>
+                  </>
+                ) : (
+                  <></>
+                )}
+                {UserData == null ? (
+                  <></>
+                ) : (
+                  <>
+                    <button
+                      class="btn btn-primary ms-3 w-50"
+                      onClick={logout1}
+                      style={{}}
+                    >
+                      logout
+                    </button>
+                  </>
+                )}
+
+                {importantData ? (
+                  <></>
+                ) : (
                   <div>
-                    
                     <Link to="/register">
                       <a href="service.html" class="dropdown-item">
                         Sign up
