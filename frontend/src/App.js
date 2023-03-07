@@ -11,13 +11,11 @@ import Blog from "./components/blog";
 import Formage from "./components/formpage";
 import Register from "./SignUp/register";
 import Login from "./SignUp/login";
-// import Check from './SignUp/route'
 function App() {
   return (
     <>
 
     <div>
-    {/* <Check/> */}
      
     <Header />
       <Routes>

@@ -13,14 +13,13 @@ const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [admin, setAdmin] = useState(false);
   
   const handleSubmit = (event) => {
     event.preventDefault();
     // Call login API endpoint
     fetch('http://localhost:3000/user/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password , admin }),
+      body: JSON.stringify({ email, password }),
       headers: {
         'Content-Type': 'application/json'
       },
@@ -37,6 +36,10 @@ const dispatch = useDispatch();
         console.error(error);
       });
   };
+  // navigate 
+const userSignIn = ()=>{
+  navigate('/register')
+}
   return (
     <>
     
@@ -73,26 +76,15 @@ const dispatch = useDispatch();
                     <label htmlFor="form-floating-3">Password</label>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="form-floating">
-                    <select
-                      class="form-select"
-                      id="floatingSelect"
-                      value={admin}
-                      onChange={(e) => setAdmin(e.target.value)}
-                    >
-                      <option value={true}>Admin </option>
-                      <option value={false}>User</option>
-                    </select>
-                    <label htmlFor="floatingSelect">Select category</label>
-                  </div>
-                </div>
+                
                 <div class="col-12">
             
                   <button class="btn btn-primary w-100 py-3 mt-4" type="submit" >
                     Submit
                    
                   </button>
+                <p className="text-center mt-4"> Not a member? <a class="text-body py-2 " onClick={userSignIn} style={{textDecoration:'underline' , cursor:'pointer'}}>Signup now </a></p>
+
                 </div>
               </div>
 

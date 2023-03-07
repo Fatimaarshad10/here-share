@@ -33,12 +33,12 @@ const Register = async (req, res) => {
 };
 
 const Login = async (req, res) => {
-    const {email, password, admin} = req.body;
+    const {email, password} = req.body;
     try {
-        if (!email || !password || !admin) {
+        if (!email || !password ) {
             throw Error("Fill Input Field");
         }
-        const loginUser = await User.findOne({email: email, admin: admin});
+        const loginUser = await User.findOne({email: email});
 
         const HashPassword = await bcrypt.compare(JSON.stringify(password), JSON.stringify(loginUser.password));
         if (HashPassword) {

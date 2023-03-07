@@ -6,13 +6,13 @@ import "../css/main.css";
 import { Link } from "react-router-dom";
 import Avatar from "react-avatar";
 import { persistor } from "../store/index";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 function Header() {
-  const dispatch = useDispatch();
   const UserData = useSelector((state) => state.user.session);
   console.log(UserData);
 
   const [user, setUser] = useState("");
+  const [github, setgithub] = useState("");
 
   // google authentication User Data
   const getUser = () => {
@@ -31,10 +31,29 @@ function Header() {
   useEffect(() => {
     getUser();
   }, []);
+  const githubUser = () => {
+    fetch("http://localhost:4000/user/github/success", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json()) // extract JSON data from response
+      .then((data) => setgithub(data)) // set user state with data
+      .catch((err) => console.log(err)); // handle any errors
+  };
+  // render when the api is call
+  useEffect(() => {
+    githubUser();
+  }, []);
 
   const logout1 = () => {
     if (user.displayName) {
       return window.open("http://localhost:4000/user/logout", "_self");
+    }
+    if (github.displayName) {
+      return window.open("http://localhost:4000/user/github/logout", "_self");
     }
     if (UserData !== null) {
       window.open("http://localhost:4000/user/logout/cookie", "_self");
@@ -42,7 +61,7 @@ function Header() {
     }
   };
 
-  const importantData = user.displayName || UserData !== null;
+  const importantData = user.displayName || UserData !== null || github.displayName
   useEffect(() => {
     $(document).ready(function () {
       // Your jQuery code here
@@ -109,6 +128,19 @@ function Header() {
                   )}
                   {user.displayName}
                 </p>
+                <p class="m-0">
+                  {/* <i class="fa fa-envelope-open me-2"></i> */}
+                  {github.photos && github.photos.length > 0 && (
+                    <img
+                      src={github.photos[0].value}
+                      alt="my-image"
+                      referrerPolicy="no-referrer"
+                      style={{ borderRadius: "50%", width: "30%" }}
+                    />
+                  )}
+                  {github.displayName}
+                </p>
+                
                 <p>
                   {UserData == null ? (
                     " "
@@ -192,6 +224,19 @@ function Header() {
                 ) : (
                   <></>
                 )}
+                    {github.displayName ? (
+                  <>
+                    <button
+                      class="btn btn-primary ms-3 w-50"
+                      onClick={logout1}
+                      style={{}}
+                    >
+                      logout
+                    </button>
+                  </>
+                ) : (
+                  <></>
+                )}
                 {UserData == null ? (
                   <></>
                 ) : (
@@ -228,16 +273,8 @@ function Header() {
                   </a>
                 </Link>
 
-                <Link to="/redux">
-                  <a href="redux" class="dropdown-item">
-                    redux{" "}
-                  </a>
-                </Link>
-                <Link to="/hacker">
-                  <a href="hacker" class="dropdown-item">
-                    hacker rank{" "}
-                  </a>
-                </Link>
+               
+                
                 <Link to="/detail">
                   <a href="service.html" class="dropdown-item">
                     Blog Detail
