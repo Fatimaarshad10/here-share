@@ -1,9 +1,22 @@
 const express = require("express");
 const passport = require("passport");
-const { Users, Register, Login, logoutCookie } = require("../controllers/user");
+const path = require('path')
+const multer = require('multer')
+const { Users, Register, Login} = require("../controllers/user");
 const UserRoute = express.Router();
+UserRoute.use(express.static('image'))
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, path.join(__dirname, '../public/image'));
+  },
+  filename: function(req, file, cb) {
+    const name = Date.now() + '-' + file.originalname;
+    cb(null, name);
+  }
+});
 
 
+const upload = multer({storage:storage})
 /*  Google AUTH  */
 let userProfile;
 let gitProfile;
@@ -52,13 +65,7 @@ UserRoute.get("/github/success", (req, res) => {
   const user = gitProfile;
   res.json(user);
 });
-// Github Auth Logout
 
-UserRoute.get("/github/logout", (req, res) => {
-  res.clearCookie("connect.sid", { path: "/" });
-  gitProfile = " ";
-  return res.redirect("http://localhost:3000/");
-});
 passport.use(
   new GoogleStrategy(
     {
@@ -103,13 +110,7 @@ UserRoute.get("/success", (req, res) => {
   const user = userProfile;
   res.json(user);
 });
-// Google Auth Logout
 
-UserRoute.get("/logout", (req, res) => {
-  res.clearCookie("connect.sid", { path: "/" });
-  userProfile = " ";
-  return res.redirect("http://localhost:3000/");
-});
 /*  SerializeUSer  */
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -121,10 +122,16 @@ passport.deserializeUser((user, done) => {
 // All users
 UserRoute.get("/", Users);
 // Register users
-UserRoute.post("/register", Register);
+UserRoute.post("/register", upload.single('image') , Register);
 // login users
 UserRoute.post("/login", Login);
+// Auth Logout
 
-UserRoute.get("/logout/cookie", logoutCookie);
+UserRoute.get("/logout", (req, res) => {
+  res.clearCookie("connect.sid", { path: "/" });
+  userProfile = " ";
+  gitProfile = " ";
+  return res.redirect("http://localhost:3000/");
+});
 
 module.exports = UserRoute;

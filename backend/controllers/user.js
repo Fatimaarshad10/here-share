@@ -10,8 +10,9 @@ const Users = async (req, res) => {
 /* User Register   */
 const Register = async (req, res) => {
     const {name, email, password, admin} = req.body;
+    const file = req.file
     try {
-        if (!name || !email || !password || !admin) {
+        if (!name || !email || !password || !admin || !file) {
             return res.status(409).send("Fill all the inputs ");
         }
         const oldUser = await User.findOne({email});
@@ -19,7 +20,7 @@ const Register = async (req, res) => {
         if (oldUser) {
             return res.status(409).send("User Already Exist. Please Login");
         }
-        const User1 = new User({name, email, password, admin});
+        const User1 = new User({name, email, password, admin , image :`http://localhost:4000/public/image/${file.filename}`});
 
         const salt = await bcrypt.genSalt(10);
         User1.password = await bcrypt.hash(User1.password, salt);
@@ -52,16 +53,9 @@ const Login = async (req, res) => {
         res.status(400).send(err.message);
     }
 };
-const logoutCookie = async (req, res) => {
-    req.session.destroy(() => {
-        res.clearCookie('connect.sid', {path: '/'})
-        return res.redirect("http://localhost:3000/login");
-    });
 
-};
 module.exports = {
     Users,
     Register,
     Login,
-    logoutCookie
 };

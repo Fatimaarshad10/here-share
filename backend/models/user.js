@@ -17,6 +17,18 @@ const User = new Schema(
     admin: {
       type: String,
     },
+    image :{
+      type: String ,
+      required : true 
+    } ,
+     // googleId:{
+    //   type: String ,
+    //   required : true 
+    // } ,
+    // gitHub:{
+    //   type: String ,
+    //   required : true 
+    // } ,
   },
   { timestamps: true }
 );

@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { useDispatch } from "react-redux";
-import GoogleButton from "react-google-button";
-import GitHubButton from 'react-github-btn'
 import registerPhoto from "../img/pexels-photo-6457561.jpeg";
 import { useNavigate } from "react-router-dom";
 import { registerSuccess } from "../store/redux/authSlice";
@@ -13,16 +11,21 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState("");
+  const [image, setImag] = useState([]);
   const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
     // Call login API endpoint
+    const data = new FormData();
+    data.append("name", name);
+    data.append("email", email);
+    data.append("password", password);
+    data.append("admin", admin);
+    data.append("image", image);
+
     fetch("http://localhost:3000/user/register", {
       method: "POST",
-      body: JSON.stringify({ name, email, password, admin }),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      body: (data),
       credentials: "include",
     })
       .then((response) => response.json())
@@ -35,16 +38,19 @@ function Register() {
         console.error(error);
       });
   };
-// navigate 
-const userSignIn = ()=>{
-  navigate('/login')
-}
+  // navigate
+  const userSignIn = () => {
+    navigate("/login");
+  };
+  const submitHandler = (e) => {
+    setImag(e.target.files[0]);
+  };
   // Login with google authentication
   const loginWithGoogle = () => {
     window.open("http://localhost:4000/user/auth/google", "_self");
   };
-   // Login with github authentication
-   const loginWithGithub = () => {
+  // Login with github authentication
+  const loginWithGithub = () => {
     window.open("http://localhost:4000/user/auth/github", "_self");
   };
   return (
@@ -96,40 +102,68 @@ const userSignIn = ()=>{
                   </div>
                 </div>
                 <div class="col-6">
-                <div class="form-check form-check-inline">
-  <input class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1"  value="admin"    onChange={ (e) => setAdmin(e.target.value)}/>
-  
-   Admin
-</div>
-<div class="form-check form-check-inline">
-  <input class="form-check-input" type="radio" name="flexRadioDefault"  onChange={ (e) => setAdmin(e.target.value)}  id="flexRadioDefault2"  value="user"/>
-  
-    User
- 
-</div>
-                  
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input "
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                      value="admin"
+                      onChange={(e) => setAdmin(e.target.value)}
+                    />
+                    Admin
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      onChange={(e) => setAdmin(e.target.value)}
+                      id="flexRadioDefault2"
+                      value="user"
+                    />
+                    User
+                  </div>
                 </div>
+                <input
+                  type="file"
+                  onChange={submitHandler}
+                  style={{ marginTop: "15px" }}
+                />
 
-              
                 <button class="btn btn-primary w-100 py-3 mt-4 " type="submit">
                   Submit
                 </button>
                 <p className="text-center">OR</p>
-                
+
                 <div class="col-6">
-                <button class="btn btn-primary w-100 py-2 "  onClick={loginWithGoogle}>
-                 Google
-                </button>
+                  <button
+                    class="btn btn-primary w-100 py-2 "
+                    onClick={loginWithGoogle}
+                  >
+                    Google
+                  </button>
                 </div>
 
                 <div class="col-6">
-                <button class="btn btn-primary w-100 py-2 "  onClick={loginWithGithub}>
-                  github
-                </button>
+                  <button
+                    class="btn btn-primary w-100 py-2 "
+                    onClick={loginWithGithub}
+                  >
+                    github
+                  </button>
                 </div>
 
-                <p className="text-center">Already registered <a class="text-body py-2 " onClick={userSignIn} style={{textDecoration:'underline' , cursor:'pointer'}}>Sign in? </a></p>
-
+                <p className="text-center">
+                  Already registered{" "}
+                  <a
+                    class="text-body py-2 "
+                    onClick={userSignIn}
+                    style={{ textDecoration: "underline", cursor: "pointer" }}
+                  >
+                    Sign in?{" "}
+                  </a>
+                </p>
               </div>
             </form>
           </div>

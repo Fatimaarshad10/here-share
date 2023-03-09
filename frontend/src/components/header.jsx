@@ -53,15 +53,16 @@ function Header() {
       return window.open("http://localhost:4000/user/logout", "_self");
     }
     if (github.displayName) {
-      return window.open("http://localhost:4000/user/github/logout", "_self");
+      return window.open("http://localhost:4000/user/logout", "_self");
     }
     if (UserData !== null) {
-      window.open("http://localhost:4000/user/logout/cookie", "_self");
+      window.open("http://localhost:4000/user/logout", "_self");
       persistor.purge();
     }
   };
 
   const importantData = user.displayName || UserData !== null || github.displayName
+  
   useEffect(() => {
     $(document).ready(function () {
       // Your jQuery code here
@@ -154,12 +155,13 @@ function Header() {
                         ])}
                         name={UserData.email}
                       />
+                    
                       {UserData.email}
                     </>
                   )}
                 </p>
               </div>
-
+              {/* <img src={UserData.image} alt='image'/> */}
               <div class="py-2">
                 <p class="m-0">
                   <i class="fa fa-phone-alt me-2"></i>+012 345 6789
