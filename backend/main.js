@@ -8,6 +8,8 @@ const Users = require("./routes/user");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const main = express();
+main.use('/profile', express.static('./images'));
+
 main.use(cookieParser());
 
 main.use(
@@ -22,7 +24,7 @@ main.use(passport.initialize());
 main.use(passport.session());
 main.use(express.json());
 main.use(cors());
-main.use(express.urlencoded({ extended: "false" }));
+main.use(express.urlencoded({ extended: "true" }));
 main.use("/user", Users);
 // Connect with mongodb
 mongoose

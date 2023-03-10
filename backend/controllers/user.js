@@ -20,7 +20,7 @@ const Register = async (req, res) => {
         if (oldUser) {
             return res.status(409).send("User Already Exist. Please Login");
         }
-        const User1 = new User({name, email, password, admin , image :`http://localhost:4000/public/image/${file.filename}`});
+        const User1 = new User({name, email, password, admin , image:`http://localhost:4000/profile/${req.file.filename}`});
 
         const salt = await bcrypt.genSalt(10);
         User1.password = await bcrypt.hash(User1.password, salt);

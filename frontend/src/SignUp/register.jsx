@@ -11,7 +11,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState("");
-  const [image, setImag] = useState([]);
+  const [image, setImag] = useState(null);
   const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();

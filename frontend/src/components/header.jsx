@@ -4,13 +4,10 @@ import "owl.carousel";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { Link } from "react-router-dom";
-import Avatar from "react-avatar";
 import { persistor } from "../store/index";
 import { useSelector } from "react-redux";
 function Header() {
   const UserData = useSelector((state) => state.user.session);
-  console.log(UserData);
-
   const [user, setUser] = useState("");
   const [github, setgithub] = useState("");
 
@@ -118,7 +115,7 @@ function Header() {
             <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
               <div class="me-3 pe-3 border-end py-2">
                 <p class="m-0">
-                  {/* <i class="fa fa-envelope-open me-2"></i> */}
+                  <i class="fa fa-envelope-open me-2"></i>
                   {user.photos && user.photos.length > 0 && (
                     <img
                       src={user.photos[0].value}
@@ -130,7 +127,6 @@ function Header() {
                   {user.displayName}
                 </p>
                 <p class="m-0">
-                  {/* <i class="fa fa-envelope-open me-2"></i> */}
                   {github.photos && github.photos.length > 0 && (
                     <img
                       src={github.photos[0].value}
@@ -147,21 +143,15 @@ function Header() {
                     " "
                   ) : (
                     <>
-                      <Avatar
-                        color={Avatar.getRandomColor("sitebase", [
-                          "red",
-                          "green",
-                          "blue",
-                        ])}
-                        name={UserData.email}
-                      />
+                     
+              <img src={UserData.image} alt='image' width="50" height="50"  style={{ borderRadius: "50%", width: "30%" }}/>
                     
                       {UserData.email}
                     </>
                   )}
                 </p>
               </div>
-              {/* <img src={UserData.image} alt='image'/> */}
+              
               <div class="py-2">
                 <p class="m-0">
                   <i class="fa fa-phone-alt me-2"></i>+012 345 6789
@@ -213,44 +203,17 @@ function Header() {
               </a>
 
               <div class="dropdown-menu m-0">
-                {user.displayName ? (
+                {importantData? (
                   <>
                     <button
                       class="btn btn-primary ms-3 w-50"
                       onClick={logout1}
-                      style={{}}
                     >
                       logout
                     </button>
                   </>
                 ) : (
                   <></>
-                )}
-                    {github.displayName ? (
-                  <>
-                    <button
-                      class="btn btn-primary ms-3 w-50"
-                      onClick={logout1}
-                      style={{}}
-                    >
-                      logout
-                    </button>
-                  </>
-                ) : (
-                  <></>
-                )}
-                {UserData == null ? (
-                  <></>
-                ) : (
-                  <>
-                    <button
-                      class="btn btn-primary ms-3 w-50"
-                      onClick={logout1}
-                      style={{}}
-                    >
-                      logout
-                    </button>
-                  </>
                 )}
 
                 {importantData ? (
@@ -268,7 +231,7 @@ function Header() {
                       </a>
                     </Link>
                   </div>
-                )}
+                )} 
                 <Link to="/email">
                   <a href="service.html" class="dropdown-item">
                     Quote Form
