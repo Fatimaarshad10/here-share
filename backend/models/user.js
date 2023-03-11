@@ -21,10 +21,10 @@ const User = new Schema(
       type: String ,
       required : true 
     } ,
-     // googleId:{
-    //   type: String ,
-    //   required : true 
-    // } ,
+     googleId:{
+      type: String ,
+      required : true 
+    } ,
     // gitHub:{
     //   type: String ,
     //   required : true 
