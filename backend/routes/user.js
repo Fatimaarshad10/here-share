@@ -2,18 +2,10 @@ const express = require("express");
 const passport = require("passport");
 const path = require('path')
 const multer = require('multer')
+const User = require('../models/user')
 const { Users, Register, Login} = require("../controllers/user");
 const UserRoute = express.Router();
-// UserRoute.use(express.static('image'))
-// const storage = multer.diskStorage({
-//   destination: function(req, file, cb) {
-//     cb(null, path.join(__dirname, '../public/image'));
-//   },
-//   filename: function(req, file, cb) {
-//     const name = Date.now() + '-' + file.originalname;
-//     cb(null, name);
-//   }
-// });
+
 
 const storage = multer.diskStorage({
   destination:(req,file,callback)=>{
@@ -26,8 +18,8 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage:storage})
 /*  Google AUTH  */
-let userProfile;
-let gitProfile;
+// let userProfile;
+// let gitProfile;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const githubStrategy = require("passport-github2").Strategy;
 
@@ -38,11 +30,27 @@ passport.use(
         "3a4d2af8bf44952a4021",
       clientSecret: "e3ee9588f58d096c845cc91d2a4c8b84a2fb068e",
       callbackURL: "http://localhost:4000/user/auth/github/callback",
-      scope: ["profile", "email"],
+      scope: ['user:email'], 
     },
-    function (accessToken, refreshToken, profile, cb) {
-      gitProfile = profile;
-      cb(null, profile);
+   async function (accessToken, refreshToken, profile, done ) {
+    try{
+      let gitHubUser  = await User.findOne({gitHub: profile.id})
+      if( gitHubUser ){
+        done(null, profile);
+      }else{
+        const newUser = ({
+           gitHub: profile.id,
+           name : profile.displayName,
+           image : profile.photos[0].value ,  
+           email : profile.emails
+          })
+          gitHubUser  = await User.create(newUser)
+          done(null, profile);
+        }}catch(error){
+          console.error(error)
+        }
+    
+
     }
   )
 );
@@ -56,23 +64,15 @@ UserRoute.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/error" }),
   function (req, res) {
-    try {
-      req.login(gitProfile, function (err) {
-        if (err) {
-          return next(err);
-        }
-        return res.redirect("http://localhost:3000/");
-      });
-    } catch (err) {
-      return res.status(400).json("error");
-    }
+    return res.redirect("http://localhost:3000/");
+    
   }
 );
 // Github Auth success
-UserRoute.get("/github/success", (req, res) => {
-  const user = gitProfile;
-  res.json(user);
-});
+// UserRoute.get("/github/success", (req, res) => {
+//   const user = gitProfile;
+//   res.json(user);
+// });
 
 passport.use(
   new GoogleStrategy(
@@ -83,41 +83,43 @@ passport.use(
       callbackURL: "http://localhost:4000/user/auth/google/callback",
       scope: ["profile", "email"],
     },
-    function (accessToken, refreshToken, profile, cb) {
-      userProfile = profile;
-
-      cb(null, profile);
-    }
-  )
-);
-UserRoute.get(
-  "/auth/google",
+   async function (accessToken, refreshToken, profile, done) {
+    try{
+      let googleUser = await User.findOne({googleId: profile.id})
+      if(googleUser){
+        done(null, profile);
+      }else{
+        const newUser = ({
+           googleId: profile.id,
+           name : profile.displayName,
+           image : profile.photos[0].value ,  
+           email :profile.emails[0].value
+          })
+          googleUser = await User.create(newUser)
+          done(null, profile);
+        }}catch(error){
+          console.error(error)
+        }
+      }
+      )
+      );
+UserRoute.get("/auth/google",
   passport.authenticate("google", {
     scope: ["profile", "email"],
   })
 );
 // Google callback
-UserRoute.get(
-  "/auth/google/callback",
+UserRoute.get("/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/error" }),
   function (req, res) {
-    try {
-      req.login(userProfile, function (err) {
-        if (err) {
-          return next(err);
-        }
-        return res.redirect("http://localhost:3000/");
-      });
-    } catch (err) {
-      return res.status(400).json("error");
-    }
+   
+    return res.redirect("http://localhost:3000/");
+    
   }
 );
-// Google Auth success
-UserRoute.get("/success", (req, res) => {
-  const user = userProfile;
-  res.json(user);
-});
+UserRoute.get('/success', passport.authenticate('google'), async (req, res) => {
+ res.send(200).json('data')
+})
 
 /*  SerializeUSer  */
 passport.serializeUser((user, done) => {
@@ -127,6 +129,8 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
   done(null, user);
 });
+
+
 // All users
 UserRoute.get("/", Users);
 // Register users
@@ -137,7 +141,6 @@ UserRoute.post("/login", Login);
 
 UserRoute.get("/logout", (req, res) => {
   res.clearCookie("connect.sid", { path: "/" });
-  userProfile = " ";
   gitProfile = " ";
   return res.redirect("http://localhost:3000/login");
 });

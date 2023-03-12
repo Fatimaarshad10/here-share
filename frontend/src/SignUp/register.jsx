@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import registerPhoto from "../img/pexels-photo-6457561.jpeg";
 import { useNavigate } from "react-router-dom";
 import { registerSuccess } from "../store/redux/authSlice";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Register() {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -28,11 +30,22 @@ function Register() {
       body: (data),
       credentials: "include",
     })
-      .then((response) => response.json())
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Network response was not ok");
+      }})
       .then((data) => {
         // Update Redux store with session information
         dispatch(registerSuccess(data));
-        navigate("/login");
+        setTimeout(() => {
+          navigate('/login')
+  
+          }, 1000);
+          toast.success('Success Notification !', {
+            position: toast.POSITION.TOP_RIGHT
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -47,10 +60,12 @@ function Register() {
   };
   // Login with google authentication
   const loginWithGoogle = () => {
+
     window.open("http://localhost:4000/user/auth/google", "_self");
   };
   // Login with github authentication
   const loginWithGithub = () => {
+
     window.open("http://localhost:4000/user/auth/github", "_self");
   };
   return (
@@ -65,6 +80,7 @@ function Register() {
                 <div class="col-6">
                   <div class="form-floating">
                     <input
+                     required
                       type="text"
                       class="form-control"
                       id="form-floating-1"
@@ -78,6 +94,7 @@ function Register() {
                 <div class="col-6">
                   <div class="form-floating">
                     <input
+                     required
                       type="email"
                       class="form-control"
                       id="form-floating-2"
@@ -91,6 +108,7 @@ function Register() {
                 <div class="col-12">
                   <div class="form-floating">
                     <input
+                     required
                       type="password"
                       class="form-control"
                       id="form-floating-3"
@@ -104,6 +122,7 @@ function Register() {
                 <div class="col-6">
                   <div class="form-check form-check-inline">
                     <input
+                     required
                       class="form-check-input "
                       type="radio"
                       name="flexRadioDefault"
@@ -115,6 +134,7 @@ function Register() {
                   </div>
                   <div class="form-check form-check-inline">
                     <input
+                     required
                       class="form-check-input"
                       type="radio"
                       name="flexRadioDefault"
@@ -126,11 +146,12 @@ function Register() {
                   </div>
                 </div>
                 <input
+                 required
                   type="file"
                   onChange={submitHandler}
                   style={{ marginTop: "15px" }}
                 />
-
+<ToastContainer />
                 <button class="btn btn-primary w-100 py-3 mt-4 " type="submit">
                   Submit
                 </button>

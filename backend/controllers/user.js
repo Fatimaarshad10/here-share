@@ -34,17 +34,17 @@ const Register = async (req, res) => {
 };
 
 const Login = async (req, res) => {
-    const {email, password} = req.body;
+    const {email} = req.body;
     try {
-        if (!email || !password ) {
+        if (!email) {
             throw Error("Fill Input Field");
         }
         const loginUser = await User.findOne({email: email});
 
-        const HashPassword = await bcrypt.compare(JSON.stringify(password), JSON.stringify(loginUser.password));
-        if (HashPassword) {
-            res.status(200).json({message: "Valid password"});
-        }
+        // const HashPassword = await bcrypt.compare(JSON.stringify(password), JSON.stringify(loginUser.password));
+        // if (HashPassword) {
+        //     res.status(200).json({message: "Valid password"});
+        // }
         req.session.isAuth = true
         console.log(req.session.id)
         res.status(200).json(loginUser);

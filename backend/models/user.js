@@ -12,7 +12,7 @@ const User = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: false,
     },
     admin: {
       type: String,
@@ -23,12 +23,10 @@ const User = new Schema(
     } ,
      googleId:{
       type: String ,
-      required : true 
     } ,
-    // gitHub:{
-    //   type: String ,
-    //   required : true 
-    // } ,
+    gitHub:{
+      type: String ,
+    } ,
   },
   { timestamps: true }
 );

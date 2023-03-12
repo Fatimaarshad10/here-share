@@ -6,20 +6,22 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginSuccess  } from '../store/redux/authSlice';
 
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Login() {
+
   const navigate = useNavigate()
 const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
   
   const handleSubmit = (event) => {
     event.preventDefault();
     // Call login API endpoint
     fetch('http://localhost:3000/user/login', {
       method: 'POST',
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email}),
       headers: {
         'Content-Type': 'application/json'
       },
@@ -29,9 +31,15 @@ const dispatch = useDispatch();
       .then(data => {
         // Update Redux store with session information
         dispatch(loginSuccess(data));
-    navigate('/')
+      setTimeout(() => {
+        navigate('/')
 
+        }, 1000);
+        toast.success('Success Notification !', {
+          position: toast.POSITION.TOP_RIGHT
+      });
       })
+      
       .catch(error => {
         console.error(error);
       });
@@ -53,6 +61,7 @@ const userSignIn = ()=>{
                 <div class="col-12">
                   <div class="form-floating">
                     <input
+                     required
                       type="email"
                       class="form-control"
                       id="form-floating-2"
@@ -63,9 +72,10 @@ const userSignIn = ()=>{
                     <label htmlFor="form-floating-2">Email address</label>
                   </div>
                 </div>
-                <div class="col-12">
+                {/* <div class="col-12">
                   <div class="form-floating">
                     <input
+                     required
                       type="password"
                       class="form-control"
                       id="form-floating-3"
@@ -75,9 +85,10 @@ const userSignIn = ()=>{
                     />
                     <label htmlFor="form-floating-3">Password</label>
                   </div>
-                </div>
+                </div> */}
                 
                 <div class="col-12">
+                <ToastContainer />
             
                   <button class="btn btn-primary w-100 py-3 mt-4" type="submit" >
                     Submit
@@ -97,7 +108,7 @@ const userSignIn = ()=>{
           </div>
         </div>
       </div>
-       
+     
     </>
   );
 }

@@ -6,28 +6,29 @@ import "../css/main.css";
 import { Link } from "react-router-dom";
 import { persistor } from "../store/index";
 import { useSelector } from "react-redux";
+
 function Header() {
   const UserData = useSelector((state) => state.user.session);
   const [user, setUser] = useState("");
   const [github, setgithub] = useState("");
 
   // google authentication User Data
-  const getUser = () => {
-    fetch("http://localhost:4000/user/success", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json()) // extract JSON data from response
-      .then((data) => setUser(data)) // set user state with data
-      .catch((err) => console.log(err)); // handle any errors
-  };
-  // render when the api is call
-  useEffect(() => {
-    getUser();
-  }, []);
+  // const getUser = () => {
+  //   fetch("http://localhost:4000/user/success", {
+  //     method: "GET",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((res) => res.json()) // extract JSON data from response
+  //     .then((data) => setUser(data)) // set user state with data
+  //     .catch((err) => console.log(err)); // handle any errors
+  // };
+  // // render when the api is call
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
   const githubUser = () => {
     fetch("http://localhost:4000/user/github/success", {
       method: "GET",
@@ -46,19 +47,22 @@ function Header() {
   }, []);
 
   const logout1 = () => {
-    if (user.displayName) {
-      return window.open("http://localhost:4000/user/logout", "_self");
-    }
+    // if (user.displayName) {
+
+    //   return window.open("http://localhost:4000/user/logout", "_self");
+    // }
     if (github.displayName) {
+
       return window.open("http://localhost:4000/user/logout", "_self");
     }
     if (UserData !== null) {
+
       window.open("http://localhost:4000/user/logout", "_self");
       persistor.purge();
     }
   };
 
-  const importantData = user.displayName || UserData !== null || github.displayName
+  const importantData = UserData !== null || github.displayName
   
   useEffect(() => {
     $(document).ready(function () {
@@ -114,18 +118,18 @@ function Header() {
           <div class="col-md-6 text-center text-lg-end">
             <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
               <div class="me-3 pe-3 border-end py-2">
-                <p class="m-0">
-                  <i class="fa fa-envelope-open me-2"></i>
-                  {user.photos && user.photos.length > 0 && (
+                {/* <p class="m-0"> */}
+                  {/* <i class="fa fa-envelope-open me-2"></i> */}
+                  {/* {user.photos && user.photos.length > 0 && (
                     <img
                       src={user.photos[0].value}
                       alt="my-image"
                       referrerPolicy="no-referrer"
                       style={{ borderRadius: "50%", width: "30%" }}
                     />
-                  )}
-                  {user.displayName}
-                </p>
+                  )} */}
+                  {/* {user.displayName} */}
+                {/* </p> */}
                 <p class="m-0">
                   {github.photos && github.photos.length > 0 && (
                     <img
@@ -178,12 +182,12 @@ function Header() {
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <div class="navbar-nav ms-auto py-0 me-n3">
             <Link to="/">
-              <a href="index.html" class="nav-item nav-link">
+              <a href="index.html" class="nav-item nav-link active">
                 Home
               </a>
             </Link>
             <Link to="/about">
-              <a href="about.html" class="nav-item nav-link active">
+              <a href="about.html" class="nav-item nav-link ">
                 About
               </a>
             </Link>
@@ -211,6 +215,24 @@ function Header() {
                     >
                       logout
                     </button>
+                    <Link to="/form ">
+                  <a href="service.html" class="dropdown-item">
+                    Quote Form
+                  </a>
+                </Link>
+
+               
+                
+                <Link to="/detail">
+                  <a href="service.html" class="dropdown-item">
+                    Blog Detail
+                  </a>
+                </Link>
+                <Link to="/blog">
+                  <a href="service.html" class="dropdown-item">
+                    Blog 
+                  </a>
+                </Link>
                   </>
                 ) : (
                   <></>
@@ -232,19 +254,7 @@ function Header() {
                     </Link>
                   </div>
                 )} 
-                <Link to="/email">
-                  <a href="service.html" class="dropdown-item">
-                    Quote Form
-                  </a>
-                </Link>
-
-               
-                
-                <Link to="/detail">
-                  <a href="service.html" class="dropdown-item">
-                    Blog Detail
-                  </a>
-                </Link>
+              
               </div>
             </div>
             <Link to="/contact">
