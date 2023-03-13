@@ -9,61 +9,39 @@ import { useSelector } from "react-redux";
 
 function Header() {
   const UserData = useSelector((state) => state.user.session);
-  const [user, setUser] = useState("");
-  const [github, setgithub] = useState("");
-
-  // google authentication User Data
-  // const getUser = () => {
-  //   fetch("http://localhost:4000/user/success", {
-  //     method: "GET",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => res.json()) // extract JSON data from response
-  //     .then((data) => setUser(data)) // set user state with data
-  //     .catch((err) => console.log(err)); // handle any errors
-  // };
-  // // render when the api is call
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
-  const githubUser = () => {
-    fetch("http://localhost:4000/user/github/success", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json()) // extract JSON data from response
-      .then((data) => setgithub(data)) // set user state with data
-      .catch((err) => console.log(err)); // handle any errors
-  };
-  // render when the api is call
+  console.log(UserData)
+  const [userData, setuserData] = useState("");
+  // User is authenticated 
   useEffect(() => {
-    githubUser();
+    const getUser = async () => {
+      fetch("http://localhost:3000/user/success", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setuserData(data.user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getUser();
   }, []);
-
-  const logout1 = () => {
-    // if (user.displayName) {
-
-    //   return window.open("http://localhost:4000/user/logout", "_self");
-    // }
-    if (github.displayName) {
-
-      return window.open("http://localhost:4000/user/logout", "_self");
-    }
-    if (UserData !== null) {
-
-      window.open("http://localhost:4000/user/logout", "_self");
-      persistor.purge();
-    }
+  console.log(userData)
+// logout User 
+  const logout = () => {
+    window.open("http://localhost:4000/user/logout", "_self");
+    persistor.purge();
   };
 
-  const importantData = UserData !== null || github.displayName
-  
   useEffect(() => {
     $(document).ready(function () {
       // Your jQuery code here
@@ -98,19 +76,19 @@ function Header() {
         <div class="row gx-0">
           <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
             <div class="d-inline-flex align-items-center">
-              <a class="text-body py-2 pe-3 border-end" href="#faq">
+              <a class="text-body py-2 pe-3 border-end" href="#">
                 <small>FAQs</small>
               </a>
-              <a class="text-body py-2 px-3 border-end" href="#support">
+              <a class="text-body py-2 px-3 border-end" href="#">
                 <small>Support</small>
               </a>
-              <a class="text-body py-2 px-3 border-end" href="#privacy">
+              <a class="text-body py-2 px-3 border-end" href="#">
                 <small>Privacy</small>
               </a>
-              <a class="text-body py-2 px-3 border-end" href="#policy">
+              <a class="text-body py-2 px-3 border-end" href="#">
                 <small>Policy</small>
               </a>
-              <a class="text-body py-2 ps-3" href="#career">
+              <a class="text-body py-2 ps-3" href="#">
                 <small>Career</small>
               </a>
             </div>
@@ -118,44 +96,25 @@ function Header() {
           <div class="col-md-6 text-center text-lg-end">
             <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
               <div class="me-3 pe-3 border-end py-2">
-                {/* <p class="m-0"> */}
-                  {/* <i class="fa fa-envelope-open me-2"></i> */}
-                  {/* {user.photos && user.photos.length > 0 && (
-                    <img
-                      src={user.photos[0].value}
-                      alt="my-image"
-                      referrerPolicy="no-referrer"
-                      style={{ borderRadius: "50%", width: "30%" }}
-                    />
-                  )} */}
-                  {/* {user.displayName} */}
-                {/* </p> */}
-                <p class="m-0">
-                  {github.photos && github.photos.length > 0 && (
-                    <img
-                      src={github.photos[0].value}
-                      alt="my-image"
-                      referrerPolicy="no-referrer"
-                      style={{ borderRadius: "50%", width: "30%" }}
-                    />
-                  )}
-                  {github.displayName}
-                </p>
-                
                 <p>
-                  {UserData == null ? (
+                  {!userData ? (
                     " "
                   ) : (
                     <>
-                     
-              <img src={UserData.image} alt='image' width="50" height="50"  style={{ borderRadius: "50%", width: "30%" }}/>
-                    
-                      {UserData.email}
+                      <img
+                        src={userData.image}
+                        alt="image"
+                        width="50"
+                        height="50"
+                        style={{ borderRadius: "50%", width: "30%" }}
+                      />
+
+                      {userData.email}
                     </>
                   )}
                 </p>
               </div>
-              
+
               <div class="py-2">
                 <p class="m-0">
                   <i class="fa fa-phone-alt me-2"></i>+012 345 6789
@@ -166,7 +125,7 @@ function Header() {
         </div>
       </div>
       <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
-        <a href="index.html" class="navbar-brand p-0">
+        <a href="#" class="navbar-brand p-0">
           <h1 class="m-0 text-uppercase text-primary">
             <i class="far fa-smile text-primary me-2"></i>HERE&ShARE{" "}
           </h1>
@@ -182,24 +141,24 @@ function Header() {
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <div class="navbar-nav ms-auto py-0 me-n3">
             <Link to="/">
-              <a href="index.html" class="nav-item nav-link active">
+              <a href="#" class="nav-item nav-link active">
                 Home
               </a>
             </Link>
             <Link to="/about">
-              <a href="about.html" class="nav-item nav-link ">
+              <a href="#" class="nav-item nav-link ">
                 About
               </a>
             </Link>
             <Link to="/service">
-              <a href="service.html" class="nav-item nav-link">
+              <a href="#" class="nav-item nav-link">
                 Service
               </a>
             </Link>
 
             <div class="nav-item dropdown">
               <a
-                href="toggle"
+                href="#"
                 class="nav-link dropdown-toggle"
                 data-bs-toggle="dropdown"
               >
@@ -207,58 +166,52 @@ function Header() {
               </a>
 
               <div class="dropdown-menu m-0">
-                {importantData? (
+                {userData ? (
                   <>
-                    <button
-                      class="btn btn-primary ms-3 w-50"
-                      onClick={logout1}
-                    >
+                    <button class="btn btn-primary ms-3 w-50" onClick={logout}>
                       logout
                     </button>
                     <Link to="/form ">
-                  <a href="service.html" class="dropdown-item">
-                    Quote Form
-                  </a>
-                </Link>
+                      <a href="#" class="dropdown-item">
+                        Quote Form
+                      </a>
+                    </Link>
 
-               
-                
-                <Link to="/detail">
-                  <a href="service.html" class="dropdown-item">
-                    Blog Detail
-                  </a>
-                </Link>
-                <Link to="/blog">
-                  <a href="service.html" class="dropdown-item">
-                    Blog 
-                  </a>
-                </Link>
+                    <Link to="/detail">
+                      <a href="#" class="dropdown-item">
+                        Blog Detail
+                      </a>
+                    </Link>
+                    <Link to="/blog">
+                      <a href="#" class="dropdown-item">
+                        Blog
+                      </a>
+                    </Link>
                   </>
                 ) : (
                   <></>
                 )}
 
-                {importantData ? (
+                {userData ? (
                   <></>
                 ) : (
                   <div>
                     <Link to="/register">
-                      <a href="service.html" class="dropdown-item">
+                      <a href="#" class="dropdown-item">
                         Sign up
                       </a>
                     </Link>
                     <Link to="/login">
-                      <a href="service.html" class="dropdown-item">
+                      <a href="#" class="dropdown-item">
                         Log in
                       </a>
                     </Link>
                   </div>
-                )} 
-              
+                )}
               </div>
             </div>
             <Link to="/contact">
-              <a href="contact.html" class="nav-item nav-link">
+              <a href="#" class="nav-item nav-link">
                 Contact
               </a>
             </Link>
