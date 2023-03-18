@@ -8,10 +8,10 @@ const Users = require("./routes/user");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const main = express();
+// image folder
 main.use('/profile', express.static('./images'));
-
 main.use(cookieParser());
-
+// for session
 main.use(
   session({
     secret: "keyboard cat",
@@ -19,9 +19,9 @@ main.use(
     saveUninitialized: false,
   })
 );
-
 main.use(passport.initialize());
 main.use(passport.session());
+// middleware
 main.use(express.json());
 main.use(cors());
 main.use(express.urlencoded({ extended: "true" }));

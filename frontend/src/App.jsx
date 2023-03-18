@@ -11,30 +11,38 @@ import Blog from "./components/blog";
 import Form from "./components/formpage";
 import Register from "../src/SignUp/register";
 import Login from "../src/SignUp/login";
-
+import UserDetails from "./user/userDetails";
+import { useSelector } from "react-redux";
+import { GlobalStyle } from "../src/styles/global";
 function App() {
+  const UserData = useSelector((state) => state.user.session);
+ 
   return (
     <>
       <div>
+<GlobalStyle/>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          {UserData ? (<>
+            <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/service" element={<Service />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/form" element={<Form />} />
           <Route path="/detail" element={<Detail />} />
-          <Route path="/" element={<Home />} />
+          <Route path="/user/detail" element={<UserDetails/>} />
+
+          
+          </>) : (
+            <>
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />v
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/service" element={<Service />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          </>
+          )}
         </Routes>
         <Footer />
+
       </div>
     </>
   );

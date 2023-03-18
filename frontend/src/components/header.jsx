@@ -5,13 +5,32 @@ import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { Link } from "react-router-dom";
 import { persistor } from "../store/index";
+import { useDispatch } from "react-redux";
+import { Success } from "../store/redux/authSlice";
+import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 function Header() {
+const Image = styled.div`
+  img{
+    border-radius: 50%;
+  
+  }
+  .img:hover  {   
+  opacity: 1;
+}
+
+
+`;
+const Dropdown = styled.div`
+ button{
+  border: none;
+    background-color: #F3525A;
+  }
+`
   const UserData = useSelector((state) => state.user.session);
-  console.log(UserData)
-  const [userData, setuserData] = useState("");
-  // User is authenticated 
+  const dispatch = useDispatch();
+  // User is authenticated
   useEffect(() => {
     const getUser = async () => {
       fetch("http://localhost:3000/user/success", {
@@ -27,7 +46,7 @@ function Header() {
           return res.json();
         })
         .then((data) => {
-          setuserData(data.user);
+          dispatch(Success(data.user));
         })
         .catch((err) => {
           console.log(err);
@@ -35,8 +54,7 @@ function Header() {
     };
     getUser();
   }, []);
-  console.log(userData)
-// logout User 
+  // logout User
   const logout = () => {
     window.open("http://localhost:4000/user/logout", "_self");
     persistor.purge();
@@ -94,30 +112,37 @@ function Header() {
             </div>
           </div>
           <div class="col-md-6 text-center text-lg-end">
-            <div class="position-relative d-inline-flex align-items-center bg-primary text-white top-shape px-5">
-              <div class="me-3 pe-3 border-end py-2">
+            <div class="position-relative d-inline-flex align-items-center bg-primary text-white  px-5">
+              <div class=" ms-3 pe-1 py-1">
                 <p>
-                  {!userData ? (
+                  {!UserData ? (
                     " "
                   ) : (
                     <>
-                      <img
-                        src={userData.image}
-                        alt="image"
-                        width="50"
-                        height="50"
-                        style={{ borderRadius: "50%", width: "30%" }}
-                      />
+                      <div class="col-xl-6 col-lg-12 col-md-6">
+                        <div class="blog-item ">
+                         
+                           
+   
+                        <div class="btn-group">
+  <div class="dropdown">
+    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+      <img src={UserData.image} alt="Snow" width={40} />
+    </a>
 
-                      {userData.email}
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+      <li><a class="dropdown-item" href="#">Action</a></li>
+      <li><a class="dropdown-item" href="#">Another action</a></li>
+      <li><a class="dropdown-item" href="#">Something else here</a></li>
+    </ul>
+  </div>
+</div>
+
+                        </div>
+                      </div>
+
                     </>
                   )}
-                </p>
-              </div>
-
-              <div class="py-2">
-                <p class="m-0">
-                  <i class="fa fa-phone-alt me-2"></i>+012 345 6789
                 </p>
               </div>
             </div>
@@ -166,7 +191,7 @@ function Header() {
               </a>
 
               <div class="dropdown-menu m-0">
-                {userData ? (
+                {UserData ? (
                   <>
                     <button class="btn btn-primary ms-3 w-50" onClick={logout}>
                       logout
@@ -187,26 +212,27 @@ function Header() {
                         Blog
                       </a>
                     </Link>
+                    <Link to="/user/detail">
+                      <a href="#" class="dropdown-item">
+                        UserDetail
+                      </a>
+                    </Link>
                   </>
                 ) : (
-                  <></>
-                )}
-
-                {userData ? (
-                  <></>
-                ) : (
-                  <div>
-                    <Link to="/register">
-                      <a href="#" class="dropdown-item">
-                        Sign up
-                      </a>
-                    </Link>
-                    <Link to="/login">
-                      <a href="#" class="dropdown-item">
-                        Log in
-                      </a>
-                    </Link>
-                  </div>
+                  <>
+                    <div>
+                      <Link to="/register">
+                        <a href="#" class="dropdown-item">
+                          Sign up
+                        </a>
+                      </Link>
+                      <Link to="/login">
+                        <a href="#" class="dropdown-item">
+                          Log in
+                        </a>
+                      </Link>
+                    </div>
+                  </>
                 )}
               </div>
             </div>

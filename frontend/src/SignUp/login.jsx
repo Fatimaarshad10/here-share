@@ -14,27 +14,47 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Call login API endpoint
-    const data = fetch("http://localhost:3000/user/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-    let res = data.json();
-   return dispatch(loginSuccess({res}))
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://localhost:3000/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        dispatch(loginSuccess(data));
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+        toast.success("Success Notification !", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else {
+        toast("Invalid Credentials!");
+      }
+    } catch {
+      toast("All field must be filled ");
+    }
   };
 
   // navigate
   const userSignIn = () => {
     navigate("/register");
+  };
+  // Login with google authentication
+  const loginWithGoogle = () => {
+    window.open("http://localhost:4000/user/auth/google", "_self");
+  };
+  // Login with github authentication
+  const loginWithGithub = () => {
+    window.open("http://localhost:4000/user/auth/github", "_self");
   };
   return (
     <>
@@ -79,18 +99,37 @@ function Login() {
                   <button class="btn btn-primary w-100 py-3 mt-4" type="submit">
                     Submit
                   </button>
-                  <p className="text-center mt-4">
-                    {" "}
-                    Not a member?{" "}
-                    <a
-                      class="text-body py-2 "
-                      onClick={userSignIn}
-                      style={{ textDecoration: "underline", cursor: "pointer" }}
-                    >
-                      Signup now{" "}
-                    </a>
-                  </p>
                 </div>
+                <p className="text-center">OR</p>
+
+                <div class="col-6">
+                  <button
+                    class="btn btn-primary w-100 py-2 "
+                    onClick={loginWithGoogle}
+                  >
+                    Google
+                  </button>
+                </div>
+
+                <div class="col-6">
+                  <button
+                    class="btn btn-primary w-100 py-2 "
+                    onClick={loginWithGithub}
+                  >
+                    github
+                  </button>
+                </div>
+                <p className="text-center mt-4">
+                  {" "}
+                  Not a member?{" "}
+                  <a
+                    class="text-body py-2 "
+                    onClick={userSignIn}
+                    style={{ textDecoration: "underline", cursor: "pointer" }}
+                  >
+                    Signup now{" "}
+                  </a>
+                </p>
               </div>
             </form>
           </div>

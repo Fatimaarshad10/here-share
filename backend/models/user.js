@@ -17,16 +17,16 @@ const User = new Schema(
     admin: {
       type: String,
     },
-    image :{
-      type: String ,
-      required : true 
-    } ,
-     googleId:{
-      type: String ,
-    } ,
-    gitHub:{
-      type: String ,
-    } ,
+    image: {
+      type: String,
+      required: true,
+    },
+    googleId: {
+      type: String,
+    },
+    gitHub: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
