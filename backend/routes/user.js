@@ -4,7 +4,7 @@ const multer = require("multer");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
-const { Users, Register , LoginController } = require("../controllers/user");
+const { Users, Register , LoginController  , updateProfile} = require("../controllers/user");
 const UserRoute = express.Router();
 // Multer
 const storage = multer.diskStorage({
@@ -29,6 +29,9 @@ UserRoute.get("/success", async (req, res) => {
         name: req.user.name,
         image: req.user.image,
         email: req.user.email,
+        password : req.user.password ,
+        detail : req.user.detail ,
+        _id : req.user._id
       },
     });
   } else {
@@ -194,5 +197,5 @@ UserRoute.get("/logout", (req, res) => {
   res.clearCookie("connect.sid", { path: "/" });
   return res.redirect("http://localhost:3000/login");
 });
-
+UserRoute.put('/:id',  upload.single('image'), updateProfile)
 module.exports = UserRoute;

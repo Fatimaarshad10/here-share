@@ -56,9 +56,32 @@ const LoginController = (req, res, next) => {
     });
   })(req, res, next);
 };
+const updateProfile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    let updateData = { ...req.body };
+    if (updateData.password) {
+      // Hash the new password before storing it
+      const hashedPassword = await bcrypt.hash(updateData.password, 10);
+      updateData.password = hashedPassword;
+    }
+    const UserData = await User.findByIdAndUpdate(
+      { _id: id },
+      {
+        ...updateData,
+        ...(req.file ? { profile: req.file.filename } : req.body.image),
+      },
+      { new: true } // to return the updated document
+    );
+    res.status(200).json(UserData);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
 
 module.exports = {
   Users,
   Register,
-  LoginController
+  LoginController,
+  updateProfile
 };

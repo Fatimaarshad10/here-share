@@ -3,5 +3,4 @@ export const GlobalStyle = createGlobalStyle`
 
 
 
-
 `;

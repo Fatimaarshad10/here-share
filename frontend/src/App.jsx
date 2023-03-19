@@ -12,8 +12,10 @@ import Form from "./components/formpage";
 import Register from "../src/SignUp/register";
 import Login from "../src/SignUp/login";
 import UserDetails from "./user/userDetails";
+import Update from './user/update.jsx'
 import { useSelector } from "react-redux";
 import { GlobalStyle } from "../src/styles/global";
+import Setting from "./user/setting";
 function App() {
   const UserData = useSelector((state) => state.user.session);
  
@@ -31,6 +33,8 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/form" element={<Form />} />
           <Route path="/detail" element={<Detail />} />
+          <Route path="/setting" element={<Setting />} />
+          <Route path="/update" element={<Update />} />
           <Route path="/user/detail" element={<UserDetails/>} />
 
           

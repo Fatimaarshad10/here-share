@@ -7,27 +7,11 @@ import { Link } from "react-router-dom";
 import { persistor } from "../store/index";
 import { useDispatch } from "react-redux";
 import { Success } from "../store/redux/authSlice";
-import styled from "styled-components";
 import { useSelector } from "react-redux";
 
 function Header() {
-const Image = styled.div`
-  img{
-    border-radius: 50%;
-  
-  }
-  .img:hover  {   
-  opacity: 1;
-}
 
 
-`;
-const Dropdown = styled.div`
- button{
-  border: none;
-    background-color: #F3525A;
-  }
-`
   const UserData = useSelector((state) => state.user.session);
   const dispatch = useDispatch();
   // User is authenticated
@@ -46,6 +30,7 @@ const Dropdown = styled.div`
           return res.json();
         })
         .then((data) => {
+          console.log(data.user)
           dispatch(Success(data.user));
         })
         .catch((err) => {
@@ -127,13 +112,20 @@ const Dropdown = styled.div`
                         <div class="btn-group">
   <div class="dropdown">
     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src={UserData.image} alt="Snow" width={40} />
+      <img src={UserData.image} alt="Snow" width={40} style={{borderRadius:'50%'}}/>
     </a>
 
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <li><a class="dropdown-item" href="#">Action</a></li>
-      <li><a class="dropdown-item" href="#">Another action</a></li>
-      <li><a class="dropdown-item" href="#">Something else here</a></li>
+      <Link to="/user/detail">
+                      <a href="#" class="dropdown-item">
+                    Profile
+                      </a>
+                    </Link>
+                    <Link to="/setting">
+                      <a href="#" class="dropdown-item">
+                   Setting
+                      </a>
+                    </Link>
     </ul>
   </div>
 </div>
@@ -212,11 +204,7 @@ const Dropdown = styled.div`
                         Blog
                       </a>
                     </Link>
-                    <Link to="/user/detail">
-                      <a href="#" class="dropdown-item">
-                        UserDetail
-                      </a>
-                    </Link>
+                   
                   </>
                 ) : (
                   <>

@@ -23,36 +23,13 @@ function Blog() {
                   <br/>
                   {UserData.email}
                 </p>
-                <a href="" class="btn btn-primary rounded-pill py-2 px-4">
-                 edit
-                </a>
+                <p class="h5 mb-3 text-center">
+                  <i class="text-primary me-2 "></i>{UserData.detail} 
+                </p>
               </div>
             </div>
 
-            <div class="mb-5">
-              <h2 class="mb-4">Categories</h2>
-              <div class="d-flex flex-column justify-content-start bg-secondary p-4">
-                <a class="h5 mb-3" href="#">
-                  <i class="bi bi-arrow-right text-primary me-2"></i>Web Design
-                </a>
-                <a class="h5 mb-3" href="#">
-                  <i class="bi bi-arrow-right text-primary me-2"></i>Web
-                  Development
-                </a>
-                <a class="h5 mb-3" href="#">
-                  <i class="bi bi-arrow-right text-primary me-2"></i>Web
-                  Development
-                </a>
-                <a class="h5 mb-3" href="#">
-                  <i class="bi bi-arrow-right text-primary me-2"></i>Keyword
-                  Research
-                </a>
-                <a class="h5" href="#">
-                  <i class="bi bi-arrow-right text-primary me-2"></i>Email
-                  Marketing
-                </a>
-              </div>
-            </div>
+           
           </div>
           <div class="col-lg-8">
             <div class="row g-5">

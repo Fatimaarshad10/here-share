@@ -29,6 +29,7 @@ function Login() {
       });
       const data = await response.json();
       if (response.ok) {
+
         dispatch(loginSuccess(data));
         setTimeout(() => {
           navigate("/");
