@@ -1,62 +1,54 @@
-import React , {useState , useEffect}from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import { Success } from "../store/redux/authSlice";
+import { useDispatch } from "react-redux";
+import Profile from "../img/Untitled design.png";
+import { ToastContainer, toast } from 'react-toastify';
 
 function Setting() {
   const UserData = useSelector((state) => state.user.session);
-console.log(UserData)
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [admin, setAdmin] = useState("");
   const [detail, setDetail] = useState("");
-  
+
   const [image, setImage] = useState(null);
-    const UpdateProducts = async (e ) => {
-      e.preventDefault()
-      
-      const data = new FormData()
-      data.append('image', image)
-      data.append('name', name)     
-      data.append('email',email)
-      data.append('password',password)  
-      data.append('admin',admin)   
-      data.append('detail',detail)   
+  const UpdateProducts = async (e) => {
+    e.preventDefault();
 
-      const response = await fetch(`http://localhost:3000/user/${UserData._id}`, {
-        method: "PUT",
-        body: data 
-      });
-      const json = await response.json();
-      dispatch(Success(json))
+    const data = new FormData();
+    data.append("image", image);
+    data.append("name", name);
+    data.append("admin", admin);
+    data.append("detail", detail);
 
-      if (response.ok) {
-     
-  console.log('data is right')
-      }
-      
-       
-    };
-    const submitHandler = (e) => {
-      setImage(e.target.files[0]);
-    };
-    useEffect(() => {
-  if(UserData){
-    setEmail(UserData.email)
-    setName(UserData.name)
-    setPassword(UserData.password)
-    setAdmin(UserData.admin)
-    setImage(UserData.image)
-    setDetail(UserData.detail)
+    const response = await fetch(`http://localhost:3000/user/${UserData._id}`, {
+      method: "PUT",
+      body: data,
+    });
+    const json = await response.json();
+    dispatch(Success(json));
+    if (response.ok) {
+      toast.success('Successfully User Is Updated!', {
+        position: toast.POSITION.TOP_RIGHT
+    });
+    }
+  };
+  const submitHandler = (e) => {
+    setImage(e.target.files[0]);
+  };
+  useEffect(() => {
+    if (UserData) {
+      setName(UserData.name);
+      setAdmin(UserData.admin);
+      setImage(UserData.image);
+      setDetail(UserData.detail);
+    }
+  }, []);
 
-  }
-    }, [])
-    
   const Container = styled.div`
     .wrapper {
       margin: auto;
@@ -77,21 +69,20 @@ const dispatch = useDispatch();
     }
 
     .border-container {
-      border: 5px dashed rgba(198, 198, 198, 0.65);
+      border: 5px dashed rgb(243, 82, 90);
       padding: 20px;
     }
     .icons {
       color: #95afc0;
       opacity: 0.55;
     }
-   
   `;
   return (
     <div>
       <div className="justify-content-center">
         <div class="bg-secondary p-5 ">
           <div className="container-sm">
-            <form >
+            <form>
               <div class="row g-3">
                 <div class="col-lg-4">
                   <div className=" bg-secondary text-center">
@@ -100,8 +91,10 @@ const dispatch = useDispatch();
                       alt=""
                       class="img-fluid mt-4 "
                       style={{
-                        borderRadius: "50%",
-                        width: "50%",
+                       width:'auto', 
+                       maxHeight:'50%', 
+                        maxWidth:'50%',
+                        
                       }}
                     />
                   </div>
@@ -113,6 +106,8 @@ const dispatch = useDispatch();
                     >
                       <p>
                         {" "}
+                       
+                        <br/>
                         {UserData.name}
                         <br /> {UserData.email}{" "}
                       </p>
@@ -138,36 +133,43 @@ const dispatch = useDispatch();
                 </div>
 
                 <div class="col-12  col-md-6 col-sm-9 mx-auto ">
-                <input
-              type="file"
-              onChange={submitHandler}
-             style={{marginTop:'15px'}}
-             
-            />
-                  <input
-                    type="email"
-                    class="form-control bg-white border-0 mt-2 "
-                    placeholder="Your Name"
-                    value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    style={{ height: "55px" }}
-                  />
-                  <input
-                    type="name"
-                    class="form-control bg-white border-0 mt-4"
-                    placeholder="Phone number"
-                    style={{ height: "55px" }}
-                    value={name}
+                  <Container>
+                    <div class="wrapper">
+                      <div class="container">
+                        <div class="upload-container">
+                          <div class="border-container">
+                            <div class="icons fa-4x">
+                              <img src={Profile} alt="" width={100} />
+                            </div>
+                            <input
+                              required
+                              type="file"
+                              id="file-upload"
+                              onChange={submitHandler}
+                              style={{ marginTop: "15px" }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Container>
+
+                
+
+                  <div class="input-group ">
+                    <button class="btn  btn-primary mt-4" type="button">
+                      Name
+                    </button>
+                    <input
+                      type="name"
+                      class="form-control bg-white border-0 mt-4"
+                      placeholder="Phone number"
+                      style={{ height: "55px" }}
+                      value={name}
                       onChange={(e) => setName(e.target.value)}
-                  />
-                   <input
-                    type="password"
-                    class="form-control bg-white border-0 mt-4"
-                    placeholder="Phone number"
-                    style={{ height: "55px" }}
-                    value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                  />
+                    />
+                  </div>
+
                   <div class="form-check form-check-inline mt-4">
                     <input
                       required
@@ -189,21 +191,30 @@ const dispatch = useDispatch();
                       id="flexRadioDefault2"
                       value="user"
                       onChange={(e) => setAdmin(e.target.value)}
-
                     />
                     User
                   </div>
-                  <textarea
-                    class="form-control bg-white border-0 mt-4"
-                    rows="5"
-                    placeholder="Detail"
-                    value={detail}
-                    onChange={(e) => setDetail(e.target.value)}
-                  ></textarea>
-
-                  <button class="btn btn-primary w-100 py-3 mt-4" type="submit" onClick={UpdateProducts}>
+                  <div class="input-group ">
+                    <button class="btn  btn-primary mt-4" type="button">
+                      Detail
+                    </button>
+                    <textarea
+                      class="form-control bg-white border-0 mt-4"
+                      rows="5"
+                      placeholder="Detail"
+                      value={detail}
+                      onChange={(e) => setDetail(e.target.value)}
+                    ></textarea>
+                  </div>
+                  <button
+                    class="btn btn-primary w-100 py-3 mt-4"
+                    type="submit"
+                    onClick={UpdateProducts}
+                  >
                     Save
                   </button>
+<ToastContainer />
+
                 </div>
               </div>
             </form>

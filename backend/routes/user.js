@@ -4,7 +4,7 @@ const multer = require("multer");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 
-const { Users, Register , LoginController  , updateProfile} = require("../controllers/user");
+const { Users, Register , LoginController  , updateUser , deleteUserData ,  sendEmail} = require("../controllers/user");
 const UserRoute = express.Router();
 // Multer
 const storage = multer.diskStorage({
@@ -188,7 +188,7 @@ passport.deserializeUser(function (id, done) {
     done(err, user);
   });
 });
-// All users
+// All Users
 UserRoute.get("/", Users);
 // User is register
 UserRoute.post("/register", upload.single("image"), Register);
@@ -197,5 +197,11 @@ UserRoute.get("/logout", (req, res) => {
   res.clearCookie("connect.sid", { path: "/" });
   return res.redirect("http://localhost:3000/login");
 });
-UserRoute.put('/:id',  upload.single('image'), updateProfile)
+// User is updated
+UserRoute.put('/:id',  upload.single('image'), updateUser)
+// User is deleted
+
+UserRoute.delete('/:id',   deleteUserData)
+UserRoute.post('/email', sendEmail)
+
 module.exports = UserRoute;

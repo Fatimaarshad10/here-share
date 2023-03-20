@@ -10,8 +10,6 @@ import { Success } from "../store/redux/authSlice";
 import { useSelector } from "react-redux";
 
 function Header() {
-
-
   const UserData = useSelector((state) => state.user.session);
   const dispatch = useDispatch();
   // User is authenticated
@@ -30,7 +28,7 @@ function Header() {
           return res.json();
         })
         .then((data) => {
-          console.log(data.user)
+          console.log(data.user);
           dispatch(Success(data.user));
         })
         .catch((err) => {
@@ -106,33 +104,49 @@ function Header() {
                     <>
                       <div class="col-xl-6 col-lg-12 col-md-6">
                         <div class="blog-item ">
-                         
-                           
-   
-                        <div class="btn-group">
-  <div class="dropdown">
-    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-      <img src={UserData.image} alt="Snow" width={40} style={{borderRadius:'50%'}}/>
-    </a>
+                          <div class="btn-group">
+                            <div class="dropdown">
+                              <a
+                                class="dropdown-toggle"
+                                href="#"
+                                role="button"
+                                id="dropdownMenuLink"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                              >
+                                <img
+                                  src={UserData.image}
+                                  alt="Snow"
+                                  width={40}
+                                  style={{ borderRadius: "50%" }}
+                                />
+                              </a>
 
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-      <Link to="/user/detail">
-                      <a href="#" class="dropdown-item">
-                    Profile
-                      </a>
-                    </Link>
-                    <Link to="/setting">
-                      <a href="#" class="dropdown-item">
-                   Setting
-                      </a>
-                    </Link>
-    </ul>
-  </div>
-</div>
-
+                              <ul
+                                class="dropdown-menu"
+                                aria-labelledby="dropdownMenuLink"
+                              >
+                                <Link to="/user/detail">
+                                  <a href="#" class="dropdown-item">
+                                    Profile
+                                  </a>
+                                </Link>
+                                <Link to="/setting">
+                                  <a href="#" class="dropdown-item">
+                                    Setting
+                                  </a>
+                                </Link>
+                                <button
+                                  class="btn btn-primary ms-2 "
+                                  onClick={logout}
+                                >
+                                  logout
+                                </button>
+                              </ul>
+                            </div>
+                          </div>
                         </div>
                       </div>
-
                     </>
                   )}
                 </p>
@@ -185,9 +199,6 @@ function Header() {
               <div class="dropdown-menu m-0">
                 {UserData ? (
                   <>
-                    <button class="btn btn-primary ms-3 w-50" onClick={logout}>
-                      logout
-                    </button>
                     <Link to="/form ">
                       <a href="#" class="dropdown-item">
                         Quote Form
@@ -204,7 +215,6 @@ function Header() {
                         Blog
                       </a>
                     </Link>
-                   
                   </>
                 ) : (
                   <>

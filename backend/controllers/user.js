@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-
+const nodemailer = require('nodemailer');
 /* All User Data   */
 const Users = async (req, res) => {
   const userData = await User.find({});
@@ -41,7 +41,7 @@ const Register = async (req, res) => {
 };
 // Login for user
 const LoginController = (req, res, next) => {
-  passport.authenticate('local', (err, user) => {
+  passport.authenticate("local", (err, user) => {
     if (err) {
       return next(err);
     }
@@ -56,7 +56,7 @@ const LoginController = (req, res, next) => {
     });
   })(req, res, next);
 };
-const updateProfile = async (req, res) => {
+const updateUser = async (req, res) => {
   const { id } = req.params;
   try {
     let updateData = { ...req.body };
@@ -69,7 +69,9 @@ const updateProfile = async (req, res) => {
       { _id: id },
       {
         ...updateData,
-        ...(req.file ? { profile: req.file.filename } : req.body.image),
+        ...(req.file
+          ? { image: `http://localhost:4000/profile/${req.file.filename}` }
+          : req.body.image),
       },
       { new: true } // to return the updated document
     );
@@ -78,10 +80,46 @@ const updateProfile = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
+const deleteUserData = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleteUser = await User.findByIdAndDelete({ _id: id });
+    res.status(200).json(deleteUser);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
+const  sendEmail = async(req,res)=>{
+  const {email} = req.body
+  let transporter = nodemailer.createTransport({
+   service : 'gmail',
+    auth: {
+        user: 'fatimaarshad118@gmail.com',
+        pass: '123',
+    }
+})
+let message = {
+  from: email ,
+  to: 'fatimaarshad118@gmail.com',
+  subject: `Message from `,
+  
+};
 
+transporter.sendMail(message, (err, info) => {
+  if (err) {
+      console.log('Error occurred. ' + err.message);
+      res.send('error')
+  }
+
+  console.log('Message sent: %s');
+});
+
+}
 module.exports = {
   Users,
   Register,
   LoginController,
-  updateProfile
+  updateUser,
+  deleteUserData,
+  sendEmail
 };
