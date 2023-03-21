@@ -10,6 +10,7 @@ import { Success } from "../store/redux/authSlice";
 import { useSelector } from "react-redux";
 
 function Header() {
+
   const UserData = useSelector((state) => state.user.session);
   const dispatch = useDispatch();
   // User is authenticated
@@ -28,7 +29,6 @@ function Header() {
           return res.json();
         })
         .then((data) => {
-          console.log(data.user);
           dispatch(Success(data.user));
         })
         .catch((err) => {
@@ -42,6 +42,7 @@ function Header() {
     window.open("http://localhost:4000/user/logout", "_self");
     persistor.purge();
   };
+
 
   useEffect(() => {
     $(document).ready(function () {
@@ -95,7 +96,7 @@ function Header() {
             </div>
           </div>
           <div class="col-md-6 text-center text-lg-end">
-            <div class="position-relative d-inline-flex align-items-center bg-primary text-white  px-5">
+            <div class="position-relative d-inline-flex align-items-center  text-white  px-5">
               <div class=" ms-3 pe-1 py-1">
                 <p>
                   {!UserData ? (
@@ -132,7 +133,7 @@ function Header() {
                                   </a>
                                 </Link>
                                 <Link to="/setting">
-                                  <a href="#" class="dropdown-item">
+                                  <a href="#" class="dropdown-item mb-1">
                                     Setting
                                   </a>
                                 </Link>

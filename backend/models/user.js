@@ -27,10 +27,14 @@ const User = new Schema(
     gitHub: {
       type: String,
     },
-    detail:{
-      type:String,
-      required : false
-    }
+    detail: {
+      type: String,
+      required: false,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

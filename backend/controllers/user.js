@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 /* All User Data   */
 const Users = async (req, res) => {
   const userData = await User.find({});
@@ -89,37 +89,39 @@ const deleteUserData = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
-const  sendEmail = async(req,res)=>{
-  const {email} = req.body
+const sendEmail = async (req, res) => {
+  const { email, message } = req.body;
   let transporter = nodemailer.createTransport({
-   service : 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+
     auth: {
-        user: 'fatimaarshad118@gmail.com',
-        pass: '123',
+      user: "fatimaarshad118@gmail.com",
+      pass: "bxelzfcljaixktcb",
+    },
+  });
+  let emailData = {
+    from: email,
+    to: "fatimaarshad118@gmail.com",
+    subject: `Message from ${email}`,
+    text: message,
+  };
+  transporter.sendMail(emailData, function (error, info) {
+    if (error) {
+      console.log("Error in sending email  " + error);
+      return true;
+    } else {
+      res.status(200).json("Email sent: " + info.response);
+      return false;
     }
-})
-let message = {
-  from: email ,
-  to: 'fatimaarshad118@gmail.com',
-  subject: `Message from `,
-  
+  });
 };
 
-transporter.sendMail(message, (err, info) => {
-  if (err) {
-      console.log('Error occurred. ' + err.message);
-      res.send('error')
-  }
-
-  console.log('Message sent: %s');
-});
-
-}
 module.exports = {
   Users,
   Register,
   LoginController,
   updateUser,
   deleteUserData,
-  sendEmail
+  sendEmail,
 };
