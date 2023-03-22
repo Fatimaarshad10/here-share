@@ -5,6 +5,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const Users = require("./routes/user");
+const Posts = require('./routes/post')
 const passport = require("passport");
 const mongoose = require("mongoose");
 const main = express();
@@ -26,6 +27,8 @@ main.use(express.json());
 main.use(cors());
 main.use(express.urlencoded({ extended: "true" }));
 main.use("/user", Users);
+main.use("/post", Posts);
+
 // Connect with mongodb
 mongoose
   .connect(process.env.MONGO_URI, {
