@@ -8,6 +8,7 @@ const Users = require("./routes/user");
 const Posts = require('./routes/post')
 const passport = require("passport");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const main = express();
 // image folder
 main.use('/profile', express.static('./images'));
@@ -28,6 +29,7 @@ main.use(cors());
 main.use(express.urlencoded({ extended: "true" }));
 main.use("/user", Users);
 main.use("/post", Posts);
+main.use(bodyParser.json());
 
 // Connect with mongodb
 mongoose

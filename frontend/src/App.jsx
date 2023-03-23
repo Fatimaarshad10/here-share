@@ -16,6 +16,7 @@ import Update from "./user/update.jsx";
 import { useSelector } from "react-redux";
 import { GlobalStyle } from "../src/styles/global";
 import Setting from "./user/setting";
+
 function App() {
   const UserData = useSelector((state) => state.user.session);
 
@@ -44,6 +45,7 @@ function App() {
               <Route path="/login" element={<Login />} />
             </>
           )}
+        
         </Routes>
         <Footer />
       </div>

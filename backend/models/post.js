@@ -6,17 +6,15 @@ const Post = new Schema(
       type: String,
       required: true,
     },
-    desciption: {
+    description: {
       type: String,
       required: true,
     },
-  
-    created_at: {
-        type: Date,
-        default: Date.now
-      },
-      
-    
+    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    postImage:{
+      type: String,
+      required: true,
+    }
   },
   { timestamps: true }
 );

@@ -195,7 +195,7 @@ function Setting() {
                     User
                   </div>
                   <div class="input-group ">
-                    <button class="btn  btn-primary mt-4" type="button">
+                    <button class="btn  btn-primary mt-4" type="button" maxLength={10}>
                       Detail
                     </button>
                     <textarea

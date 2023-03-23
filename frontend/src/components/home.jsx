@@ -10,6 +10,7 @@ import Service from "./service";
 import LatestUser from "./latestUser";
 import Feature from "./feature";
 import Aboutpart1 from "./aboutpart1";
+
 function Home() {
   
     useEffect(() => {
