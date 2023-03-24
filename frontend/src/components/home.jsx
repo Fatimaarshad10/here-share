@@ -10,6 +10,7 @@ import Service from "./service";
 import LatestUser from "./latestUser";
 import Feature from "./feature";
 import Aboutpart1 from "./aboutpart1";
+import { Link } from "react-router-dom";
 
 function Home() {
   
@@ -56,12 +57,10 @@ function Home() {
                   >
                     Get Quote
                   </a>
-                  <a
-                    href="/hasdas"
-                    class="btn btn-secondary py-md-3 px-md-5 rounded-pill"
-                  >
+                  <Link to="/contact"   class="btn btn-secondary py-md-3 px-md-5 rounded-pill">
+                  
                     Contact Us
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -81,12 +80,10 @@ function Home() {
                   >
                     Get Quote
                   </a>
-                  <a
-                    href="contact"
-                    class="btn btn-secondary py-md-3 px-md-5 rounded-pill"
-                  >
+                  <Link to="/contact"   class="btn btn-secondary py-md-3 px-md-5 rounded-pill">
+                  
                     Contact Us
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

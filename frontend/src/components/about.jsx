@@ -5,6 +5,7 @@ import Aboutpart1 from './aboutpart1'
 import TeamMember from './teamMember'
 
 function About() {
+
   return (
     <>
      <div class="container-fluid bg-dark p-5">

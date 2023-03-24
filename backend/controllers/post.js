@@ -1,31 +1,36 @@
-const   Post = require("../models/post");
+const Post = require("../models/post");
+const User = require("../models/user");
 
 const Posts = async (req, res) => {
   const PostData = await Post.find({});
   res.status(200).json(PostData);
 };
-const CreatePost = async (req, res) => {
-    const { title, description } = req.body;
-    const { id } = req.params;
-    try {
-      
-      const newPost = new Post({ title, description  , user: id , 
-        postImage:`http://localhost:4000/profile/${req.file.filename}`})
-  
-      newPost.save((err, post) => {
-        if (err) {
-          console.error(err);
-          res.status(400).send(err.message);
-        } else {
-          res.status(400).send(newPost);
 
-        }})
-    }catch(err){
-        console.log(err.message)
-    }
-}
+const CreatePost = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Fetch the user details using the user ID
+    const user = await User.findById(id);
+    // Create a new post object with the user details
+    const post = new Post({
+      image: `http://localhost:4000/profile/${req.file.filename}`,
+      title: req.body.title,
+      description: req.body.description,
+      user: user,
+    });
+
+    // Save the post and user details together
+    const savedPost = await post.save();
+
+    // Send the saved post data in the response
+    res.status(200).json(savedPost);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
 
 module.exports = {
   Posts,
-  CreatePost
+  CreatePost,
 };

@@ -16,6 +16,7 @@ import Update from "./user/update.jsx";
 import { useSelector } from "react-redux";
 import { GlobalStyle } from "../src/styles/global";
 import Setting from "./user/setting";
+import AddPost from "./post/add_post";
 
 function App() {
   const UserData = useSelector((state) => state.user.session);
@@ -25,6 +26,7 @@ function App() {
       <div>
         <GlobalStyle />
         <Header />
+
         <Routes>
           {UserData ? (
             <>
@@ -38,6 +40,7 @@ function App() {
               <Route path="/setting" element={<Setting />} />
               <Route path="/update" element={<Update />} />
               <Route path="/user/detail" element={<UserDetails />} />
+              <Route path="/post/create" element={<AddPost />} />
             </>
           ) : (
             <>
@@ -45,7 +48,6 @@ function App() {
               <Route path="/login" element={<Login />} />
             </>
           )}
-        
         </Routes>
         <Footer />
       </div>

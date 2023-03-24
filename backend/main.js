@@ -12,6 +12,7 @@ const bodyParser = require("body-parser");
 const main = express();
 // image folder
 main.use('/profile', express.static('./images'));
+
 main.use(cookieParser());
 // for session
 main.use(

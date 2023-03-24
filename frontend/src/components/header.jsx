@@ -118,8 +118,8 @@ function Header() {
                                 <img
                                   src={UserData.image}
                                   alt="Snow"
-                                  width={40}
-                                  style={{ borderRadius: "50%" }}
+                                  width={60}
+                                  style={{ borderRadius: "50%" ,height: '10vh'}}
                                 />
                               </a>
 
@@ -173,7 +173,7 @@ function Header() {
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <div class="navbar-nav ms-auto py-0 me-n3">
             <Link to="/">
-              <a href="#" class="nav-item nav-link active">
+              <a href="#" class="nav-item nav-link ">
                 Home
               </a>
             </Link>

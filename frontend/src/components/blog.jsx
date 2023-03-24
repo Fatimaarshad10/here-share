@@ -1,251 +1,76 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import blog1 from '../img/blog-1.jpg'
 function Blog() {
+    const UserData = useSelector((state) => state.user.session);
+  console.log(UserData);
+  const [post, setPost] = useState("");
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/post")
+      .then((response) => {
+        setPost(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  console.log(post);
+  function formatDate(dateString) {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      
+    };
+
+    return new Date(dateString).toLocaleString("en-US", options);
+  }
   return (
     <>
      <div class="container-fluid py-6 px-5">
         <div class="row g-5">
             {/* <!-- Blog list Start --> */}
+            {post ? (
+            <>
             <div class="col-lg-8">
                 <div class="row g-5">
-                    <div class="col-xl-6 col-lg-12 col-md-6">
+                {post.map((data) => (
+                    <div class="col-xl-6 col-lg-12 col-md-6" key={data._id}>
                         <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid" src={blog1} alt=""/>
+                            <div class="position-relative overflow-hidden" style={{  height: '35vh'}}>
+                                <img class="img-fluid" src={data.image} alt=""/>
                             </div>
                             <div class="bg-secondary d-flex">
                                 <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
+                                   
+                                    <span>{formatDate(data.createdAt)}</span>
                                 </div>
                                 <div class="d-flex flex-column justify-content-center py-3 px-4">
                                     <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
+                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>{data.user.name}</small>
                                     </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
+                                    <a class="h4" href="">{data.title}</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid" src={blog1} alt=""/>
-                            </div>
-                            <div class="bg-secondary d-flex">
-                                <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center py-3 px-4">
-                                    <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
-                                    </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                                <img class="img-fluid" src={blog1} alt=""/>
-                            </div>
-                            <div class="bg-secondary d-flex">
-                                <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center py-3 px-4">
-                                    <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
-                                    </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src={blog1} alt=""/>
-
-                            </div>
-                            <div class="bg-secondary d-flex">
-                                <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center py-3 px-4">
-                                    <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
-                                    </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src={blog1} alt=""/>
-
-                            </div>
-                            <div class="bg-secondary d-flex">
-                                <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center py-3 px-4">
-                                    <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
-                                    </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src={blog1} alt=""/>
-
-                            </div>
-                            <div class="bg-secondary d-flex">
-                                <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center py-3 px-4">
-                                    <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
-                                    </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src={blog1} alt=""/>
-
-                            </div>
-                            <div class="bg-secondary d-flex">
-                                <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center py-3 px-4">
-                                    <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
-                                    </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src={blog1} alt=""/>
-
-                            </div>
-                            <div class="bg-secondary d-flex">
-                                <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center py-3 px-4">
-                                    <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
-                                    </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src={blog1} alt=""/>
-
-                            </div>
-                            <div class="bg-secondary d-flex">
-                                <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center py-3 px-4">
-                                    <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
-                                    </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item">
-                            <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src={blog1} alt=""/>
-
-                            </div>
-                            <div class="bg-secondary d-flex">
-                                <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                                    <span>01</span>
-                                    <h5 class="text-uppercase m-0">Jan</h5>
-                                    <span>2045</span>
-                                </div>
-                                <div class="d-flex flex-column justify-content-center py-3 px-4">
-                                    <div class="d-flex mb-2">
-                                        <small class="text-uppercase me-3"><i class="bi bi-person me-2"></i>Admin</small>
-                                        <small class="text-uppercase me-3"><i class="bi bi-bookmarks me-2"></i>Web Design</small>
-                                    </div>
-                                    <a class="h4" href="">Magna sea dolor ipsum amet lorem eos</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <nav aria-label="Page navigation">
-                          <ul class="pagination pagination-lg m-0">
-                            <li class="page-item disabled">
-                              <a class="page-link rounded-0" href="#" aria-label="Previous">
-                                <span aria-hidden="true"><i class="bi bi-arrow-left"></i></span>
-                              </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                              <a class="page-link rounded-0" href="#" aria-label="Next">
-                                <span aria-hidden="true"><i class="bi bi-arrow-right"></i></span>
-                              </a>
-                            </li>
-                          </ul>
-                        </nav>
-                    </div>
+                    ))}
+                    
+                    
+                    
+                    
+                    
+                   
+                    
+                    
                 </div>
             </div>
+            </>
+          ) : (
+            <></>
+          )}
             {/* <!-- Blog list End --> */}
             {/* <!-- Sidebar Start --> */}
             <div class="col-lg-4">

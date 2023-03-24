@@ -10,11 +10,14 @@ const Post = new Schema(
       type: String,
       required: true,
     },
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    postImage:{
+    user: {
+      type: Object,
+      required: true,
+    },
+    image: {
       type: String,
       required: true,
-    }
+    },
   },
   { timestamps: true }
 );
