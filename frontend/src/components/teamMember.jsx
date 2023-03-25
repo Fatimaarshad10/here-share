@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
-
 import axios from "axios";
-
 function TeamMember() {
   const [user, setUser] = useState("");
   useEffect(() => {

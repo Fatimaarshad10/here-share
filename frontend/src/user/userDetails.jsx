@@ -9,7 +9,7 @@ function Blog() {
   const [post, setPost] = useState("");
   useEffect(() => {
     axios
-      .get("http://localhost:4000/post")
+      .get(`http://localhost:4000/post/${UserData._id}`)
       .then((response) => {
         setPost(response.data);
       })

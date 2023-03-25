@@ -29,8 +29,23 @@ const CreatePost = async (req, res) => {
     res.status(400).json(err.message);
   }
 };
+const GetUserPosts = async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    // Fetch the user details using the user ID
+    const user = await User.findById(id);
+    // Fetch all posts created by the user
+    const posts = await Post.find({ user: user });
+
+    // Send the posts data in the response
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
 module.exports = {
   Posts,
   CreatePost,
+  GetUserPosts
 };
