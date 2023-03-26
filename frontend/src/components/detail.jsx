@@ -1,197 +1,262 @@
-import React from 'react'
-import Blog1 from '../img/blog-1.jpg'
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Blog1 from "../img/blog-1.jpg";
+import { ToastContainer, toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
-import user from '../img/user.jpg'
 function Detail() {
+  const UserData = useSelector((state) => state.user.session);
+  const [detail, setDetail] = useState("");
+  const [comment, setComment] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const POSTS_PER_PAGE = 3;
+  function formatDate(dateString) {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+
+    return new Date(dateString).toLocaleString("en-US", options);
+  }
+  const { id } = useParams();
+  const PostDetail = async () => {
+    const response = await fetch(`http://localhost:4000/post/data/${id}`, {
+      method: "GET",
+    });
+    const json = await response.json();
+    setDetail(json);
+    if (response.ok) {
+      console.log("detail page is open ");
+    }
+  };
+
+  const addComment = async (e) => {
+    e.preventDefault();
+    const response = await fetch(
+      `http://localhost:4000/post/${detail._id}/comments`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          comment,
+        }),
+      }
+    );
+    const json = await response.json();
+    setDetail(json);
+    if (response.ok) {
+      toast.success("Successfully post is added ", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      console.log("comment is add ");
+    }
+  };
+  useEffect(() => {
+    PostDetail();
+  }, []);
+
   return (
     <>
-     {/* <!-- Blog Start --> */}
-    <div class="container-fluid py-6 px-5">
+      <div class="container-fluid py-6 px-5">
         <div class="row g-5">
-            <div class="col-lg-8">
-                {/* <!-- Blog Detail Start --> */}
-                <div class="mb-5">
-                    <img class="img-fluid w-100 mb-5" src={Blog1}alt=""/>
-                    <h1 class="mb-4">Diam dolor est labore duo ipsum clita sed et lorem tempor duo</h1>
-                    <p>Sadipscing labore amet rebum est et justo gubergren. Et eirmod ipsum sit diam ut
-                        magna lorem. Nonumy vero labore lorem sanctus rebum et lorem magna kasd, stet
-                        amet magna accusam consetetur eirmod. Kasd accusam sit ipsum sadipscing et at at
-                        sanctus et. Ipsum sit gubergren dolores et, consetetur justo invidunt at et
-                        aliquyam ut et vero clita. Diam sea sea no sed dolores diam nonumy, gubergren
-                        sit stet no diam kasd vero.</p>
-                    <p>Voluptua est takimata stet invidunt sed rebum nonumy stet, clita aliquyam dolores
-                        vero stet consetetur elitr takimata rebum sanctus. Sit sed accusam stet sit
-                        nonumy kasd diam dolores, sanctus lorem kasd duo dolor dolor vero sit et. Labore
-                        ipsum duo sanctus amet eos et. Consetetur no sed et aliquyam ipsum justo et,
-                        clita lorem sit vero amet amet est dolor elitr, stet et no diam sit. Dolor erat
-                        justo dolore sit invidunt.</p>
-                    <p>Diam dolor est labore duo invidunt ipsum clita et, sed et lorem voluptua tempor
-                        invidunt at est sanctus sanctus. Clita dolores sit kasd diam takimata justo diam
-                        lorem sed. Magna amet sed rebum eos. Clita no magna no dolor erat diam tempor
-                        rebum consetetur, sanctus labore sed nonumy diam lorem amet eirmod. No at tempor
-                        sea diam kasd, takimata ea nonumy elitr sadipscing gubergren erat. Gubergren at
-                        lorem invidunt sadipscing rebum sit amet ut ut, voluptua diam dolores at
-                        sadipscing stet. Clita dolor amet dolor ipsum vero ea ea eos.</p>
-                </div>
-                {/* <!-- Blog Detail End --> */}
-
-                {/* <!-- Comment List Start --> */}
-                <div class="mb-5">
-                    <h2 class="mb-4">3 Comments</h2>
-                    <div class="d-flex mb-4">
-                        <img src={user} class="img-fluid rounded-circle" style={{width: '45px', height: '45px'}}/>
-                        <div class="ps-3">
-                            <h6><a href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
-                            <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
-                                accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed eirmod</p>
-                            <button class="btn btn-sm btn-light">Reply</button>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-4">
-                        <img  src={user}  class="img-fluid rounded-circle" style={{width: '45px', height: '45px'}}/>
-                        <div class="ps-3">
-                            <h6><a href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
-                            <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
-                                accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed eirmod</p>
-                            <button class="btn btn-sm btn-light">Reply</button>
-                        </div>
-                    </div>
-                    <div class="d-flex ms-5 mb-4">
-                        <img  src={user}  class="img-fluid rounded-circle"style={{width: '45px', height: '45px'}}/>
-                        <div class="ps-3">
-                            <h6><a href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
-                            <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
-                                accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed eirmod</p>
-                            <button class="btn btn-sm btn-light">Reply</button>
-                        </div>
-                    </div>
-                </div>
-                {/* <!-- Comment List End --> */}
-
-                {/* <!-- Comment Form Start --> */}
-                <div class="bg-secondary p-5">
-                    <h2 class="mb-4">Leave a comment</h2>
-                    <form>
-                        <div class="row g-3">
-                            <div class="col-12 col-sm-6">
-                                <input type="text" class="form-control bg-white border-0" placeholder="Your Name" style={{height: '55px'}}/>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <input type="email" class="form-control bg-white border-0" placeholder="Your Email"  style={{height: '55px'}}/>
-                            </div>
-                            <div class="col-12">
-                                <input type="text" class="form-control bg-white border-0" placeholder="Website"  style={{height: '55px'}}/>
-                            </div>
-                            <div class="col-12">
-                                <textarea class="form-control bg-white border-0" rows="5" placeholder="Comment"></textarea>
-                            </div>
-                            <div class="col-12">
-                                <button class="btn btn-primary w-100 py-3" type="submit">Leave Your Comment</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                {/* <!-- Comment Form End --> */}
+          <div class="col-lg-8">
+            <div class="mb-5">
+              <img class="img-fluid w-100 mb-5" src={detail.image} alt="" />
+              <h1 class="mb-4">{detail.title}</h1>
+              <p>{detail.description}</p>
             </div>
 
-            {/* <!-- Sidebar Start --> */}
-            <div class="col-lg-4">
-                {/* <!-- Search Form Start --> */}
-                <div class="mb-5">
-                    <div class="input-group">
-                        <input type="text" class="form-control p-3" placeholder="Keyword"/>
-                        <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
+            {detail ? (
+              <div class="mb-5">
+                <h2 class="mb-4">{detail.comments.length} Comments</h2>
+                {detail.comments
+                  .slice(
+                    (currentPage - 1) * POSTS_PER_PAGE,
+                    currentPage * POSTS_PER_PAGE
+                  )
+                  .map((data) => (
+                    <div class="d-flex mb-4">
+                      <img
+                        src={detail.user.image}
+                        class="img-fluid rounded-circle"
+                        style={{ width: "45px", height: "45px" }}
+                      />
+                      <div class="ps-3">
+                        <h6>
+                          <a href="">{detail.user.name}</a>{" "}
+                          <small>
+                            <i>{formatDate(detail.user.createdAt)}</i>
+                          </small>
+                        </h6>
+                        <p>{data}</p>
+                        <button class="btn btn-sm btn-light">Reply</button>
+                      </div>
                     </div>
-                </div>
-                {/* <!-- Search Form End --> */}
-
-                {/* <!-- Category Start --> */}
-                <div class="mb-5">
-                    <h2 class="mb-4">Categories</h2>
-                    <div class="d-flex flex-column justify-content-start bg-secondary p-4">
-                        <a class="h5 mb-3" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Web Design</a>
-                        <a class="h5 mb-3" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Web Development</a>
-                        <a class="h5 mb-3" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Web Development</a>
-                        <a class="h5 mb-3" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Keyword Research</a>
-                        <a class="h5" href="#"><i class="bi bi-arrow-right text-primary me-2"></i>Email Marketing</a>
-                    </div>
-                </div>
-                {/* <!-- Category End --> */}
-
-                {/* <!-- Recent Post Start --> */}
-                <div class="mb-5">
-                    <h2 class="mb-4">Recent Post</h2>
-                    <div class="d-flex mb-3">
-                        <img class="img-fluid" src={Blog1} style={{width: '100px', height: '100px' , objectFit: 'cover'}} alt=""/>
-                        <a href="" class="h5 d-flex align-items-center bg-secondary px-3 mb-0">Lorem ipsum dolor sit amet adipis elit
+                  ))}
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center">
+                    <li
+                      class={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                    ></li>
+                    {Array.from({
+                      length: Math.ceil(
+                        detail.comments.length / POSTS_PER_PAGE
+                      ),
+                    }).map((_, index) => (
+                      <li
+                        key={index}
+                        class={`page-item ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
+                      >
+                        <a
+                          class="page-link"
+                          onClick={() => setCurrentPage(index + 1)}
+                        >
+                          {index + 1}
                         </a>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <img class="img-fluid" src={Blog1}  style={{width: '100px', height: '100px' , objectFit: 'cover'}} alt=""/>
-                        <a href="" class="h5 d-flex align-items-center bg-secondary px-3 mb-0">Lorem ipsum dolor sit amet adipis elit
-                        </a>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <img class="img-fluid" src={Blog1} style={{width: '100px', height: '100px' , objectFit: 'cover'}} alt=""/>
-                        <a href="" class="h5 d-flex align-items-center bg-secondary px-3 mb-0">Lorem ipsum dolor sit amet adipis elit
-                        </a>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <img class="img-fluid" src={Blog1} style={{width: '100px', height: '100px' , objectFit: 'cover'}} alt=""/>
-                        <a href="" class="h5 d-flex align-items-center bg-secondary px-3 mb-0">Lorem ipsum dolor sit amet adipis elit
-                        </a>
-                    </div>
-                    <div class="d-flex">
-                        <img class="img-fluid" src={Blog1} style={{width: '100px', height: '100px' , objectFit: 'cover'}} alt=""/>
-                        <a href="" class="h5 d-flex align-items-center bg-secondary px-3 mb-0">Lorem ipsum dolor sit amet adipis elit
-                        </a>
-                    </div>
-                </div>
-                {/* <!-- Recent Post End --> */}
+                      </li>
+                    ))}
+                    <li
+                      class={`page-item ${
+                        currentPage ===
+                        Math.ceil(detail.comments.length / POSTS_PER_PAGE)
+                          ? "disabled"
+                          : ""
+                      }`}
+                    ></li>
+                  </ul>
+                </nav>
+              </div>
+            ) : (
+              <></>
+            )}
 
-                {/* <!-- Image Start --> */}
-                <div class="mb-5">
-                    <img src={Blog1} alt="" class="img-fluid"/>
-                </div>
-                {/* <!-- Image End --> */}
+            <div class="bg-secondary p-5 ">
+              <h2 class="mb-4">Leave a comment</h2>
+              <form onSubmit={addComment}>
+                <div class="row g-3">
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="text"
+                      class="form-control bg-white border-0"
+                      placeholder="Your Name"
+                      value={UserData.name}
+                      style={{ height: "55px" }}
+                    />
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <input
+                      type="email"
+                      class="form-control bg-white border-0"
+                      placeholder="Your Email"
+                      value={UserData.email}
+                      style={{ height: "55px" }}
+                    />
+                  </div>
 
-                {/* <!-- Tags Start --> */}
-                <div class="mb-5">
-                    <h2 class="mb-4">Tag Cloud</h2>
-                    <div class="d-flex flex-wrap m-n1">
-                        <a href="" class="btn btn-secondary m-1">Design</a>
-                        <a href="" class="btn btn-secondary m-1">Development</a>
-                        <a href="" class="btn btn-secondary m-1">Marketing</a>
-                        <a href="" class="btn btn-secondary m-1">SEO</a>
-                        <a href="" class="btn btn-secondary m-1">Writing</a>
-                        <a href="" class="btn btn-secondary m-1">Consulting</a>
-                        <a href="" class="btn btn-secondary m-1">Design</a>
-                        <a href="" class="btn btn-secondary m-1">Development</a>
-                        <a href="" class="btn btn-secondary m-1">Marketing</a>
-                        <a href="" class="btn btn-secondary m-1">SEO</a>
-                        <a href="" class="btn btn-secondary m-1">Writing</a>
-                        <a href="" class="btn btn-secondary m-1">Consulting</a>
-                    </div>
+                  <div class="col-12">
+                    <textarea
+                      class="form-control bg-white border-0"
+                      rows="5"
+                      placeholder="Comment"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    ></textarea>
+                  </div>
+                  <div class="col-12">
+                    <button class="btn btn-primary w-100 py-3" type="submit">
+                      Leave Your Comment
+                    </button>
+                  </div>
                 </div>
-                {/* <!-- Tags End --> */}
-
-                {/* <!-- Plain Text Start --> */}
-                <div>
-                    <h2 class="mb-4">Plain Text</h2>
-                    <div class="bg-secondary text-center" style={{padding: '30px'}}>
-                        <p>Vero sea et accusam justo dolor accusam lorem consetetur, dolores sit amet sit dolor clita kasd justo, diam accusam no sea ut tempor magna takimata, amet sit et diam dolor ipsum amet diam</p>
-                        <a href="" class="btn btn-primary rounded-pill py-2 px-4">Read More</a>
-                    </div>
-                </div>
-                {/* <!-- Plain Text End --> */}
+              </form>
             </div>
-            {/* <!-- Sidebar End --> */}
+          </div>
+
+          <div class="col-lg-4">
+            <div class="mb-5">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control p-3"
+                  placeholder="Keyword"
+                />
+                <button class="btn btn-primary px-4">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="mb-5">
+              <img src={Blog1} alt="" class="img-fluid" />
+            </div>
+
+            <div class="mb-5">
+              <h2 class="mb-4">Tag Cloud</h2>
+              <div class="d-flex flex-wrap m-n1">
+                <a href="" class="btn btn-secondary m-1">
+                  Design
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  Development
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  Marketing
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  SEO
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  Writing
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  Consulting
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  Design
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  Development
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  Marketing
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  SEO
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  Writing
+                </a>
+                <a href="" class="btn btn-secondary m-1">
+                  Consulting
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h2 class="mb-4">Plain Text</h2>
+              <div class="bg-secondary text-center" style={{ padding: "30px" }}>
+                <p>
+                  Vero sea et accusam justo dolor accusam lorem consetetur,
+                  dolores sit amet sit dolor clita kasd justo, diam accusam no
+                  sea ut tempor magna takimata, amet sit et diam dolor ipsum
+                  amet diam
+                </p>
+                <a href="" class="btn btn-primary rounded-pill py-2 px-4">
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-    {/* <!-- Blog End --> */}
-
+      </div>
+      <ToastContainer />
     </>
-  )
+  );
 }
 
-export default Detail
+export default Detail;

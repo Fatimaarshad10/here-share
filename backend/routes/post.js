@@ -12,11 +12,13 @@ const storage = multer.diskStorage({
   });
   const upload = multer({ storage: storage });
 const PostRoute = express.Router();
-const { Posts ,  CreatePost , GetUserPosts} = require("../controllers/post");
+const { Posts ,  CreatePost , GetUserPosts , GetOnePost , comments} = require("../controllers/post");
 // All Post
 PostRoute.get("/" , Posts);
 // Create a post 
 PostRoute.post("/create/:id" ,upload.single('image'),   CreatePost);
 PostRoute.get("/:id" , GetUserPosts);
+PostRoute.get("/data/:id",  GetOnePost );
+PostRoute.post("/:id/comments",  comments );
 
 module.exports = PostRoute;

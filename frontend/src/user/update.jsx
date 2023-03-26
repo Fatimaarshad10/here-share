@@ -6,10 +6,12 @@ import { Success } from "../store/redux/authSlice";
 import { useDispatch } from "react-redux";
 import Profile from "../img/Untitled design.png";
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 function Setting() {
   const UserData = useSelector((state) => state.user.session);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [admin, setAdmin] = useState("");
@@ -32,6 +34,9 @@ function Setting() {
     const json = await response.json();
     dispatch(Success(json));
     if (response.ok) {
+      setTimeout(() => {
+        navigate("/user/detail");
+      }, 1000);
       toast.success('Successfully User Is Updated!', {
         position: toast.POSITION.TOP_RIGHT
     });

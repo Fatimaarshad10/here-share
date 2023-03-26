@@ -73,6 +73,7 @@ const updateUser = async (req, res) => {
           ? { image: `http://localhost:4000/profile/${req.file.filename}` }
           : req.body.image),
       },
+    
       { new: true } // to return the updated document
     );
     res.status(200).json(UserData);
@@ -116,7 +117,19 @@ const sendEmail = async (req, res) => {
     }
   });
 };
+const  GetOneUser = async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    // Fetch the post details using the post ID
+    const post = await User.findById(id);
+
+    // Send the post data in the response
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+}
 module.exports = {
   Users,
   Register,
@@ -124,4 +137,5 @@ module.exports = {
   updateUser,
   deleteUserData,
   sendEmail,
+  GetOneUser
 };

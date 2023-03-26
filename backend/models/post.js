@@ -11,13 +11,19 @@ const Post = new Schema(
       required: true,
     },
     user: {
-      type: Object,
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
+ 
     image: {
       type: String,
       required: true,
     },
+    comments: {
+      type: [String],
+      default: []
+    }
   },
   { timestamps: true }
 );

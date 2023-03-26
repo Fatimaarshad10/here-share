@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import $ from "jquery";
 import "owl.carousel";
 import "../css/bootstrap.min.css";
@@ -10,7 +10,6 @@ import { Success } from "../store/redux/authSlice";
 import { useSelector } from "react-redux";
 
 function Header() {
-
   const UserData = useSelector((state) => state.user.session);
   const dispatch = useDispatch();
   // User is authenticated
@@ -43,7 +42,6 @@ function Header() {
     persistor.purge();
   };
 
-
   useEffect(() => {
     $(document).ready(function () {
       // Your jQuery code here
@@ -74,88 +72,6 @@ function Header() {
   }, []);
   return (
     <>
-      <div class="container-fluid bg-secondary ps-5 pe-0 d-none d-lg-block">
-        <div class="row gx-0">
-          <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
-            <div class="d-inline-flex align-items-center">
-              <a class="text-body py-2 pe-3 border-end" href="#">
-                <small>FAQs</small>
-              </a>
-              <a class="text-body py-2 px-3 border-end" href="#">
-                <small>Support</small>
-              </a>
-              <a class="text-body py-2 px-3 border-end" href="#">
-                <small>Privacy</small>
-              </a>
-              <a class="text-body py-2 px-3 border-end" href="#">
-                <small>Policy</small>
-              </a>
-              <a class="text-body py-2 ps-3" href="#">
-                <small>Career</small>
-              </a>
-            </div>
-          </div>
-          <div class="col-md-6 text-center text-lg-end">
-            <div class="position-relative d-inline-flex align-items-center  text-white  px-5">
-              <div class=" ms-3 pe-1 py-1">
-                <p>
-                  {!UserData ? (
-                    " "
-                  ) : (
-                    <>
-                      <div class="col-xl-6 col-lg-12 col-md-6">
-                        <div class="blog-item ">
-                          <div class="btn-group">
-                            <div class="dropdown">
-                              <a
-                                class="dropdown-toggle"
-                                href="#"
-                                role="button"
-                                id="dropdownMenuLink"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                              >
-                                <img
-                                  src={UserData.image}
-                                  alt="Snow"
-                                  width={60}
-                                  style={{ borderRadius: "50%" ,height: '10vh'}}
-                                />
-                              </a>
-
-                              <ul
-                                class="dropdown-menu"
-                                aria-labelledby="dropdownMenuLink"
-                              >
-                                <Link to="/user/detail">
-                                  <a href="#" class="dropdown-item">
-                                    Profile
-                                  </a>
-                                </Link>
-                                <Link to="/setting">
-                                  <a href="#" class="dropdown-item mb-1">
-                                    Setting
-                                  </a>
-                                </Link>
-                                <button
-                                  class="btn btn-primary ms-2 "
-                                  onClick={logout}
-                                >
-                                  logout
-                                </button>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
         <a href="#" class="navbar-brand p-0">
           <h1 class="m-0 text-uppercase text-primary">
@@ -200,17 +116,6 @@ function Header() {
               <div class="dropdown-menu m-0">
                 {UserData ? (
                   <>
-                    <Link to="/form ">
-                      <a href="#" class="dropdown-item">
-                        Quote Form
-                      </a>
-                    </Link>
-
-                    <Link to="/detail">
-                      <a href="#" class="dropdown-item">
-                        Blog Detail
-                      </a>
-                    </Link>
                     <Link to="/blog">
                       <a href="#" class="dropdown-item">
                         Blog
@@ -236,10 +141,56 @@ function Header() {
               </div>
             </div>
             <Link to="/contact">
-              <a href="#" class="nav-item nav-link">
+              <a href="#" class="nav-item nav-link me-2">
                 Contact
               </a>
             </Link>
+
+            <div>
+              {!UserData ? (
+                " "
+              ) : (
+                <>
+                  <div class="dropdown">
+                    <a
+                      class="dropdown-toggle"
+                      href="#"
+                      role="button"
+                      id="dropdownMenuLink"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <img
+                        src={UserData.image}
+                        alt="Snow"
+                        width={60}
+                        style={{ borderRadius: "50%", height: "10vh" }}
+                        className="mt-3"
+                      />
+                    </a>
+
+                    <ul
+                      class="dropdown-menu"
+                      aria-labelledby="dropdownMenuLink"
+                    >
+                      <Link to="/user/detail">
+                        <a href="#" class="dropdown-item">
+                          Profile
+                        </a>
+                      </Link>
+                      <Link to="/setting">
+                        <a href="#" class="dropdown-item mb-1">
+                          Setting
+                        </a>
+                      </Link>
+                      <button class="btn btn-primary ms-2 " onClick={logout}>
+                        logout
+                      </button>
+                    </ul>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </nav>

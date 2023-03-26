@@ -3,16 +3,17 @@ import { useSelector } from "react-redux";
 import Profile from "../img/Untitled design.png";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function AddPost() {
+  const navigate = useNavigate();
+
   const UserData = useSelector((state) => state.user.session);
-  console.log(UserData);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const add_post = async (e) => {
     e.preventDefault();
-
     const data = new FormData();
     data.append("title", title);
     data.append("description", description);
@@ -26,8 +27,10 @@ function AddPost() {
       }
     );
     const json = await response.json();
-    console.log(json.data);
     if (response.ok) {
+      setTimeout(() => {
+        navigate("/user/detail");
+      }, 1000);
       toast.success("Successfully post is added ", {
         position: toast.POSITION.TOP_RIGHT,
       });
@@ -158,13 +161,14 @@ function AddPost() {
                   >
                     Add post
                   </button>
-                  <ToastContainer />
                 </div>
               </div>
             </form>
           </div>
         </div>
       </div>
+      <ToastContainer />
+
     </div>
   );
 }

@@ -36,7 +36,7 @@ const GetUserPosts = async (req, res) => {
     // Fetch the user details using the user ID
     const user = await User.findById(id);
     // Fetch all posts created by the user
-    const posts = await Post.find({ user: user });
+    const posts = await Post.find({ user: user }).populate("user");
 
     // Send the posts data in the response
     res.status(200).json(posts);
@@ -44,8 +44,37 @@ const GetUserPosts = async (req, res) => {
     res.status(400).json(err.message);
   }
 };
+const   GetOnePost = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Fetch the post details using the post ID
+    const post = await Post.findById(id);
+
+    // Send the post data in the response
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+}
+const comments = async (req, res) => {
+  const { id } = req.params;
+  const { comment } = req.body;
+
+  try {
+    const post = await Post.findById(id);
+    post.comments.push(comment);
+    await post.save();
+    res.status(200).json(post);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to add comment to post' });
+  }
+}
 module.exports = {
   Posts,
   CreatePost,
-  GetUserPosts
+  GetUserPosts ,
+  GetOnePost , 
+  comments
 };
