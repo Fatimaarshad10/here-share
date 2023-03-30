@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchLatestPost } from "../store/redux/authSlice";
+import { LatestPost } from "../store/redux/authSlice";
 function LatestUser() {
   const dispatch = useDispatch();
-  const latestPost = useSelector((state) => state.user.latestPost);
+  const this_is_user_post = useSelector((state) => state.user.latest);
   const [currentPage, setCurrentPage] = useState(1);
 
   function formatDate(dateString) {
@@ -18,39 +18,20 @@ function LatestUser() {
     return new Date(dateString).toLocaleString("en-US", options);
   }
   useEffect(() => {
-    dispatch(fetchLatestPost());
+    dispatch(LatestPost());
   }, [dispatch]);
-  const getUser = async (id) => {
-    fetch(`http://localhost:3000/user/${id}`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credentials": true,
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-      console.log(data)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
   const POSTS_PER_PAGE = 3;
   return (
     <>
-      {latestPost ? (
+      {this_is_user_post ? (
         <div class="container-fluid py-6 px-5">
           <div class="text-center mx-auto mb-5" style={{ maxWidth: "600px" }}>
             <h1 class="display-5 mb-0">Latest Blog </h1>
             <hr class="w-25 mx-auto bg-primary" />
           </div>
           <div class="row g-5">
-            {latestPost
+            {this_is_user_post
               .slice(
                 (currentPage - 1) * POSTS_PER_PAGE,
                 currentPage * POSTS_PER_PAGE
@@ -73,11 +54,9 @@ function LatestUser() {
                         </div>
                         <div class="d-flex flex-column justify-content-center py-3 px-4">
                           <div class="d-flex mb-2">
-
                             <small class="text-uppercase me-3">
                               <i class="bi bi-person me-2"></i>
-                              {getUser(data.user)}
-                             
+                              {data.name}
                             </small>
                           </div>
                           <a class="h4" href="">
@@ -89,14 +68,16 @@ function LatestUser() {
                   </div>
                 </div>
               ))}
-            {latestPost.length > 0 && (
+            {this_is_user_post.length > 0 && (
               <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                   <li
                     class={`page-item ${currentPage === 1 ? "disabled" : ""}`}
                   ></li>
                   {Array.from({
-                    length: Math.ceil(latestPost.length / POSTS_PER_PAGE),
+                    length: Math.ceil(
+                      this_is_user_post.length / POSTS_PER_PAGE
+                    ),
                   }).map((_, index) => (
                     <li
                       key={index}
@@ -115,7 +96,7 @@ function LatestUser() {
                   <li
                     class={`page-item ${
                       currentPage ===
-                      Math.ceil(latestPost.length / POSTS_PER_PAGE)
+                      Math.ceil(this_is_user_post.length / POSTS_PER_PAGE)
                         ? "disabled"
                         : ""
                     }`}

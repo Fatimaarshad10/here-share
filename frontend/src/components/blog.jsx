@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchLatestPost, fetchAllPost } from "../store/redux/authSlice";
+import { onePost, LatestPost } from "../store/redux/authSlice";
 
 function Blog() {
   const dispatch = useDispatch();
@@ -8,8 +8,9 @@ function Blog() {
   const [recentPost, setRecentPost] = useState(1);
   const POSTS_PER_PAGE = 4;
   const RECENT_PER_PAGE = 4;
-  const latestPost = useSelector((state) => state.user.latestPost);
-  const AllPost = useSelector((state) => state.user.AllPost);
+  const this_is_user_post = useSelector((state) => state.user.userpost);
+  const this_is_latest_post = useSelector((state) => state.user.latest);
+console.log(this_is_latest_post)
   function formatDate(dateString) {
     const options = {
       year: "numeric",
@@ -20,49 +21,51 @@ function Blog() {
     return new Date(dateString).toLocaleString("en-US", options);
   }
   useEffect(() => {
-    dispatch(fetchLatestPost());
-    dispatch(fetchAllPost());
+    dispatch(onePost());
+    dispatch(LatestPost());
   }, [dispatch]);
-  
+
   return (
     <>
       <div class="container-fluid py-6 px-5">
         <div class="row g-5">
-          {AllPost ? (
+          {this_is_user_post ? (
             <>
               <div class="col-lg-8">
                 <div class="row g-5">
-                  {AllPost.slice(
-                    (currentPage - 1) * POSTS_PER_PAGE,
-                    currentPage * POSTS_PER_PAGE
-                  ).map((data) => (
-                    <div class="col-xl-6 col-lg-12 col-md-6" key={data._id}>
-                      <div class="blog-item">
-                        <div
-                          class="position-relative overflow-hidden"
-                          style={{ height: "35vh" }}
-                        >
-                          <img class="img-fluid" src={data.image} alt="" />
-                        </div>
-                        <div class="bg-secondary d-flex">
-                          <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                            <span>{formatDate(data.createdAt)}</span>
+                  {this_is_user_post
+                    .slice(
+                      (currentPage - 1) * POSTS_PER_PAGE,
+                      currentPage * POSTS_PER_PAGE
+                    )
+                    .map((data) => (
+                      <div class="col-xl-6 col-lg-12 col-md-6" key={data._id}>
+                        <div class="blog-item">
+                          <div
+                            class="position-relative overflow-hidden"
+                            style={{ height: "35vh" }}
+                          >
+                            <img class="img-fluid" src={data.image} alt="" />
                           </div>
-                          <div class="d-flex flex-column justify-content-center py-3 px-4">
-                            <div class="d-flex mb-2">
-                              <small class="text-uppercase me-3">
-                                <i class="bi bi-person me-2"></i>
-                                {data.user}
-                              </small>
+                          <div class="bg-secondary d-flex">
+                            <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
+                              <span>{formatDate(data.createdAt)}</span>
                             </div>
-                            <a class="h4" href="">
-                              {data.title}
-                            </a>
+                            <div class="d-flex flex-column justify-content-center py-3 px-4">
+                              <div class="d-flex mb-2">
+                                <small class="text-uppercase me-3">
+                                  <i class="bi bi-person me-2"></i>
+                                  {data.user.name}
+                                </small>
+                              </div>
+                              <a class="h4" href="">
+                                {data.title}
+                              </a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                   <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
                       <li
@@ -71,7 +74,9 @@ function Blog() {
                         }`}
                       ></li>
                       {Array.from({
-                        length: Math.ceil(AllPost.length / POSTS_PER_PAGE),
+                        length: Math.ceil(
+                          this_is_user_post.length / POSTS_PER_PAGE
+                        ),
                       }).map((_, index) => (
                         <li
                           key={index}
@@ -90,7 +95,7 @@ function Blog() {
                       <li
                         class={`page-item ${
                           currentPage ===
-                          Math.ceil(AllPost.length / POSTS_PER_PAGE)
+                          Math.ceil(this_is_user_post.length / POSTS_PER_PAGE)
                             ? "disabled"
                             : ""
                         }`}
@@ -117,10 +122,10 @@ function Blog() {
               </div>
             </div>
 
-            {latestPost ? (
+            {this_is_latest_post ? (
               <div class="mb-5">
                 <h2 class="mb-4">Recent Post</h2>
-                {latestPost
+                {this_is_latest_post
                   .slice(
                     (recentPost - 1) * RECENT_PER_PAGE,
                     recentPost * RECENT_PER_PAGE
@@ -152,7 +157,9 @@ function Blog() {
                       class={`page-item ${recentPost === 1 ? "disabled" : ""}`}
                     ></li>
                     {Array.from({
-                      length: Math.ceil(latestPost.length / RECENT_PER_PAGE),
+                      length: Math.ceil(
+                        this_is_latest_post.length / RECENT_PER_PAGE
+                      ),
                     }).map((_, index) => (
                       <li
                         key={index}
@@ -171,7 +178,7 @@ function Blog() {
                     <li
                       class={`page-item ${
                         recentPost ===
-                        Math.ceil(latestPost.length / RECENT_PER_PAGE)
+                        Math.ceil(this_is_latest_post.length / RECENT_PER_PAGE)
                           ? "disabled"
                           : ""
                       }`}

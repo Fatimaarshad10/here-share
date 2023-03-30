@@ -5,7 +5,6 @@ import addImage from "../img/add_post.png";
 import axios from "axios";
 function Blog() {
   const UserData = useSelector((state) => state.user.session);
-  console.log(UserData._id)
   const [post, setPost] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const POSTS_PER_PAGE = 4;

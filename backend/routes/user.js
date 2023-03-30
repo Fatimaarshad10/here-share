@@ -3,7 +3,7 @@ const passport = require("passport");
 const multer = require("multer");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-
+const  mongoose=require('mongoose');
 const { Users, Register , LoginController  , updateUser , deleteUserData ,  sendEmail , GetOneUser} = require("../controllers/user");
 const UserRoute = express.Router();
 // Multer
@@ -180,30 +180,36 @@ UserRoute.get(
 );
 /*  SerializeUSer  */
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user._id);
 });
 /*  deserializeUSer  */
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
     done(err, user);
   });
 });
 // All Users
 UserRoute.get("/", Users);
-UserRoute.get("/:id", GetOneUser);
+UserRoute.get("/:id/get", GetOneUser);
 
 // User is register
 UserRoute.post("/register", upload.single("image"), Register);
 // User is logout
-UserRoute.get("/logout", (req, res) => {
-  res.clearCookie("connect.sid", { path: "/" });
-  return res.redirect("http://localhost:3000/login");
-});
+
 // User is updated
 UserRoute.put('/:id',  upload.single('image'), updateUser)
 // User is deleted
 
 UserRoute.delete('/:id',   deleteUserData)
 UserRoute.post('/email', sendEmail)
-
+UserRoute.get("/logout", (req, res) => {
+  req.logout(function(err) {
+    if (err) {
+      return next(err);
+    }
+    
+  });
+  res.clearCookie("connect.sid", { path: "/" });
+  return res.redirect("http://localhost:3000/login");
+});
 module.exports = UserRoute;

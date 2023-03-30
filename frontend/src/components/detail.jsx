@@ -3,10 +3,12 @@ import { useParams } from "react-router-dom";
 import Blog1 from "../img/blog-1.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
-
+import { useNavigate } from "react-router-dom";
 function Detail() {
+  const navigate = useNavigate();
   const UserData = useSelector((state) => state.user.session);
   const [detail, setDetail] = useState("");
+  const [userdata, setuserdata] = useState('')
   const [comment, setComment] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const POSTS_PER_PAGE = 3;
@@ -26,11 +28,17 @@ function Detail() {
     });
     const json = await response.json();
     setDetail(json);
+    
     if (response.ok) {
       console.log("detail page is open ");
+      const userResponse = await fetch(`http://localhost:4000/user/${json.user}/get`, {
+      method: "GET",
+    });
+    const userData = await userResponse.json();
+    setuserdata(userData);
+  }
     }
-  };
-
+  
   const addComment = async (e) => {
     e.preventDefault();
     const response = await fetch(
@@ -58,6 +66,8 @@ function Detail() {
     PostDetail();
   }, []);
 
+
+   
   return (
     <>
       <div class="container-fluid py-6 px-5">
@@ -80,15 +90,15 @@ function Detail() {
                   .map((data) => (
                     <div class="d-flex mb-4">
                       <img
-                        src={detail.user.image}
+                        src={userdata.image}
                         class="img-fluid rounded-circle"
                         style={{ width: "45px", height: "45px" }}
                       />
                       <div class="ps-3">
                         <h6>
-                          <a href="">{detail.user.name}</a>{" "}
+                          <a href="">{detail.name}</a>{" "}
                           <small>
-                            <i>{formatDate(detail.user.createdAt)}</i>
+                            <i>{formatDate(detail.createdAt)}</i>
                           </small>
                         </h6>
                         <p>{data}</p>

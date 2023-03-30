@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const nodemailer = require("nodemailer");
+
 /* All User Data   */
 const Users = async (req, res) => {
   const userData = await User.find({});
@@ -119,7 +120,7 @@ const sendEmail = async (req, res) => {
 };
 const  GetOneUser = async (req, res) => {
   const { id } = req.params;
-
+console.log(id)
   try {
     // Fetch the post details using the post ID
     const post = await User.findById(id);

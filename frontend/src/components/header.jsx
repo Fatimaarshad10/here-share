@@ -113,7 +113,7 @@ function Header() {
                 Start now{" "}
               </a>
 
-              <div class="dropdown-menu m-0">
+              <div class="dropdown-menu me-0">
                 {UserData ? (
                   <>
                     <Link to="/blog">
@@ -151,7 +151,7 @@ function Header() {
                 " "
               ) : (
                 <>
-                  <div class="dropdown">
+                  <div class="dropdown me-4">
                     <a
                       class="dropdown-toggle"
                       href="#"

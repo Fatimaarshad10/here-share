@@ -6,7 +6,7 @@ function TeamMember() {
   const [user, setUser] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const POSTS_PER_PAGE = 3;
-
+  
   useEffect(() => {
     axios
       .get("http://localhost:4000/user")
@@ -33,8 +33,16 @@ function TeamMember() {
               )
               .map((data) => (
                 <div class="col-lg-4">
-                  <div class="team-item position-relative overflow-hidden">
-                    <img class="img-fluid w-100" src={data.image} alt="team1" />
+                  <div
+                    class="team-item position-relative overflow-hidden"
+                    style={{ height: "70vh" }}
+                  >
+                    <img
+                      class="img-fluid w-100"
+                      src={data.image}
+                      alt="team1"
+                      style={{ height: "70vh" }}
+                    />
                     <div class="team-text w-100 position-absolute top-50 text-center bg-primary p-4">
                       <h3 class="text-white">{data.name}</h3>
                       <p class="text-white text-uppercase mb-0">{data.admin}</p>
