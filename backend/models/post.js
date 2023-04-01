@@ -20,10 +20,12 @@ const Post = new Schema(
       type: String,
       required: true,
     },
-    comments: {
-      type: [String],
-      default: []
-    }
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
   },
   { timestamps: true }
 );

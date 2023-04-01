@@ -56,10 +56,10 @@ function LatestUser() {
                           <div class="d-flex mb-2">
                             <small class="text-uppercase me-3">
                               <i class="bi bi-person me-2"></i>
-                              {data.name}
+                              {data.user.name}
                             </small>
                           </div>
-                          <a class="h4" href="">
+                          <a class="h5" href=""  style={{ width: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             {data.title}
                           </a>
                         </div>

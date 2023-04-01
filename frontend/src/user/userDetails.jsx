@@ -27,8 +27,6 @@ function Blog() {
       });
   }, []);
  
-console.log(post)
-
   return (
     <>
       <div class="container-fluid py-6 px-5">
@@ -46,7 +44,6 @@ console.log(post)
             <div>
               <div class="bg-secondary text-center" style={{ padding: "30px" }}>
                 <p className="text-uppercase">{UserData.name}</p>
-                <br />
                 <p>{UserData.email}</p>
               </div>
             </div>
@@ -87,11 +84,14 @@ console.log(post)
                                 </small>
                               </div>
 
-                              <a class="h4" href="">
+                              <a class="h5" href=""  style={{ width: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                 {data.title}
                               </a>
                               <Link to={`/detail/${data._id}`}>Read more</Link>
+                              <Link to={`/post/update/${data._id}`}> update post data </Link>
+                              
                             </div>
+
                           </div>
                         </div>
                       </div>

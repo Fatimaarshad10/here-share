@@ -57,24 +57,33 @@ const   GetOnePost = async (req, res) => {
     res.status(400).json(err.message);
   }
 }
-const comments = async (req, res) => {
-  const { id } = req.params;
-  const { comment } = req.body;
 
+const updateUser = async (req, res) => {
+  const { id } = req.params;
   try {
-    const post = await Post.findById(id);
-    post.comments.push(comment);
-    await post.save();
-    res.status(200).json(post);
+    let updateData = { ...req.body };
+    
+    const UserPost = await Post.findByIdAndUpdate(
+      { _id: id },
+      {
+        ...updateData,
+        ...(req.file
+          ? { image: `http://localhost:4000/profile/${req.file.filename}` }
+          : req.body.image),
+      },
+    
+      { new: true } // to return the updated document
+    );
+    res.status(200).json(UserPost);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to add comment to post' });
+    res.status(400).send(err.message);
   }
-}
+};
 module.exports = {
   Posts,
   CreatePost,
   GetUserPosts ,
   GetOnePost , 
-  comments
+ 
+  updateUser
 };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { onePost, LatestPost } from "../store/redux/authSlice";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Blog() {
   const dispatch = useDispatch();
@@ -10,7 +12,8 @@ function Blog() {
   const RECENT_PER_PAGE = 4;
   const this_is_user_post = useSelector((state) => state.user.userpost);
   const this_is_latest_post = useSelector((state) => state.user.latest);
-console.log(this_is_latest_post)
+  console.log(this_is_user_post)
+
   function formatDate(dateString) {
     const options = {
       year: "numeric",
@@ -58,9 +61,10 @@ console.log(this_is_latest_post)
                                   {data.user.name}
                                 </small>
                               </div>
-                              <a class="h4" href="">
+                              <a class="h5" href=""  style={{ width: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}> 
                                 {data.title}
                               </a>
+                              <Link to={`/detail/${data._id}`}>Read more</Link>
                             </div>
                           </div>
                         </div>

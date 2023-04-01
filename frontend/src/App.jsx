@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 import { GlobalStyle } from "../src/styles/global";
 import Setting from "./user/setting";
 import AddPost from "./post/add_post";
-
+import Update_post from "./post/update_post";
 function App() {
   const UserData = useSelector((state) => state.user.session);
 
@@ -41,6 +41,7 @@ function App() {
               <Route path="/update" element={<Update />} />
               <Route path="/user/detail" element={<UserDetails />} />
               <Route path="/post/create" element={<AddPost />} />
+              <Route path="/post/update/:id" element={<Update_post />} />
             </>
           ) : (
             <>

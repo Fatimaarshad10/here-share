@@ -3,13 +3,12 @@ import { useParams } from "react-router-dom";
 import Blog1 from "../img/blog-1.jpg";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+
 function Detail() {
-  const navigate = useNavigate();
   const UserData = useSelector((state) => state.user.session);
+  const [comment_data, setComment_data] = useState('')
   const [detail, setDetail] = useState("");
-  const [userdata, setuserdata] = useState('')
-  const [comment, setComment] = useState("");
+  const [text, setText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const POSTS_PER_PAGE = 3;
   function formatDate(dateString) {
@@ -28,48 +27,99 @@ function Detail() {
     });
     const json = await response.json();
     setDetail(json);
-    
-    if (response.ok) {
-      console.log("detail page is open ");
-      const userResponse = await fetch(`http://localhost:4000/user/${json.user}/get`, {
-      method: "GET",
-    });
-    const userData = await userResponse.json();
-    setuserdata(userData);
-  }
+
     }
-  
-  const addComment = async (e) => {
-    e.preventDefault();
-    const response = await fetch(
-      `http://localhost:4000/post/${detail._id}/comments`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          comment,
-        }),
+   
+    const addComment = async (e) => {
+      e.preventDefault();
+      try {
+        if (!detail || !detail._id) {
+          console.error('detail object or _id property is undefined');
+          return;
+        }
+        const response = await fetch(`http://localhost:4000/comment/${detail._id}`,{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            text
+          }),
+        });
+        const data = await response.json();
+        
+        if (response.ok) {
+          // handle success case
+        } 
+        PostDetail();
+      } catch {
+        console.error('comment section is not working');
       }
-    );
-    const json = await response.json();
-    setDetail(json);
-    if (response.ok) {
-      toast.success("Successfully post is added ", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      console.log("comment is add ");
-    }
-  };
+    };
+ 
+    const Comment_data = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/comment/${id}`, {
+          method: "GET",
+        });
+    
+        if (!response.ok) {
+          throw new Error("Failed to fetch comments");
+        }
+    
+        const json = await response.json();
+        setComment_data(json);
+    
+        const userIds = Array.from(new Set(json.map((comment) => comment.user)));
+        const postIds = Array.from(new Set(json.map((comment) => comment.post)));
+    
+        const usersResponse = await Promise.all(
+          userIds.map((userId) =>
+            fetch(`http://localhost:4000/user/${userId}`, {
+              method: "GET",
+              credentials: "include",
+            })
+          )
+        );
+    
+        const postsResponse = await Promise.all(
+          postIds.map((postId) =>
+            fetch(`http://localhost:4000/post/${postId}`, {
+              method: "GET",
+              credentials: "include",
+            })
+          )
+        );
+    
+        if (usersResponse.every((res) => res.ok) && postsResponse.every((res) => res.ok)) {
+          const userData = await Promise.all(usersResponse.map((res) => res.json()));
+          const postData = await Promise.all(postsResponse.map((res) => res.json()));
+    
+          const commentData = json.map((comment, i) => ({
+            ...comment,
+            user: userData[i],
+            post: postData[i],
+          }));
+    
+          setComment_data(commentData);
+        } else {
+          console.log("Failed to fetch user or post data");
+        }
+      } catch (error) {
+        console.error(error);
+        console.log("Failed to fetch comments, user, and post data");
+      }
+    };
+    
+       
   useEffect(() => {
     PostDetail();
+    Comment_data()
   }, []);
-
-
-   
   return (
     <>
+
       <div class="container-fluid py-6 px-5">
         <div class="row g-5">
           <div class="col-lg-8">
@@ -78,7 +128,7 @@ function Detail() {
               <h1 class="mb-4">{detail.title}</h1>
               <p>{detail.description}</p>
             </div>
-
+            
             {detail ? (
               <div class="mb-5">
                 <h2 class="mb-4">{detail.comments.length} Comments</h2>
@@ -90,13 +140,14 @@ function Detail() {
                   .map((data) => (
                     <div class="d-flex mb-4">
                       <img
-                        src={userdata.image}
+                      key={data._id}
+                        src={data.image}
                         class="img-fluid rounded-circle"
                         style={{ width: "45px", height: "45px" }}
                       />
                       <div class="ps-3">
                         <h6>
-                          <a href="">{detail.name}</a>{" "}
+                          <a href=""></a>{" "}
                           <small>
                             <i>{formatDate(detail.createdAt)}</i>
                           </small>
@@ -173,8 +224,8 @@ function Detail() {
                       class="form-control bg-white border-0"
                       rows="5"
                       placeholder="Comment"
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
+                      value={text}
+                      onChange={(e) => setText(e.target.value)}
                     ></textarea>
                   </div>
                   <div class="col-12">
@@ -186,7 +237,7 @@ function Detail() {
               </form>
             </div>
           </div>
-
+         
           <div class="col-lg-4">
             <div class="mb-5">
               <div class="input-group">
@@ -265,6 +316,28 @@ function Detail() {
         </div>
       </div>
       <ToastContainer />
+      {comment_data ? (
+        <>
+      {comment_data.map((data)=>(
+        <div class="d-flex mb-4">
+        
+        <div class="ps-3">
+          <h6 key={data._id}>
+            <a href="">{data.user}</a>{" "}
+            <small>
+              <i>{formatDate(data.createdAt)}</i>
+            </small>
+          </h6>
+          <p>{data.text}</p>
+          <button class="btn btn-sm btn-light">Reply</button>
+        </div>
+      </div>
+      ))}
+      </>
+      ):(
+        <>
+        </>
+      )}
     </>
   );
 }

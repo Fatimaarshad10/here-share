@@ -1,86 +1,101 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import { useSelector } from "react-redux";
 import Profile from "../img/Untitled design.png";
-import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useParams ,useNavigate   } from "react-router-dom";
+const Container = styled.div`
+  .wrapper {
+    margin: auto;
+    max-width: 300px;
+    text-align: center;
+  }
 
-function AddPost() {
+  .container {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .upload-container {
+    background-color: rgb(239, 239, 239);
+    border-radius: 6px;
+    padding: 5px;
+  }
+
+  .border-container {
+    border: 5px dashed rgb(243, 82, 90);
+    padding: 20px;
+  }
+  .icons {
+    color: #95afc0;
+    opacity: 0.55;
+  }
+`;
+function Setting() {
   const navigate = useNavigate();
 
   const UserData = useSelector((state) => state.user.session);
+  const { id } = useParams();
+
+  const PostDetail = async () => {
+    const response = await fetch(`http://localhost:4000/post/data/${id}`, {
+      method: "GET",
+    });
+  
+    const json = await response.json();
+  setTitle(json.title);
+  setImage(json.image);
+  setDescription(json.description);
+
+  };
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
-  const add_post = async (e) => {
-    e.preventDefault();
+  const [image, setImage] = useState(null);
+
+  const UpdateProducts = async (e) => {
+   e.preventDefault()
     const data = new FormData();
+    data.append("image", image);
     data.append("title", title);
     data.append("description", description);
-    data.append("image", image);
 
-    const response = await fetch(
-      `http://localhost:3000/post/create/${UserData._id}`,
-      {
-        method: "POST",
-        body: data,
-      }
-    );
+    const response = await fetch(`http://localhost:3000/post/${id}`, {
+      method: "PUT",
+      body: data,
+    });
     const json = await response.json();
     if (response.ok) {
-      setTimeout(() => {
-        navigate("/user/detail");
-      }, 1000);
-      toast.success("Successfully post is added ", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+        PostDetail()
+        setTimeout(() => {
+            navigate("/user/detail");
+          }, 1000);
+          toast.success("Successfully post is added ", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
     }
   };
   const submitHandler = (e) => {
     setImage(e.target.files[0]);
   };
+  useEffect(() => {
+    PostDetail();
+  }, []);
 
-  const Container = styled.div`
-    .wrapper {
-      margin: auto;
-      max-width: 300px;
-      text-align: center;
-    }
 
-    .container {
-      background-color: #f9f9f9;
-      padding: 10px;
-      border-radius: 10px;
-    }
-
-    .upload-container {
-      background-color: rgb(239, 239, 239);
-      border-radius: 6px;
-      padding: 5px;
-    }
-
-    .border-container {
-      border: 5px dashed rgb(243, 82, 90);
-      padding: 20px;
-    }
-    .icons {
-      color: #95afc0;
-      opacity: 0.55;
-    }
-  `;
   return (
     <div>
       <div className="justify-content-center">
-        <div class="bg-secondary p-5 ">
+        <div className="bg-secondary p-5 ">
           <div className="container-sm">
-            <form>
-              <div class="row g-3">
-                <div class="col-lg-4">
+            <form >
+              <div className="row g-3">
+                <div className="col-lg-4">
                   <div className=" bg-secondary text-center">
                     <img
                       src={UserData.image}
                       alt=""
-                      class="img-fluid mt-4 "
+                      className="img-fluid mt-4 "
                       style={{
                         width: "auto",
                         maxHeight: "50%",
@@ -91,7 +106,7 @@ function AddPost() {
 
                   <div>
                     <div
-                      class="bg-secondary text-center"
+                      className="bg-secondary text-center"
                       style={{ padding: "30px" }}
                     >
                       <p>
@@ -104,20 +119,19 @@ function AddPost() {
                   </div>
                 </div>
 
-                <div class="col-12  col-md-6 col-sm-9 mx-auto ">
+                <div className="col-12  col-md-6 col-sm-9 mx-auto ">
                   <Container>
-                    <div class="wrapper">
-                      <div class="container">
-                        <div class="upload-container">
-                          <div class="border-container">
-                            <div class="icons fa-4x">
+                    <div className="wrapper">
+                      <div className="container">
+                        <div className="upload-container">
+                          <div className="border-container">
+                            <div className="icons fa-4x">
                               <img src={image} alt="" width={100} />
                             </div>
                             <input
                               required
                               type="file"
                               id="file-upload"
-                              
                               onChange={submitHandler}
                               style={{ marginTop: "15px" }}
                             />
@@ -127,51 +141,51 @@ function AddPost() {
                     </div>
                   </Container>
 
-                  <div class="input-group ">
-                    <button class="btn  btn-primary mt-4" type="button">
+                  <div className="input-group ">
+                    <button className="btn  btn-primary mt-4" type="button">
                       Title
                     </button>
                     <input
-                      type="name"
-                      class="form-control bg-white border-0 mt-4"
+                      type="title"
+                      className="form-control bg-white border-0 mt-4"
+                      placeholder="Title"
                       style={{ height: "55px" }}
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                     />
                   </div>
 
-                  <div class="input-group ">
+                  <div className="input-group ">
                     <button
-                      class="btn  btn-primary mt-4"
+                      className="btn  btn-primary mt-4"
                       type="button"
-                      maxLength={10}
                     >
                       Description
                     </button>
                     <textarea
-                      class="form-control bg-white border-0 mt-4"
+                      className="form-control bg-white border-0 mt-4"
                       rows="5"
+                      placeholder="Description"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
                   </div>
                   <button
-                    class="btn btn-primary w-100 py-3 mt-4"
+                    className="btn btn-primary w-100 py-3 mt-4"
                     type="submit"
-                    onClick={add_post}
+                    onClick={UpdateProducts}
                   >
-                    Add post
+                    Save
                   </button>
+                  <ToastContainer />
                 </div>
               </div>
             </form>
           </div>
         </div>
       </div>
-      <ToastContainer />
-
     </div>
   );
 }
 
-export default AddPost;
+export default Setting;
