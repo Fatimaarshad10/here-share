@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 
 function Detail() {
   const UserData = useSelector((state) => state.user.session);
-  const [comment_data, setComment_data] = useState('')
   const [detail, setDetail] = useState("");
   const [text, setText] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,7 +28,6 @@ function Detail() {
     setDetail(json);
 
     }
-   
     const addComment = async (e) => {
       e.preventDefault();
       try {
@@ -48,75 +46,35 @@ function Detail() {
           }),
         });
         const data = await response.json();
-        
+        console.log(data)
         if (response.ok) {
-          // handle success case
+          console.log('comment section is here ')
         } 
         PostDetail();
       } catch {
         console.error('comment section is not working');
       }
     };
- 
-    const Comment_data = async () => {
-      try {
-        const response = await fetch(`http://localhost:4000/comment/${id}`, {
-          method: "GET",
-        });
-    
-        if (!response.ok) {
-          throw new Error("Failed to fetch comments");
-        }
-    
-        const json = await response.json();
-        setComment_data(json);
-    
-        const userIds = Array.from(new Set(json.map((comment) => comment.user)));
-        const postIds = Array.from(new Set(json.map((comment) => comment.post)));
-    
-        const usersResponse = await Promise.all(
-          userIds.map((userId) =>
-            fetch(`http://localhost:4000/user/${userId}`, {
-              method: "GET",
-              credentials: "include",
-            })
-          )
-        );
-    
-        const postsResponse = await Promise.all(
-          postIds.map((postId) =>
-            fetch(`http://localhost:4000/post/${postId}`, {
-              method: "GET",
-              credentials: "include",
-            })
-          )
-        );
-    
-        if (usersResponse.every((res) => res.ok) && postsResponse.every((res) => res.ok)) {
-          const userData = await Promise.all(usersResponse.map((res) => res.json()));
-          const postData = await Promise.all(postsResponse.map((res) => res.json()));
-    
-          const commentData = json.map((comment, i) => ({
-            ...comment,
-            user: userData[i],
-            post: postData[i],
-          }));
-    
-          setComment_data(commentData);
-        } else {
-          console.log("Failed to fetch user or post data");
-        }
-      } catch (error) {
-        console.error(error);
-        console.log("Failed to fetch comments, user, and post data");
-      }
-    };
-    
-       
   useEffect(() => {
     PostDetail();
-    Comment_data()
   }, []);
+
+  const [commentData, setCommentData] = useState([]);
+
+  const fetchComment = async (id) => {
+    const res = await fetch(`http://localhost:4000/comment/${id}/new`);
+    const data = await res.json();
+    setCommentData((prevData) => [...prevData, data]);
+  };
+  
+ 
+useEffect(() => {
+  if (detail && detail.comments) {
+    detail.comments.forEach((comment) => {
+      fetchComment(comment);
+    });
+  }
+}, [detail]);
   return (
     <>
 
@@ -127,12 +85,13 @@ function Detail() {
               <img class="img-fluid w-100 mb-5" src={detail.image} alt="" />
               <h1 class="mb-4">{detail.title}</h1>
               <p>{detail.description}</p>
+             
             </div>
             
             {detail ? (
               <div class="mb-5">
                 <h2 class="mb-4">{detail.comments.length} Comments</h2>
-                {detail.comments
+                {commentData
                   .slice(
                     (currentPage - 1) * POSTS_PER_PAGE,
                     currentPage * POSTS_PER_PAGE
@@ -141,18 +100,18 @@ function Detail() {
                     <div class="d-flex mb-4">
                       <img
                       key={data._id}
-                        src={data.image}
+                        src={data.user.image}
                         class="img-fluid rounded-circle"
                         style={{ width: "45px", height: "45px" }}
                       />
                       <div class="ps-3">
                         <h6>
-                          <a href=""></a>{" "}
+                          <a href=""> {data.user.name}</a>{" "}
                           <small>
                             <i>{formatDate(detail.createdAt)}</i>
                           </small>
                         </h6>
-                        <p>{data}</p>
+                        <p>{data.text}</p>
                         <button class="btn btn-sm btn-light">Reply</button>
                       </div>
                     </div>
@@ -315,29 +274,9 @@ function Detail() {
           </div>
         </div>
       </div>
+      
       <ToastContainer />
-      {comment_data ? (
-        <>
-      {comment_data.map((data)=>(
-        <div class="d-flex mb-4">
-        
-        <div class="ps-3">
-          <h6 key={data._id}>
-            <a href="">{data.user}</a>{" "}
-            <small>
-              <i>{formatDate(data.createdAt)}</i>
-            </small>
-          </h6>
-          <p>{data.text}</p>
-          <button class="btn btn-sm btn-light">Reply</button>
-        </div>
-      </div>
-      ))}
-      </>
-      ):(
-        <>
-        </>
-      )}
+     
     </>
   );
 }

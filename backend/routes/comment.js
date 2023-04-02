@@ -25,7 +25,21 @@ router.get('/data', async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
   });
-
+  const get_comment = async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      // Fetch the comment with the given ID and populate the user and post fields
+      const comment = await Comment.findById(id).populate('user').populate('post');
+  
+      // Send the comment data in the response
+      res.status(200).json(comment);
+    } catch (err) {
+      res.status(400).json(err.message);
+    }
+  };
+  
+router.get('/:id/new', get_comment)
 router.post('/:id', commentController.createComment);
 
 module.exports = router;

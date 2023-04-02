@@ -4,7 +4,7 @@ const multer = require("multer");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const  mongoose=require('mongoose');
-const { Users, Register , LoginController  , updateUser , deleteUserData ,  sendEmail , GetOneUser} = require("../controllers/user");
+const { Users, Register , LoginController  , updateUser , deleteUserData ,  sendEmail , GetOneUser , get_user} = require("../controllers/user");
 const UserRoute = express.Router();
 // Multer
 const storage = multer.diskStorage({
@@ -191,6 +191,8 @@ passport.deserializeUser((id, done) => {
 // All Users
 UserRoute.get("/", Users);
 UserRoute.get("/:id/get", GetOneUser);
+UserRoute.get("/:id/no", get_user);
+
 
 // User is register
 UserRoute.post("/register", upload.single("image"), Register);

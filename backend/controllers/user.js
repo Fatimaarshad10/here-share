@@ -131,7 +131,19 @@ console.log(id)
     res.status(400).json(err.message);
   }
 }
+const get_user = async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    // Fetch all posts created by the user
+    const posts = await User.findById(id)
+
+    // Send the posts data in the response
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(400).json(err.message);
+  }
+};
 module.exports = {
   Users,
   Register,
@@ -139,5 +151,6 @@ module.exports = {
   updateUser,
   deleteUserData,
   sendEmail,
-  GetOneUser
+  GetOneUser , 
+  get_user
 };
