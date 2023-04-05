@@ -72,7 +72,7 @@ function Header() {
   }, []);
   return (
     <>
-      <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+      <nav class="navbar navbar-expand-lg bg-secondary navbar-light shadow-sm px-5 py-3 py-lg-0">
         <a href="#" class="navbar-brand p-0">
           <h1 class="m-0 text-uppercase text-primary">
             <i class="far fa-smile text-primary me-2"></i>HERE&ShARE{" "}
@@ -99,12 +99,12 @@ function Header() {
               </a>
             </Link>
             <Link to="/service">
-              <a href="#" class="nav-item nav-link">
+              <a href="#" class="nav-item nav-link ">
                 Service
               </a>
             </Link>
 
-            <div class="nav-item dropdown">
+            <div class="dropdown">
               <a
                 href="#"
                 class="nav-link dropdown-toggle"
@@ -113,11 +113,11 @@ function Header() {
                 Start now{" "}
               </a>
 
-              <div class="dropdown-menu me-0">
+              <div class="dropdown-menu me-0 ">
                 {UserData ? (
                   <>
                     <Link to="/blog">
-                      <a href="#" class="dropdown-item">
+                      <a href="#" class="dropdown-item text-secondary link-data ">
                         Blog
                       </a>
                     </Link>
@@ -126,12 +126,12 @@ function Header() {
                   <>
                     <div>
                       <Link to="/register">
-                        <a href="#" class="dropdown-item">
+                        <a href="#" class="dropdown-item text-secondary link-data">
                           Sign up
                         </a>
                       </Link>
                       <Link to="/login">
-                        <a href="#" class="dropdown-item">
+                        <a href="#" class="dropdown-item text-secondary link-data">
                           Log in
                         </a>
                       </Link>
@@ -151,9 +151,9 @@ function Header() {
                 " "
               ) : (
                 <>
-                  <div class="dropdown me-4">
+                  <div class="dropdown me-4 ">
                     <a
-                      class="dropdown-toggle"
+                      class="dropdown-toggle text-primary"
                       href="#"
                       role="button"
                       id="dropdownMenuLink"
@@ -170,16 +170,16 @@ function Header() {
                     </a>
 
                     <ul
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuLink"
+                      class="dropdown-menu "
+                      aria-labelledby="dropdownMenuLink "
                     >
                       <Link to="/user/detail">
-                        <a href="#" class="dropdown-item">
+                        <a href="#" class="dropdown-item text-secondary link-data">
                           Profile
                         </a>
                       </Link>
                       <Link to="/setting">
-                        <a href="#" class="dropdown-item mb-1">
+                        <a href="#" class="dropdown-item mb-1 text-secondary link-data">
                           Setting
                         </a>
                       </Link>

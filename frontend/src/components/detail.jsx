@@ -26,35 +26,34 @@ function Detail() {
     });
     const json = await response.json();
     setDetail(json);
-
-    }
-    const addComment = async (e) => {
-      e.preventDefault();
-      try {
-        if (!detail || !detail._id) {
-          console.error('detail object or _id property is undefined');
-          return;
-        }
-        const response = await fetch(`http://localhost:4000/comment/${detail._id}`,{
+  };
+  const addComment = async () => {
+    try {
+      if (!detail || !detail._id) {
+        console.error("detail object or _id property is undefined");
+        return;
+      }
+      const response = await fetch(
+        `http://localhost:4000/comment/${detail._id}`,
+        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({
-            text
-          }),
-        });
-        const data = await response.json();
-        console.log(data)
-        if (response.ok) {
-          console.log('comment section is here ')
-        } 
-        PostDetail();
-      } catch {
-        console.error('comment section is not working');
+          body: JSON.stringify({ text }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        console.log("comment section is here ");
       }
-    };
+      PostDetail();
+    } catch {
+      console.error("comment section is not working");
+    }
+  };
   useEffect(() => {
     PostDetail();
   }, []);
@@ -66,31 +65,37 @@ function Detail() {
     const data = await res.json();
     setCommentData((prevData) => [...prevData, data]);
   };
-  
- 
-useEffect(() => {
-  if (detail && detail.comments) {
-    detail.comments.forEach((comment) => {
-      fetchComment(comment);
-    });
-  }
-}, [detail]);
+
+  useEffect(() => {
+    if (detail && detail.comments) {
+      detail.comments.forEach((comment) => {
+        fetchComment(comment);
+      });
+    }
+  }, [detail]);
   return (
     <>
-
       <div class="container-fluid py-6 px-5">
         <div class="row g-5">
           <div class="col-lg-8">
             <div class="mb-5">
+              {detail ?  ( <>
+          
               <img class="img-fluid w-100 mb-5" src={detail.image} alt="" />
               <h1 class="mb-4">{detail.title}</h1>
               <p>{detail.description}</p>
-             
+              </>
+              ):(
+                <></>
+
+              )}
             </div>
-            
+
             {detail ? (
               <div class="mb-5">
-                <h2 class="mb-4">{detail.comments.length} Comments</h2>
+                <h2 class="mb-4">
+                  {detail.comments.length}  Comments
+                </h2>
                 {commentData
                   .slice(
                     (currentPage - 1) * POSTS_PER_PAGE,
@@ -98,15 +103,20 @@ useEffect(() => {
                   )
                   .map((data) => (
                     <div class="d-flex mb-4">
+                    {data && data.user ? (
+                      <>
                       <img
-                      key={data._id}
+                        key={data._id}
                         src={data.user.image}
                         class="img-fluid rounded-circle"
-                        style={{ width: "45px", height: "45px" }}
+                        style={{
+                          width: "45px",
+                          height: "45px",
+                        }}
                       />
                       <div class="ps-3">
                         <h6>
-                          <a href=""> {data.user.name}</a>{" "}
+                          <a href="">{data.user.name}</a>{" "}
                           <small>
                             <i>{formatDate(detail.createdAt)}</i>
                           </small>
@@ -114,7 +124,13 @@ useEffect(() => {
                         <p>{data.text}</p>
                         <button class="btn btn-sm btn-light">Reply</button>
                       </div>
+                      </>
+                        ):(
+                          <>
+                          </>
+                        )}
                     </div>
+                  
                   ))}
                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
@@ -136,7 +152,7 @@ useEffect(() => {
                           class="page-link"
                           onClick={() => setCurrentPage(index + 1)}
                         >
-                          {index + 1}
+                          {index + 1}{" "}
                         </a>
                       </li>
                     ))}
@@ -196,7 +212,7 @@ useEffect(() => {
               </form>
             </div>
           </div>
-         
+
           <div class="col-lg-4">
             <div class="mb-5">
               <div class="input-group">
@@ -274,9 +290,8 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      
+
       <ToastContainer />
-     
     </>
   );
 }

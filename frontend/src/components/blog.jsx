@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { onePost, LatestPost } from "../store/redux/authSlice";
-import axios from "axios";
 import { Link } from "react-router-dom";
 
 function Blog() {
@@ -12,7 +11,6 @@ function Blog() {
   const RECENT_PER_PAGE = 4;
   const this_is_user_post = useSelector((state) => state.user.userpost);
   const this_is_latest_post = useSelector((state) => state.user.latest);
-  console.log(this_is_user_post)
 
   function formatDate(dateString) {
     const options = {
@@ -51,7 +49,7 @@ function Blog() {
                             <img class="img-fluid" src={data.image} alt="" />
                           </div>
                           <div class="bg-secondary d-flex">
-                            <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
+                            <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary  px-4">
                               <span>{formatDate(data.createdAt)}</span>
                             </div>
                             <div class="d-flex flex-column justify-content-center py-3 px-4">
@@ -61,19 +59,19 @@ function Blog() {
                                   {data.user.name}
                                 </small>
                               </div>
-                              <a class="h5" href=""  style={{ width: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}> 
+                              <a class="h5 text-primary" href=""  style={{ width: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}> 
                                 {data.title}
                               </a>
-                              <Link to={`/detail/${data._id}`}>Read more</Link>
+                              <Link to={`/detail/${data._id}`} className="text-primary ">Read more</Link>
                             </div>
                           </div>
                         </div>
                       </div>
                     ))}
                   <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
+                    <ul class="pagination justify-content-center ">
                       <li
-                        class={`page-item ${
+                        class={` ${
                           currentPage === 1 ? "disabled" : ""
                         }`}
                       ></li>
@@ -84,12 +82,12 @@ function Blog() {
                       }).map((_, index) => (
                         <li
                           key={index}
-                          class={`page-item ${
+                          class={`${
                             currentPage === index + 1 ? "active" : ""
                           }`}
                         >
                           <a
-                            class="page-link"
+                            class="text-primary "
                             onClick={() => setCurrentPage(index + 1)}
                           >
                             {index + 1}
@@ -97,7 +95,7 @@ function Blog() {
                         </li>
                       ))}
                       <li
-                        class={`page-item ${
+                        class={` ${
                           currentPage ===
                           Math.ceil(this_is_user_post.length / POSTS_PER_PAGE)
                             ? "disabled"
@@ -148,7 +146,7 @@ function Blog() {
                       />
                       <a
                         href=""
-                        class="h5 d-flex align-items-center bg-secondary px-3 mb-0"
+                        class="h5 d-flex align-items-center text-primary px-3 mb-0"
                         style={{ width: "200px" }}
                       >
                         {data.title}
@@ -156,9 +154,9 @@ function Blog() {
                     </div>
                   ))}
                 <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-center">
+                  <ul class="pagination justify-content-center ">
                     <li
-                      class={`page-item ${recentPost === 1 ? "disabled" : ""}`}
+                      class={` ${recentPost === 1 ? "disabled" : ""}`}
                     ></li>
                     {Array.from({
                       length: Math.ceil(
@@ -167,12 +165,12 @@ function Blog() {
                     }).map((_, index) => (
                       <li
                         key={index}
-                        class={`page-item ${
+                        class={` ${
                           recentPost === index + 1 ? "active" : ""
                         }`}
                       >
                         <a
-                          class="page-link"
+                          class="text-primary "
                           onClick={() => setRecentPost(index + 1)}
                         >
                           {index + 1}
@@ -180,7 +178,7 @@ function Blog() {
                       </li>
                     ))}
                     <li
-                      class={`page-item ${
+                      class={` ${
                         recentPost ===
                         Math.ceil(this_is_latest_post.length / RECENT_PER_PAGE)
                           ? "disabled"

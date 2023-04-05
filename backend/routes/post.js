@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
   });
   const upload = multer({ storage: storage });
 const PostRoute = express.Router();
-const { Posts ,  CreatePost , GetUserPosts , GetOnePost ,  updateUser} = require("../controllers/post");
+const { Posts ,  CreatePost , GetUserPosts , GetOnePost ,  updateUser , deletePost} = require("../controllers/post");
 // All Post
 PostRoute.get("/" , Posts);
 // Create a post 
@@ -20,6 +20,5 @@ PostRoute.post("/create/:id" ,upload.single('image'),   CreatePost);
 PostRoute.get("/:id" , GetUserPosts);
 PostRoute.get("/data/:id",  GetOnePost );
 PostRoute.put('/:id',  upload.single('image'), updateUser)
-
-
+PostRoute.delete('/:id', deletePost)
 module.exports = PostRoute;

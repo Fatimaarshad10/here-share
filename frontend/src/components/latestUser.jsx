@@ -46,20 +46,20 @@ function LatestUser() {
                       >
                         <img class="img-fluid" src={data.image} alt="" />
                       </div>
-                      <div class="bg-secondary d-flex">
-                        <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary text-white px-4">
-                          <h5 class="text-uppercase m-0">
+                      <div class="d-flex">
+                        <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary px-4">
+                          <h5 class="text-uppercase m-0 text-secondary  ">
                             {formatDate(data.createdAt)}
                           </h5>
                         </div>
                         <div class="d-flex flex-column justify-content-center py-3 px-4">
                           <div class="d-flex mb-2">
-                            <small class="text-uppercase me-3">
-                              <i class="bi bi-person me-2"></i>
+                            <small class="text-uppercase me-3 text-primary">
+                              <i class="bi bi-person me-2 text-primary"></i>
                               {data.user.name}
                             </small>
                           </div>
-                          <a class="h5" href=""  style={{ width: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          <a class="h5 text-primary" href=""  style={{ width: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                             {data.title}
                           </a>
                         </div>
@@ -69,10 +69,10 @@ function LatestUser() {
                 </div>
               ))}
             {this_is_user_post.length > 0 && (
-              <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
+              <nav aria-label="Page navigation example ">
+                <ul class="pagination justify-content-center ">
                   <li
-                    class={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                    class={` ${currentPage === 1 ? "disabled" : "" }`}
                   ></li>
                   {Array.from({
                     length: Math.ceil(
@@ -81,12 +81,12 @@ function LatestUser() {
                   }).map((_, index) => (
                     <li
                       key={index}
-                      class={`page-item ${
+                      class={`  ${
                         currentPage === index + 1 ? "active" : ""
                       }`}
                     >
                       <a
-                        class="page-link"
+                        class="text-primary"
                         onClick={() => setCurrentPage(index + 1)}
                       >
                         {index + 1}
@@ -94,7 +94,7 @@ function LatestUser() {
                     </li>
                   ))}
                   <li
-                    class={`page-item ${
+                    class={` ${
                       currentPage ===
                       Math.ceil(this_is_user_post.length / POSTS_PER_PAGE)
                         ? "disabled"

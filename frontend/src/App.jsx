@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route ,  Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import About from "./components/about";
@@ -18,14 +18,20 @@ import { GlobalStyle } from "../src/styles/global";
 import Setting from "./user/setting";
 import AddPost from "./post/add_post";
 import Update_post from "./post/update_post";
+
 function App() {
   const UserData = useSelector((state) => state.user.session);
+  const User_location = useLocation();
 
+  // Check if the current route is the login or signup page
+  const isAuthRoute =
+    User_location.pathname === "/login" ||
+    User_location.pathname === "/register";
   return (
     <>
       <div>
         <GlobalStyle />
-        <Header />
+        {!isAuthRoute && <Header />}
 
         <Routes>
           {UserData ? (
@@ -40,18 +46,19 @@ function App() {
               <Route path="/setting" element={<Setting />} />
               <Route path="/update" element={<Update />} />
               <Route path="/user/detail" element={<UserDetails />} />
-              <Route path="/post/create" element={<AddPost />} />
+              <Route path="/post/create/:id" element={<AddPost />} />
               <Route path="/post/update/:id" element={<Update_post />} />
             </>
           ) : (
             <>
-             <Route path="/" element={<Navigate replace to="/register" />} />
+              <Route path="/" element={<Navigate replace to="/register" />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
             </>
           )}
         </Routes>
-        <Footer />
+
+        {!isAuthRoute && <Footer />}
       </div>
     </>
   );

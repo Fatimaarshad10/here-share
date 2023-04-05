@@ -43,9 +43,9 @@ function TeamMember() {
                       alt="team1"
                       style={{ height: "70vh" }}
                     />
-                    <div class="team-text w-100 position-absolute top-50 text-center bg-primary p-4">
-                      <h3 class="text-white">{data.name}</h3>
-                      <p class="text-white text-uppercase mb-0">{data.admin}</p>
+                    <div class="team-text w-100 position-absolute top-50 text-center bg-secondary  p-4">
+                      <h3 class="text-primary">{data.name}</h3>
+                      <p class=" text-primary text-uppercase mb-0">{data.admin}</p>
                     </div>
                   </div>
                 </div>
@@ -54,19 +54,19 @@ function TeamMember() {
               <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                   <li
-                    class={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                    class={` ${currentPage === 1 ? "disabled" : ""}`}
                   ></li>
                   {Array.from({
                     length: Math.ceil(user.length / POSTS_PER_PAGE),
                   }).map((_, index) => (
                     <li
                       key={index}
-                      class={`page-item ${
+                      class={` ${
                         currentPage === index + 1 ? "active" : ""
                       }`}
                     >
                       <a
-                        class="page-link"
+                        class="text-primary"
                         onClick={() => setCurrentPage(index + 1)}
                       >
                         {index + 1}
@@ -74,7 +74,7 @@ function TeamMember() {
                     </li>
                   ))}
                   <li
-                    class={`page-item ${
+                    class={` ${
                       currentPage === Math.ceil(user.length / POSTS_PER_PAGE)
                         ? "disabled"
                         : ""

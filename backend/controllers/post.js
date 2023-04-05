@@ -79,11 +79,20 @@ const updateUser = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
+const deletePost = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletepost = await Post.findByIdAndDelete({ _id: id });
+    res.status(200).json(deletepost);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
 module.exports = {
   Posts,
   CreatePost,
   GetUserPosts ,
   GetOnePost , 
- 
-  updateUser
+  updateUser ,
+  deletePost
 };

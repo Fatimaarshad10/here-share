@@ -1,37 +1,8 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { useSelector } from "react-redux";
-import Profile from "../img/Untitled design.png";
 import { ToastContainer, toast } from "react-toastify";
 import { useParams ,useNavigate   } from "react-router-dom";
-const Container = styled.div`
-  .wrapper {
-    margin: auto;
-    max-width: 300px;
-    text-align: center;
-  }
 
-  .container {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 10px;
-  }
-
-  .upload-container {
-    background-color: rgb(239, 239, 239);
-    border-radius: 6px;
-    padding: 5px;
-  }
-
-  .border-container {
-    border: 5px dashed rgb(243, 82, 90);
-    padding: 20px;
-  }
-  .icons {
-    color: #95afc0;
-    opacity: 0.55;
-  }
-`;
 function Setting() {
   const navigate = useNavigate();
 
@@ -52,7 +23,8 @@ function Setting() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
-
+  const [selectedImage, setSelectedImage] = useState("");
+  
   const UpdateProducts = async (e) => {
    e.preventDefault()
     const data = new FormData();
@@ -76,14 +48,18 @@ function Setting() {
     }
   };
   const submitHandler = (e) => {
+    setSelectedImage(URL.createObjectURL(e.target.files[0]));
+
     setImage(e.target.files[0]);
   };
+  
+
+  
   useEffect(() => {
     PostDetail();
   }, []);
 
-
-  return (
+return (
     <div>
       <div className="justify-content-center">
         <div className="bg-secondary p-5 ">
@@ -106,7 +82,7 @@ function Setting() {
 
                   <div>
                     <div
-                      className="bg-secondary text-center"
+                      className="bg-primary text-center mt-4"
                       style={{ padding: "30px" }}
                     >
                       <p>
@@ -120,26 +96,31 @@ function Setting() {
                 </div>
 
                 <div className="col-12  col-md-6 col-sm-9 mx-auto ">
-                  <Container>
                     <div className="wrapper">
                       <div className="container">
                         <div className="upload-container">
                           <div className="border-container">
+                            
                             <div className="icons fa-4x">
-                              <img src={image} alt="" width={100} />
-                            </div>
+          {selectedImage ? (
+            <img src={selectedImage} alt="" width={100} />
+          ) : (
+            <img src={image} alt="" width={100} />
+          )}
+        </div>
                             <input
                               required
                               type="file"
                               id="file-upload"
                               onChange={submitHandler}
                               style={{ marginTop: "15px" }}
+                              
                             />
                           </div>
+                         
                         </div>
                       </div>
                     </div>
-                  </Container>
 
                   <div className="input-group ">
                     <button className="btn  btn-primary mt-4" type="button">

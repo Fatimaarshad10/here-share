@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { Success } from "../store/redux/authSlice";
 import { useDispatch } from "react-redux";
-import Profile from "../img/Untitled design.png";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +10,7 @@ function Setting() {
   const UserData = useSelector((state) => state.user.session);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState("");
 
   const [name, setName] = useState("");
   const [admin, setAdmin] = useState("");
@@ -43,6 +42,7 @@ function Setting() {
     }
   };
   const submitHandler = (e) => {
+    setSelectedImage(URL.createObjectURL(e.target.files[0]));
     setImage(e.target.files[0]);
   };
   useEffect(() => {
@@ -54,34 +54,7 @@ function Setting() {
     }
   }, []);
 
-  const Container = styled.div`
-    .wrapper {
-      margin: auto;
-      max-width: 300px;
-      text-align: center;
-    }
-
-    .container {
-      background-color: #f9f9f9;
-      padding: 10px;
-      border-radius: 10px;
-    }
-
-    .upload-container {
-      background-color: rgb(239, 239, 239);
-      border-radius: 6px;
-      padding: 5px;
-    }
-
-    .border-container {
-      border: 5px dashed rgb(243, 82, 90);
-      padding: 20px;
-    }
-    .icons {
-      color: #95afc0;
-      opacity: 0.55;
-    }
-  `;
+ 
   return (
     <div>
       <div className="justify-content-center">
@@ -90,7 +63,7 @@ function Setting() {
             <form>
               <div class="row g-3">
                 <div class="col-lg-4">
-                  <div className=" bg-secondary text-center">
+                  <div className=" bg-secondary  text-center">
                     <img
                       src={UserData.image}
                       alt=""
@@ -106,7 +79,7 @@ function Setting() {
 
                   <div>
                     <div
-                      class="bg-secondary text-center"
+                      class=" bg-primary text-center  mt-4"
                       style={{ padding: "30px" }}
                     >
                       <p>
@@ -119,7 +92,7 @@ function Setting() {
 
                       <Link to="/update">
                         <a
-                          class="btn btn-primary rounded-pill py-2 px-4"
+                          class="btn  bg-secondary  text-primary rounded-pill py-2 px-4"
                           href="#"
                         >
                           Update
@@ -127,7 +100,7 @@ function Setting() {
                       </Link>
                       <Link to="/setting">
                         <a
-                          class=" btn btn-primary rounded-pill py-2 px-4"
+                          class=" btn bg-secondary  text-primary rounded-pill py-2 px-4"
                           href="#"
                         >
                           Setting
@@ -138,14 +111,18 @@ function Setting() {
                 </div>
 
                 <div class="col-12  col-md-6 col-sm-9 mx-auto ">
-                  <Container>
+                 
                     <div class="wrapper">
                       <div class="container">
                         <div class="upload-container">
                           <div class="border-container">
-                            <div class="icons fa-4x">
-                              <img src={Profile} alt="" width={100} />
-                            </div>
+                          <div className="icons fa-4x">
+          {selectedImage ? (
+            <img src={selectedImage} alt="" width={100} />
+          ) : (
+            <img src={UserData.image} alt="" width={100} />
+          )}
+        </div>
                             <input
                               required
                               type="file"
@@ -157,7 +134,6 @@ function Setting() {
                         </div>
                       </div>
                     </div>
-                  </Container>
 
                 
 
@@ -175,30 +151,35 @@ function Setting() {
                     />
                   </div>
 
-                  <div class="form-check form-check-inline mt-4">
-                    <input
-                      required
-                      class="form-check-input "
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
-                      value="admin"
-                      onChange={(e) => setAdmin(e.target.value)}
-                    />
-                    Admin
-                  </div>
-                  <div class="form-check form-check-inline mt-4">
-                    <input
-                      required
-                      class="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault2"
-                      value="user"
-                      onChange={(e) => setAdmin(e.target.value)}
-                    />
-                    User
-                  </div>
+                  <div className="form-check form-check-inline mt-4">
+  <input
+    required
+    className="form-check-input"
+    type="radio"
+    name="flexRadioDefault"
+    id="flexRadioDefault1"
+    value="admin"
+    onChange={(e) => setAdmin(e.target.value)}
+  />
+  <label className="form-check-label text-primary" htmlFor="flexRadioDefault1">
+    Admin
+  </label>
+</div>
+<div className="form-check form-check-inline mt-4">
+  <input
+    required
+    className="form-check-input"
+    type="radio"
+    name="flexRadioDefault"
+    id="flexRadioDefault2"
+    value="user"
+    onChange={(e) => setAdmin(e.target.value)}
+  />
+  <label className="form-check-label  text-primary" htmlFor="flexRadioDefault2">
+    User
+  </label>
+</div>
+
                   <div class="input-group ">
                     <button class="btn  btn-primary mt-4" type="button" maxLength={10}>
                       Detail

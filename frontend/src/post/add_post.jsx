@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import Profile from "../img/Untitled design.png";
-import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate ,  useParams } from "react-router-dom";
 
 function AddPost() {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const UserData = useSelector((state) => state.user.session);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
+  const [selectedImage, setSelectedImage] = useState("");
+
   const add_post = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -20,7 +21,7 @@ function AddPost() {
     data.append("image", image);
 
     const response = await fetch(
-      `http://localhost:3000/post/create/${UserData._id}`,
+      `http://localhost:3000/post/create/${id}`,
       {
         method: "POST",
         body: data,
@@ -38,36 +39,11 @@ function AddPost() {
   };
   const submitHandler = (e) => {
     setImage(e.target.files[0]);
+    setSelectedImage(URL.createObjectURL(e.target.files[0]));
+
   };
 
-  const Container = styled.div`
-    .wrapper {
-      margin: auto;
-      max-width: 300px;
-      text-align: center;
-    }
 
-    .container {
-      background-color: #f9f9f9;
-      padding: 10px;
-      border-radius: 10px;
-    }
-
-    .upload-container {
-      background-color: rgb(239, 239, 239);
-      border-radius: 6px;
-      padding: 5px;
-    }
-
-    .border-container {
-      border: 5px dashed rgb(243, 82, 90);
-      padding: 20px;
-    }
-    .icons {
-      color: #95afc0;
-      opacity: 0.55;
-    }
-  `;
   return (
     <div>
       <div className="justify-content-center">
@@ -91,7 +67,7 @@ function AddPost() {
 
                   <div>
                     <div
-                      class="bg-secondary text-center"
+                      class="bg-primary text-center mt-4"
                       style={{ padding: "30px" }}
                     >
                       <p>
@@ -105,13 +81,17 @@ function AddPost() {
                 </div>
 
                 <div class="col-12  col-md-6 col-sm-9 mx-auto ">
-                  <Container>
                     <div class="wrapper">
                       <div class="container">
                         <div class="upload-container">
                           <div class="border-container">
                             <div class="icons fa-4x">
-                              <img src={image} alt="" width={100} />
+                            {selectedImage ? (
+            <img src={selectedImage} alt="" width={100} />
+          ) : (
+            <img src={image} alt="" width={100} />
+          )}
+                              
                             </div>
                             <input
                               required
@@ -125,7 +105,6 @@ function AddPost() {
                         </div>
                       </div>
                     </div>
-                  </Container>
 
                   <div class="input-group ">
                     <button class="btn  btn-primary mt-4" type="button">

@@ -76,7 +76,7 @@ function Setting() {
 
                   <div>
                     <div
-                      class="bg-secondary text-center mt-4"
+                      class="bg-primary text-center mt-4"
                       style={{ padding: "30px" }}
                     >
                       <p>
@@ -87,7 +87,7 @@ function Setting() {
 
                       <Link to="/update">
                         <a
-                          class="btn btn-primary rounded-pill py-2 px-4"
+                          class="btn bg-secondary  text-primary rounded-pill py-2 px-4"
                           href="#"
                         >
                           Update
@@ -95,7 +95,7 @@ function Setting() {
                       </Link>
                       <Link to="/setting">
                         <a
-                          class=" btn btn-primary rounded-pill py-2 px-4"
+                          class=" btn bg-secondary  text-primary  rounded-pill py-2 px-4"
                           href="#"
                         >
                           Setting
@@ -105,8 +105,8 @@ function Setting() {
                   </div>
                 </div>
 
-                <div class="col-12 col-md-7 col-sm-9 py-6 px-5 mx-auto mt-3">
-                  <div class="input-group ">
+                <div class="col-12 col-md-7 col-sm-9 py-6 px-5 mx-auto mt-3 ">
+                  <div class="input-group  ">
                     <button class="btn  btn-primary mb-3" type="button">
                       Email
                     </button>
@@ -135,9 +135,9 @@ function Setting() {
                   <button class="btn btn-primary w-100 py-3 mt-4" type="submit" onClick={UpdateProducts}>
                     Save
                   </button>
-                  <p className="text-center mt-4">OR</p>
-                  <p className="mt-3">Delete your account</p>
-                  <p>
+                  <p className="text-center mt-4 text-primary">OR</p>
+                  <p className="mt-3 text-primary">Delete your account</p>
+                  <p className="text-primary">
                     Once you click the delete button, all your data will be
                     lost.
                   </p>

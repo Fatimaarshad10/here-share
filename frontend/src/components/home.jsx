@@ -3,8 +3,8 @@ import $ from 'jquery';
 import 'owl.carousel'
 import "../css/bootstrap.min.css";
 import "../css/main.css";
-import carousel1 from "../img/carousel-1.jpg";
-import carousel2 from "../img/carousel-2.jpg";
+import carousel1 from "../img/1947033131_preview_ee2855b178f2003977b5e171fe3ba95cca0c092b.jpg";
+import carousel2 from "../img/kimetsu-no-yaiba-anime-4k-yn-1360x768.jpg";
 import TeamMember from "./teamMember";
 import Service from "./service";
 import LatestUser from "./latestUser";

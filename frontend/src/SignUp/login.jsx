@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
-import register from "../img/pexels-photo-6457561.jpeg";
+import register from "../img/login.jpg";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginSuccess } from "../store/redux/authSlice";
@@ -100,7 +100,7 @@ function Login() {
                     Submit
                   </button>
                 </div>
-                <p className="text-center">OR</p>
+                <p className="text-center text-primary">OR</p>
 
                 <div class="col-6">
                   <button
@@ -119,11 +119,11 @@ function Login() {
                     github
                   </button>
                 </div>
-                <p className="text-center mt-4">
+                <p className="text-center mt-4 text-primary">
                   {" "}
                   Not a member?{" "}
                   <a
-                    class="text-body py-2 "
+                    class=" py-2 text-white "
                     onClick={userSignIn}
                     style={{ textDecoration: "underline", cursor: "pointer" }}
                   >

@@ -1,14 +1,42 @@
 /********** Template CSS **********/
 :root {
-    --primary: #F3525A;
-    --secondary: #F6F6F6;
-    --light: #FFFFFF;
-    --dark: #152440;
+    --primary: #1c5450;
+    --body-bg: #020303 ;
+    --light: #fbfbfb;
+    --dark: #132423;
+    --success : #0f3d39;
+    --secondary:  #000000;
 }
-
+body{
+    background-color: var(--body-bg);
+}
+.bg-secondary {
+    color: var(--secondary) !important;
+    background-color: var(--secondary) !important;
+}
+.text-secondary {
+    color: var(--secondary) !important;
+}
+.btn-primary{
+    background-color: var(--success) !important;
+    border: var(--success);
+}
+.text-primary {
+    color:var(--success) !important;
+  }
+.page-item.active , .page-link{
+    background-color: aqua;
+}
+.bg-dark{
+    background-color: var(--dark) !important;
+  }
+.bg-primary{
+    background-color: var(--success) !important;
+}
 h1,
 h2,
 .font-weight-bold {
+    color: var(--light);
     font-weight: 700 !important;
 }
 
@@ -16,6 +44,8 @@ h3,
 h4,
 .font-weight-semi-bold {
     font-weight: 600 !important;
+    color: var(--light);
+
 }
 
 h5,
@@ -42,7 +72,7 @@ h6,
     font-weight: 600;
     transition: .5s;
 }
-
+.t
 .btn-primary {
     color: #FFFFFF;
 }
@@ -98,7 +128,9 @@ h6,
     outline: none;
     transition: .5s;
 }
-
+.link-data:active{
+background-color: var(--success);
+}
 .sticky-top.navbar-light .navbar-nav .nav-link {
     padding: 20px 15px;
 }
@@ -164,9 +196,9 @@ h6,
     height: 50px;
     bottom: -50px;
     left: 0;
-    background: var(--light);
+    background: var(--primary);
     border-radius: 100% 100% 0 0;
-    box-shadow: 0px -10px 5px #EEEEEE;
+    box-shadow: 0px -10px 5px #092224;
     transition: .5s;
 }
 

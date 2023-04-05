@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../css/bootstrap.min.css";
 import "../css/main.css";
 import { useDispatch } from "react-redux";
-import registerPhoto from "../img/pexels-photo-6457561.jpeg";
+import registerPhoto from "../img/login.jpg";
 import { useNavigate } from "react-router-dom";
 import { registerSuccess } from "../store/redux/authSlice";
 import { ToastContainer, toast } from "react-toastify";
@@ -68,7 +68,7 @@ function Register() {
   };
   return (
     <>
-      <div class="container-fluid bg-secondary px-0">
+      <div class="container-fluid bg-secondary px-0 mb-0">
         <div class="row g-0">
           <div class="col-lg-6 py-6 px-5">
             <h1 class="display-5 mb-4">Sign Up</h1>
@@ -118,7 +118,7 @@ function Register() {
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="form-check form-check-inline">
+                  <div class="form-check form-check-inline text-primary">
                     <input
                       required
                       class="form-check-input "
@@ -130,7 +130,7 @@ function Register() {
                     />
                     Admin
                   </div>
-                  <div class="form-check form-check-inline">
+                  <div class="form-check form-check-inline text-primary">
                     <input
                       required
                       class="form-check-input"
@@ -143,7 +143,7 @@ function Register() {
                     User
                   </div>
                 </div>
-                <input
+                <input className="text-primary"
                   required
                   type="file"
                   onChange={submitHandler}
@@ -153,7 +153,7 @@ function Register() {
                 <button class="btn btn-primary w-100 py-3 mt-4 " type="submit">
                   Submit
                 </button>
-                <p className="text-center">OR</p>
+                <p className="text-center text-primary">OR</p>
 
                 <div class="col-6">
                   <button
@@ -173,10 +173,10 @@ function Register() {
                   </button>
                 </div>
 
-                <p className="text-center">
+                <p className="text-center text-primary">
                   Already registered{" "}
                   <a
-                    class="text-body py-2 "
+                    class=" py-2 text-white "
                     onClick={userSignIn}
                     style={{ textDecoration: "underline", cursor: "pointer" }}
                   >
@@ -187,11 +187,12 @@ function Register() {
             </form>
           </div>
 
-          <div class="col-lg-6" style={{ minHeight: "10px" }}>
+          <div class="col-lg-6" >
             <div class="position-relative h-100 ">
               <img
                 src={registerPhoto}
-                class="img-fluid w-100 h-100"
+                class="img-fluid  "
+                style={{height: "121vh" }}
                 alt="registerPhoto"
               />
             </div>
