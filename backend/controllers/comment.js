@@ -7,7 +7,6 @@ exports.createComment = async (req, res) => {
     if (!post) {
       return res.status(404).json({ error: 'Post not found' });
     }
-console.log(req.user._id)
     const comment = new Comment({
       text: req.body.text,
       user: req.user._id, // assuming you have authentication middleware that sets req.user
@@ -15,7 +14,6 @@ console.log(req.user._id)
     });
 
     await comment.save();
-
     post.comments.push(comment);
     await post.save();
 

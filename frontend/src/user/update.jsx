@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Success } from "../store/redux/authSlice";
 import { useDispatch } from "react-redux";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 function Setting() {
@@ -36,9 +36,9 @@ function Setting() {
       setTimeout(() => {
         navigate("/user/detail");
       }, 1000);
-      toast.success('Successfully User Is Updated!', {
-        position: toast.POSITION.TOP_RIGHT
-    });
+      toast.success("Successfully User Is Updated!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
   const submitHandler = (e) => {
@@ -53,8 +53,6 @@ function Setting() {
       setDetail(UserData.detail);
     }
   }, []);
-
- 
   return (
     <div>
       <div className="justify-content-center">
@@ -69,23 +67,21 @@ function Setting() {
                       alt=""
                       class="img-fluid mt-4 "
                       style={{
-                       width:'auto', 
-                       maxHeight:'50%', 
-                        maxWidth:'50%',
-                        
+                        width: "auto",
+                        maxHeight: "50%",
+                        maxWidth: "50%",
                       }}
                     />
                   </div>
 
                   <div>
                     <div
-                      class=" bg-primary text-center  mt-4"
+                      class="btn-secondary  text-center  mt-4"
                       style={{ padding: "30px" }}
                     >
                       <p>
                         {" "}
-                       
-                        <br/>
+                        <br />
                         {UserData.name}
                         <br /> {UserData.email}{" "}
                       </p>
@@ -111,34 +107,31 @@ function Setting() {
                 </div>
 
                 <div class="col-12  col-md-6 col-sm-9 mx-auto ">
-                 
-                    <div class="wrapper">
-                      <div class="container">
-                        <div class="upload-container">
-                          <div class="border-container">
+                  <div class="wrapper">
+                    <div class="container">
+                      <div class="upload-container">
+                        <div class="border-container">
                           <div className="icons fa-4x">
-          {selectedImage ? (
-            <img src={selectedImage} alt="" width={100} />
-          ) : (
-            <img src={UserData.image} alt="" width={100} />
-          )}
-        </div>
-                            <input
-                              required
-                              type="file"
-                              id="file-upload"
-                              onChange={submitHandler}
-                              style={{ marginTop: "15px" }}
-                            />
+                            {selectedImage ? (
+                              <img src={selectedImage} alt="" width={100} />
+                            ) : (
+                              <img src={UserData.image} alt="" width={100} />
+                            )}
                           </div>
+                          <input
+                            required
+                            type="file"
+                            id="file-upload"
+                            onChange={submitHandler}
+                            style={{ marginTop: "15px" }}
+                          />
                         </div>
                       </div>
                     </div>
-
-                
+                  </div>
 
                   <div class="input-group ">
-                    <button class="btn  btn-primary mt-4" type="button">
+                    <button class="btn   btn-secondary  mt-4" type="button">
                       Name
                     </button>
                     <input
@@ -151,37 +144,50 @@ function Setting() {
                     />
                   </div>
 
+                  {/* <div className="form-check form-check-inline mt-4">
+                    <input
+                      required
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                      value="admin"
+                      onChange={(e) => setAdmin(e.target.value)}
+                    />
+                    <label
+                      className="form-check-label text-primary"
+                      htmlFor="flexRadioDefault1"
+                    >
+                      Admin
+                    </label>
+                  </div>
                   <div className="form-check form-check-inline mt-4">
-  <input
-    required
-    className="form-check-input"
-    type="radio"
-    name="flexRadioDefault"
-    id="flexRadioDefault1"
-    value="admin"
-    onChange={(e) => setAdmin(e.target.value)}
-  />
-  <label className="form-check-label text-primary" htmlFor="flexRadioDefault1">
-    Admin
-  </label>
-</div>
-<div className="form-check form-check-inline mt-4">
-  <input
-    required
-    className="form-check-input"
-    type="radio"
-    name="flexRadioDefault"
-    id="flexRadioDefault2"
-    value="user"
-    onChange={(e) => setAdmin(e.target.value)}
-  />
-  <label className="form-check-label  text-primary" htmlFor="flexRadioDefault2">
-    User
-  </label>
-</div>
-
-                  <div class="input-group ">
-                    <button class="btn  btn-primary mt-4" type="button" maxLength={10}>
+                    <input
+                      required
+                      className="form-check-input"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault2"
+                      value="user"
+                      onChange={(e) => setAdmin(e.target.value)}
+                    />
+                    <label
+                      className="form-check-label  text-primary"
+                      htmlFor="flexRadioDefault2"
+                    >
+                      User
+                    </label>
+                  </div> */}
+                <select class="form-select mt-4" aria-label="Default select example" onChange={(e) => setAdmin(e.target.value)} value={admin}>
+  <option value="admin">Admin</option>
+  <option value="user">User</option>
+</select>
+ <div class="input-group ">
+                    <button
+                      class="btn  btn-secondary  mt-4"
+                      type="button"
+                      maxLength={10}
+                    >
                       Detail
                     </button>
                     <textarea
@@ -193,14 +199,13 @@ function Setting() {
                     ></textarea>
                   </div>
                   <button
-                    class="btn btn-primary w-100 py-3 mt-4"
+                    class="btn btn-secondary  w-100 py-3 mt-4"
                     type="submit"
                     onClick={UpdateProducts}
                   >
                     Save
                   </button>
-<ToastContainer />
-
+                  <ToastContainer />
                 </div>
               </div>
             </form>

@@ -44,7 +44,7 @@ function LatestUser() {
                         class="position-relative overflow-hidden"
                         style={{ height: "40vh", objectFit: "cover" }}
                       >
-                        <img class="img-fluid" src={data.image} alt="" />
+                        <img class="img-fluid img-hover" src={data.image} alt="" />
                       </div>
                       <div class="d-flex">
                         <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary px-4">
@@ -72,7 +72,7 @@ function LatestUser() {
               <nav aria-label="Page navigation example ">
                 <ul class="pagination justify-content-center ">
                   <li
-                    class={` ${currentPage === 1 ? "disabled" : "" }`}
+                    class={`page-item  bg-primary text-white border-0 ${currentPage === 1 ? "disabled" : "" }`}
                   ></li>
                   {Array.from({
                     length: Math.ceil(
@@ -81,12 +81,12 @@ function LatestUser() {
                   }).map((_, index) => (
                     <li
                       key={index}
-                      class={`  ${
+                      class={`page-item  bg-primary text-white border-0  ${
                         currentPage === index + 1 ? "active" : ""
                       }`}
                     >
                       <a
-                        class="text-primary"
+                        class="page-link  bg-primary text-white border-0"
                         onClick={() => setCurrentPage(index + 1)}
                       >
                         {index + 1}
@@ -94,7 +94,7 @@ function LatestUser() {
                     </li>
                   ))}
                   <li
-                    class={` ${
+                    class={`page-item  bg-primary text-white border-0 ${
                       currentPage ===
                       Math.ceil(this_is_user_post.length / POSTS_PER_PAGE)
                         ? "disabled"

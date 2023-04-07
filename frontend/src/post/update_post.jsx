@@ -42,7 +42,7 @@ function Setting() {
         setTimeout(() => {
             navigate("/user/detail");
           }, 1000);
-          toast.success("Successfully post is added ", {
+          toast.success("Successfully post is updated", {
             position: toast.POSITION.TOP_RIGHT,
           });
     }
@@ -82,7 +82,7 @@ return (
 
                   <div>
                     <div
-                      className="bg-primary text-center mt-4"
+                      className="btn-secondary  text-center mt-4"
                       style={{ padding: "30px" }}
                     >
                       <p>
@@ -123,7 +123,7 @@ return (
                     </div>
 
                   <div className="input-group ">
-                    <button className="btn  btn-primary mt-4" type="button">
+                    <button className="btn btn-secondary  mt-4" type="button">
                       Title
                     </button>
                     <input
@@ -138,7 +138,7 @@ return (
 
                   <div className="input-group ">
                     <button
-                      className="btn  btn-primary mt-4"
+                      className="btn btn-secondary  mt-4"
                       type="button"
                     >
                       Description
@@ -152,7 +152,7 @@ return (
                     ></textarea>
                   </div>
                   <button
-                    className="btn btn-primary w-100 py-3 mt-4"
+                    className="btn btn-secondary w-100 py-3 mt-4"
                     type="submit"
                     onClick={UpdateProducts}
                   >

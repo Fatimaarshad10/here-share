@@ -38,7 +38,7 @@ router.get('/data', async (req, res) => {
       res.status(400).json(err.message);
     }
   };
-  
+
 router.get('/:id/new', get_comment)
 router.post('/:id', commentController.createComment);
 

@@ -32,7 +32,9 @@ function TeamMember() {
                 currentPage * POSTS_PER_PAGE
               )
               .map((data) => (
+              
                 <div class="col-lg-4">
+                {data.admin === 'admin'   ? (
                   <div
                     class="team-item position-relative overflow-hidden"
                     style={{ height: "70vh" }}
@@ -46,27 +48,33 @@ function TeamMember() {
                     <div class="team-text w-100 position-absolute top-50 text-center bg-secondary  p-4">
                       <h3 class="text-primary">{data.name}</h3>
                       <p class=" text-primary text-uppercase mb-0">{data.admin}</p>
+
+                     
                     </div>
                   </div>
+                     ):(<>
+                       </>)}
                 </div>
+             
+
               ))}
             {user.length > 0 && (
               <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                   <li
-                    class={` ${currentPage === 1 ? "disabled" : ""}`}
+                    class={`page-item  bg-primary text-white  border-0 ${currentPage === 1 ? "disabled" : ""}`}
                   ></li>
                   {Array.from({
                     length: Math.ceil(user.length / POSTS_PER_PAGE),
                   }).map((_, index) => (
                     <li
                       key={index}
-                      class={` ${
+                      class={`page-item  bg-primary text-white  border-0  ${
                         currentPage === index + 1 ? "active" : ""
                       }`}
                     >
                       <a
-                        class="text-primary"
+                        class="page-link  bg-primary text-white border-0 "
                         onClick={() => setCurrentPage(index + 1)}
                       >
                         {index + 1}
@@ -74,7 +82,7 @@ function TeamMember() {
                     </li>
                   ))}
                   <li
-                    class={` ${
+                    class={`page-item  bg-primary text-white border-0   ${
                       currentPage === Math.ceil(user.length / POSTS_PER_PAGE)
                         ? "disabled"
                         : ""

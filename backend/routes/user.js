@@ -126,7 +126,7 @@ UserRoute.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/error" }),
   function (req, res) {
-    return res.redirect("http://localhost:3000/");
+    return res.redirect("http://localhost:3000/blog");
   }
 );
 
@@ -175,7 +175,7 @@ UserRoute.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/error" }),
   function (req, res) {
-    return res.redirect("http://localhost:3000/");
+    return res.redirect("http://localhost:3000/blog");
   }
 );
 /*  SerializeUSer  */
@@ -192,8 +192,6 @@ passport.deserializeUser((id, done) => {
 UserRoute.get("/", Users);
 UserRoute.get("/:id/get", GetOneUser);
 UserRoute.get("/:id/no", get_user);
-
-
 // User is register
 UserRoute.post("/register", upload.single("image"), Register);
 // User is logout
@@ -212,6 +210,6 @@ UserRoute.get("/logout", (req, res) => {
     
   });
   res.clearCookie("connect.sid", { path: "/" });
-  return res.redirect("http://localhost:3000/login");
+  return res.redirect("http://localhost:3000/register");
 });
 module.exports = UserRoute;

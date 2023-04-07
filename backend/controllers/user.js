@@ -94,17 +94,16 @@ const deleteUserData = async (req, res) => {
 const sendEmail = async (req, res) => {
   const { email, message } = req.body;
   let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
-
+    
+    service:'gmail',
     auth: {
-      user: "fatimaarshad118@gmail.com",
-      pass: "bxelzfcljaixktcb",
+      user: "fatimaarshad091@gmail.com",
+      pass: "aujicqesztopxerk",
     },
   });
   let emailData = {
     from: email,
-    to: "fatimaarshad118@gmail.com",
+    to: "fatimaarshad091@gmail.com",
     subject: `Message from ${email}`,
     text: message,
   };
@@ -120,7 +119,6 @@ const sendEmail = async (req, res) => {
 };
 const  GetOneUser = async (req, res) => {
   const { id } = req.params;
-console.log(id)
   try {
     // Fetch the post details using the post ID
     const post = await User.findById(id);

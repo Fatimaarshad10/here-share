@@ -35,6 +35,7 @@ function Home() {
   return (
     <>
       <div class="container-fluid p-0">
+       
         <div
           id="header-carousel"
           class="carousel slide carousel-fade"
@@ -53,11 +54,12 @@ function Home() {
                   </h1>
                   <a
                     href="/jdhsj"
-                    class="btn btn-primary py-md-3 px-md-5 me-3 rounded-pill"
+                    class="btn btn-secondary py-md-3 px-md-5 me-3 rounded-pill"
                   >
                     Get Quote
                   </a>
-                  <Link to="/contact"   class="btn btn-secondary py-md-3 px-md-5 rounded-pill">
+                  
+                  <Link to="/contact"   class="btn bg-white py-md-3 px-md-5 rounded-pill">
                   
                     Contact Us
                   </Link>
@@ -75,12 +77,13 @@ function Home() {
                     Take Our Help To Reach The Top Level
                   </h1>
                   <a
-                    href="get"
-                    class="btn btn-primary py-md-3 px-md-5 me-3 rounded-pill"
+                    href="/jdhsj"
+                    class="btn btn-secondary py-md-3 px-md-5 me-3 rounded-pill"
                   >
                     Get Quote
                   </a>
-                  <Link to="/contact"   class="btn btn-secondary py-md-3 px-md-5 rounded-pill">
+                  
+                  <Link to="/contact"   class="btn bg-white py-md-3 px-md-5 rounded-pill">
                   
                     Contact Us
                   </Link>

@@ -1,9 +1,8 @@
 import React from 'react'
-import quote from '../img/quote.jpg'
+import quote from '../img/kimetsu-no-yaiba-anime-4k-yn-1360x768.jpg'
 function Form() {
   return (
     <>
-     {/* <!-- Page Header Start --> */}
     <div class="container-fluid bg-dark p-5">
         <div class="row">
             <div class="col-12 text-center">
@@ -14,7 +13,6 @@ function Form() {
             </div>
         </div>
     </div>
-    {/* <!-- Page Header End --> */}
     <div class="container-fluid bg-secondary px-0">
         <div class="row g-0">
             <div class="col-lg-6 py-6 px-5">

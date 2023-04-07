@@ -150,14 +150,14 @@ function Register() {
                   style={{ marginTop: "15px" }}
                 />
                 <ToastContainer />
-                <button class="btn btn-primary w-100 py-3 mt-4 " type="submit">
+                <button class="btn btn-secondary w-100 py-3 mt-4 " type="submit">
                   Submit
                 </button>
                 <p className="text-center text-primary">OR</p>
 
                 <div class="col-6">
                   <button
-                    class="btn btn-primary w-100 py-2 "
+                    class="btn btn-secondary w-100 py-2 "
                     onClick={loginWithGoogle}
                   >
                     Google
@@ -166,7 +166,7 @@ function Register() {
 
                 <div class="col-6">
                   <button
-                    class="btn btn-primary w-100 py-2 "
+                    class="btn btn-secondary w-100 py-2 "
                     onClick={loginWithGithub}
                   >
                     github

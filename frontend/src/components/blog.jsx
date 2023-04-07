@@ -46,7 +46,7 @@ function Blog() {
                             class="position-relative overflow-hidden"
                             style={{ height: "35vh" }}
                           >
-                            <img class="img-fluid" src={data.image} alt="" />
+                            <img class="img-fluid img-hover" src={data.image} alt="" />
                           </div>
                           <div class="bg-secondary d-flex">
                             <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary  px-4">
@@ -54,7 +54,7 @@ function Blog() {
                             </div>
                             <div class="d-flex flex-column justify-content-center py-3 px-4">
                               <div class="d-flex mb-2">
-                                <small class="text-uppercase me-3">
+                                <small class="text-uppercase me-3 text-primary">
                                   <i class="bi bi-person me-2"></i>
                                   {data.user.name}
                                 </small>
@@ -71,7 +71,7 @@ function Blog() {
                   <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center ">
                       <li
-                        class={` ${
+                        class={`page-item  bg-primary text-white border-0 ${
                           currentPage === 1 ? "disabled" : ""
                         }`}
                       ></li>
@@ -82,12 +82,12 @@ function Blog() {
                       }).map((_, index) => (
                         <li
                           key={index}
-                          class={`${
+                          class={`page-item  bg-primary text-white border-0 ${
                             currentPage === index + 1 ? "active" : ""
                           }`}
                         >
                           <a
-                            class="text-primary "
+                            class="page-link  bg-primary text-white border-0"
                             onClick={() => setCurrentPage(index + 1)}
                           >
                             {index + 1}
@@ -95,7 +95,7 @@ function Blog() {
                         </li>
                       ))}
                       <li
-                        class={` ${
+                        class={`page-item  bg-primary text-white border-0 ${
                           currentPage ===
                           Math.ceil(this_is_user_post.length / POSTS_PER_PAGE)
                             ? "disabled"
@@ -118,7 +118,7 @@ function Blog() {
                   class="form-control p-3"
                   placeholder="Keyword"
                 />
-                <button class="btn btn-primary px-4">
+                <button class="btn btn-secondary px-4">
                   <i class="bi bi-search"></i>
                 </button>
               </div>
@@ -156,7 +156,7 @@ function Blog() {
                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center ">
                     <li
-                      class={` ${recentPost === 1 ? "disabled" : ""}`}
+                      class={`page-item  bg-primary text-white border-0 ${recentPost === 1 ? "disabled" : ""}`}
                     ></li>
                     {Array.from({
                       length: Math.ceil(
@@ -165,12 +165,12 @@ function Blog() {
                     }).map((_, index) => (
                       <li
                         key={index}
-                        class={` ${
+                        class={`page-item  bg-primary text-white border-0 ${
                           recentPost === index + 1 ? "active" : ""
                         }`}
                       >
                         <a
-                          class="text-primary "
+                          class="page-link  bg-primary text-white border-0"
                           onClick={() => setRecentPost(index + 1)}
                         >
                           {index + 1}
@@ -178,7 +178,7 @@ function Blog() {
                       </li>
                     ))}
                     <li
-                      class={` ${
+                      class={`page-item  bg-primary text-white border-0 ${
                         recentPost ===
                         Math.ceil(this_is_latest_post.length / RECENT_PER_PAGE)
                           ? "disabled"

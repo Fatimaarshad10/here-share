@@ -12,7 +12,8 @@ function AddPost() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
-
+  const [errors, setErrors] = useState({});
+ 
   const add_post = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -20,21 +21,37 @@ function AddPost() {
     data.append("description", description);
     data.append("image", image);
 
-    const response = await fetch(
-      `http://localhost:3000/post/create/${id}`,
-      {
-        method: "POST",
-        body: data,
+    // Check for errors
+    const newErrors = {};
+    if (!title) {
+      toast.success('title is required')
+    }
+    if (!description) {
+      toast.success('Description is required')
+    }
+    if (!image) {
+      toast.success('Image is required')
+    }
+    setErrors(newErrors);
+
+    // If there are no errors, submit the form
+    if (Object.keys(newErrors).length === 0) {
+      const response = await fetch(
+        `http://localhost:3000/post/create/${id}`,
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const json = await response.json();
+      if (response.ok) {
+        setTimeout(() => {
+          navigate("/user/detail");
+        }, 1000);
+        toast.success("Successfully post is added ", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       }
-    );
-    const json = await response.json();
-    if (response.ok) {
-      setTimeout(() => {
-        navigate("/user/detail");
-      }, 1000);
-      toast.success("Successfully post is added ", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
     }
   };
   const submitHandler = (e) => {
@@ -42,7 +59,6 @@ function AddPost() {
     setSelectedImage(URL.createObjectURL(e.target.files[0]));
 
   };
-
 
   return (
     <div>
@@ -52,7 +68,7 @@ function AddPost() {
             <form>
               <div class="row g-3">
                 <div class="col-lg-4">
-                  <div className=" bg-secondary text-center">
+                  <div className="bg-secondary text-center">
                     <img
                       src={UserData.image}
                       alt=""
@@ -67,7 +83,7 @@ function AddPost() {
 
                   <div>
                     <div
-                      class="bg-primary text-center mt-4"
+                      class="btn-secondary text-center mt-4"
                       style={{ padding: "30px" }}
                     >
                       <p>
@@ -107,7 +123,7 @@ function AddPost() {
                     </div>
 
                   <div class="input-group ">
-                    <button class="btn  btn-primary mt-4" type="button">
+                    <button class="btn btn-secondary mt-4" type="button">
                       Title
                     </button>
                     <input
@@ -121,7 +137,7 @@ function AddPost() {
 
                   <div class="input-group ">
                     <button
-                      class="btn  btn-primary mt-4"
+                      class="btn btn-secondary mt-4"
                       type="button"
                       maxLength={10}
                     >
@@ -135,7 +151,7 @@ function AddPost() {
                     ></textarea>
                   </div>
                   <button
-                    class="btn btn-primary w-100 py-3 mt-4"
+                    class="btn btn-secondary w-100 py-3 mt-4"
                     type="submit"
                     onClick={add_post}
                   >

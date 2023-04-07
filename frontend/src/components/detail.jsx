@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Blog1 from "../img/blog-1.jpg";
+import Blog1 from "../img/megumi-fushiguro-wolf-summon-de-jujutsu-kaisen-8304.webp";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
@@ -116,13 +116,13 @@ function Detail() {
                       />
                       <div class="ps-3">
                         <h6>
-                          <a href="">{data.user.name}</a>{" "}
+                          <a href="" className="text-primary ">{data.user.name}</a>{" "}
                           <small>
-                            <i>{formatDate(detail.createdAt)}</i>
+                            <i className="text-white ">{formatDate(detail.createdAt)}</i>
                           </small>
                         </h6>
                         <p>{data.text}</p>
-                        <button class="btn btn-sm btn-light">Reply</button>
+                        <button class="btn btn-sm btn-secondary ">Reply</button>
                       </div>
                       </>
                         ):(
@@ -135,7 +135,7 @@ function Detail() {
                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center">
                     <li
-                      class={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+                      class={`page-item  bg-primary text-white border-0 ${currentPage === 1 ? "disabled" : ""}`}
                     ></li>
                     {Array.from({
                       length: Math.ceil(
@@ -144,12 +144,12 @@ function Detail() {
                     }).map((_, index) => (
                       <li
                         key={index}
-                        class={`page-item ${
+                        class={`page-item bg-primary text-white border-0 ${
                           currentPage === index + 1 ? "active" : ""
                         }`}
                       >
                         <a
-                          class="page-link"
+                          class="page-link  bg-primary text-white border-0 "
                           onClick={() => setCurrentPage(index + 1)}
                         >
                           {index + 1}{" "}
@@ -157,7 +157,7 @@ function Detail() {
                       </li>
                     ))}
                     <li
-                      class={`page-item ${
+                      class={`page-item  bg-primary text-white border-0  ${
                         currentPage ===
                         Math.ceil(detail.comments.length / POSTS_PER_PAGE)
                           ? "disabled"
@@ -204,7 +204,7 @@ function Detail() {
                     ></textarea>
                   </div>
                   <div class="col-12">
-                    <button class="btn btn-primary w-100 py-3" type="submit">
+                    <button class="btn btn-secondary w-100 py-3" type="submit">
                       Leave Your Comment
                     </button>
                   </div>
@@ -221,68 +221,68 @@ function Detail() {
                   class="form-control p-3"
                   placeholder="Keyword"
                 />
-                <button class="btn btn-primary px-4">
+                <button class="btn btn-secondary  px-4">
                   <i class="bi bi-search"></i>
                 </button>
               </div>
             </div>
 
             <div class="mb-5">
-              <img src={Blog1} alt="" class="img-fluid" />
+              <img src={ Blog1} alt="" class="img-fluid" />
             </div>
 
             <div class="mb-5">
               <h2 class="mb-4">Tag Cloud</h2>
               <div class="d-flex flex-wrap m-n1">
                 <a href="" class="btn btn-secondary m-1">
-                  Design
+                Bleach 
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  Development
+                Cardcaptor Sakura
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  Marketing
+                Death Note
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  SEO
+                Dragon Ball Z
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  Writing
+                Alchemist: Brotherhood
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  Consulting
+                Naruto
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  Design
+                One Piece
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  Development
+                Pokémon 
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  Marketing
+                Your Name
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  SEO
+                Ghost in the Shell 
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  Writing
+                Eden of the East 
                 </a>
                 <a href="" class="btn btn-secondary m-1">
-                  Consulting
+                The works of Hayao Miyazaki
                 </a>
               </div>
             </div>
 
             <div>
               <h2 class="mb-4">Plain Text</h2>
-              <div class="bg-secondary text-center" style={{ padding: "30px" }}>
+              <div class=" text-center" style={{ padding: "30px" }}>
                 <p>
                   Vero sea et accusam justo dolor accusam lorem consetetur,
                   dolores sit amet sit dolor clita kasd justo, diam accusam no
                   sea ut tempor magna takimata, amet sit et diam dolor ipsum
                   amet diam
                 </p>
-                <a href="" class="btn btn-primary rounded-pill py-2 px-4">
+                <a href="" class="btn btn-secondary  rounded-pill py-2 px-4">
                   Read More
                 </a>
               </div>

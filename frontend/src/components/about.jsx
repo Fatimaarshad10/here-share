@@ -19,7 +19,7 @@ function About() {
         </div>
     </div>
      <Aboutpart1/>
-<TeamMember/>
+      <TeamMember/>
    
     
     

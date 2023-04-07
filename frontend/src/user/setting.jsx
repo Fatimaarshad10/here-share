@@ -76,11 +76,12 @@ function Setting() {
 
                   <div>
                     <div
-                      class="bg-primary text-center mt-4"
+                      class="btn-secondary text-center mt-4"
                       style={{ padding: "30px" }}
                     >
                       <p>
-                        {" "}
+                      {" "}
+                        <br />
                         {UserData.name}
                         <br /> {UserData.email}{" "}
                       </p>
@@ -107,7 +108,7 @@ function Setting() {
 
                 <div class="col-12 col-md-7 col-sm-9 py-6 px-5 mx-auto mt-3 ">
                   <div class="input-group  ">
-                    <button class="btn  btn-primary mb-3" type="button">
+                    <button class="btn btn-secondary b-3" type="button">
                       Email
                     </button>
                     <input
@@ -120,11 +121,12 @@ function Setting() {
                     />
                   </div>
                   <div class="input-group ">
-                    <button class="btn  btn-primary mt-2" type="button">
+                    <button class="btn  btn-secondary mt-2" type="button">
                       Password
                     </button>
                     <input
                       type="password"
+                      
                       onChange={(e) => setPassword(e.target.value)}
                       class="form-control bg-white border-0 mt-2 "
                       placeholder="New password"
@@ -132,7 +134,7 @@ function Setting() {
                     />
                   </div>
 
-                  <button class="btn btn-primary w-100 py-3 mt-4" type="submit" onClick={UpdateProducts}>
+                  <button class="btn btn-secondary w-100 py-3 mt-4" type="submit" onClick={UpdateProducts}>
                     Save
                   </button>
                   <p className="text-center mt-4 text-primary">OR</p>
@@ -141,7 +143,7 @@ function Setting() {
                     Once you click the delete button, all your data will be
                     lost.
                   </p>
-                  <button class="btn btn-primary w-100 py-3 mt-4" type="submit" onClick={deleteUser}>
+                  <button class="btn btn-secondary  w-100 py-3 mt-4" type="submit" onClick={deleteUser}>
                     Eliminate
                   </button>
                   

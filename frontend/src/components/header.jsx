@@ -164,7 +164,7 @@ function Header() {
                         src={UserData.image}
                         alt="Snow"
                         width={60}
-                        style={{ borderRadius: "50%", height: "10vh" }}
+                        style={{ borderRadius: "50%"}}
                         className="mt-3"
                       />
                     </a>
@@ -183,7 +183,7 @@ function Header() {
                           Setting
                         </a>
                       </Link>
-                      <button class="btn btn-primary ms-2 " onClick={logout}>
+                      <button class="btn btn-secondary ms-2 " onClick={logout}>
                         logout
                       </button>
                     </ul>

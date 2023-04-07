@@ -2,7 +2,7 @@
 :root {
     --primary: #1c5450;
     --body-bg: #020303 ;
-    --light: #fbfbfb;
+    --light: #d7e9e6;
     --dark: #132423;
     --success : #0f3d39;
     --secondary:  #000000;
@@ -17,16 +17,17 @@ body{
 .text-secondary {
     color: var(--secondary) !important;
 }
-.btn-primary{
+.btn-secondary {
     background-color: var(--success) !important;
-    border: var(--success);
+    border: none;
 }
+
+  
+
 .text-primary {
     color:var(--success) !important;
   }
-.page-item.active , .page-link{
-    background-color: aqua;
-}
+
 .bg-dark{
     background-color: var(--dark) !important;
   }
@@ -72,10 +73,8 @@ h6,
     font-weight: 600;
     transition: .5s;
 }
-.t
-.btn-primary {
-    color: #FFFFFF;
-}
+
+
 
 .btn-square {
     width: 36px;
@@ -124,20 +123,24 @@ h6,
     padding: 35px 15px;
     font-size: 18px;
     text-transform: uppercase;
-    color: var(--dark);
+    color: #153635;
     outline: none;
     transition: .5s;
 }
 .link-data:active{
-background-color: var(--success);
+background-color:#1c5450;
 }
 .sticky-top.navbar-light .navbar-nav .nav-link {
     padding: 20px 15px;
 }
+.nav-item:focus{
+    background-color: var(--light);
+}
 
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link.active {
-    color: var(--primary);
+    color: var(--light);
+    background-color: #1c5450;
 }
 
 @media (max-width: 991.98px) {
@@ -282,5 +285,9 @@ background-color: var(--success);
 }
 
 .blog-item:hover img {
+    /* transform: scale(1.1); */
+}
+.img-hover:hover {
     transform: scale(1.1);
+
 }
