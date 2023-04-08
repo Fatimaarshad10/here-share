@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate ,  useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AddPost() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function AddPost() {
   const [image, setImage] = useState("");
   const [selectedImage, setSelectedImage] = useState("");
   const [errors, setErrors] = useState({});
- 
+
   const add_post = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -24,25 +24,22 @@ function AddPost() {
     // Check for errors
     const newErrors = {};
     if (!title) {
-      toast.success('title is required')
+      toast.success("title is required");
     }
     if (!description) {
-      toast.success('Description is required')
+      toast.success("Description is required");
     }
     if (!image) {
-      toast.success('Image is required')
+      toast.success("Image is required");
     }
     setErrors(newErrors);
 
     // If there are no errors, submit the form
     if (Object.keys(newErrors).length === 0) {
-      const response = await fetch(
-        `http://localhost:3000/post/create/${id}`,
-        {
-          method: "POST",
-          body: data,
-        }
-      );
+      const response = await fetch(`http://localhost:3000/post/create/${id}`, {
+        method: "POST",
+        body: data,
+      });
       const json = await response.json();
       if (response.ok) {
         setTimeout(() => {
@@ -57,7 +54,6 @@ function AddPost() {
   const submitHandler = (e) => {
     setImage(e.target.files[0]);
     setSelectedImage(URL.createObjectURL(e.target.files[0]));
-
   };
 
   return (
@@ -97,30 +93,28 @@ function AddPost() {
                 </div>
 
                 <div class="col-12  col-md-6 col-sm-9 mx-auto ">
-                    <div class="wrapper">
-                      <div class="container">
-                        <div class="upload-container">
-                          <div class="border-container">
-                            <div class="icons fa-4x">
+                  <div class="wrapper">
+                    <div class="container">
+                      <div class="upload-container">
+                        <div class="border-container">
+                          <div class="icons fa-4x">
                             {selectedImage ? (
-            <img src={selectedImage} alt="" width={100} />
-          ) : (
-            <img src={image} alt="" width={100} />
-          )}
-                              
-                            </div>
-                            <input
-                              required
-                              type="file"
-                              id="file-upload"
-                              
-                              onChange={submitHandler}
-                              style={{ marginTop: "15px" }}
-                            />
+                              <img src={selectedImage} alt="" width={100} />
+                            ) : (
+                              <img src={image} alt="" width={100} />
+                            )}
                           </div>
+                          <input
+                            required
+                            type="file"
+                            id="file-upload"
+                            onChange={submitHandler}
+                            style={{ marginTop: "15px" }}
+                          />
                         </div>
                       </div>
                     </div>
+                  </div>
 
                   <div class="input-group ">
                     <button class="btn btn-secondary mt-4" type="button">
@@ -164,7 +158,6 @@ function AddPost() {
         </div>
       </div>
       <ToastContainer />
-
     </div>
   );
 }

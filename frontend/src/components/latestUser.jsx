@@ -44,7 +44,11 @@ function LatestUser() {
                         class="position-relative overflow-hidden"
                         style={{ height: "40vh", objectFit: "cover" }}
                       >
-                        <img class="img-fluid img-hover" src={data.image} alt="" />
+                        <img
+                          class="img-fluid img-hover"
+                          src={data.image}
+                          alt=""
+                        />
                       </div>
                       <div class="d-flex">
                         <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary px-4">
@@ -59,7 +63,16 @@ function LatestUser() {
                               {data.user.name}
                             </small>
                           </div>
-                          <a class="h5 text-primary" href=""  style={{ width: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          <a
+                            class="h5 text-primary"
+                            href=""
+                            style={{
+                              width: "150px",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
                             {data.title}
                           </a>
                         </div>
@@ -68,11 +81,13 @@ function LatestUser() {
                   </div>
                 </div>
               ))}
-            {this_is_user_post.length > 0 && (
+            {this_is_user_post.length > 4 && (
               <nav aria-label="Page navigation example ">
                 <ul class="pagination justify-content-center ">
                   <li
-                    class={`page-item  bg-primary text-white border-0 ${currentPage === 1 ? "disabled" : "" }`}
+                    class={`page-item  bg-primary text-white border-0 ${
+                      currentPage === 1 ? "disabled" : ""
+                    }`}
                   ></li>
                   {Array.from({
                     length: Math.ceil(

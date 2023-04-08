@@ -1,32 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
-import { useParams ,useNavigate   } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Setting() {
   const navigate = useNavigate();
 
   const UserData = useSelector((state) => state.user.session);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState("");
   const { id } = useParams();
 
   const PostDetail = async () => {
     const response = await fetch(`http://localhost:4000/post/data/${id}`, {
       method: "GET",
     });
-  
     const json = await response.json();
-  setTitle(json.title);
-  setImage(json.image);
-  setDescription(json.description);
-
+    setTitle(json.title);
+    setImage(json.image);
+    setDescription(json.description);
   };
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
-  const [selectedImage, setSelectedImage] = useState("");
-  
+
   const UpdateProducts = async (e) => {
-   e.preventDefault()
+    e.preventDefault();
     const data = new FormData();
     data.append("image", image);
     data.append("title", title);
@@ -38,33 +36,30 @@ function Setting() {
     });
     const json = await response.json();
     if (response.ok) {
-        PostDetail()
-        setTimeout(() => {
-            navigate("/user/detail");
-          }, 1000);
-          toast.success("Successfully post is updated", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+      PostDetail();
+      setTimeout(() => {
+        navigate("/user/detail");
+      }, 1000);
+      toast.success("Successfully post is updated", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
   const submitHandler = (e) => {
     setSelectedImage(URL.createObjectURL(e.target.files[0]));
-
     setImage(e.target.files[0]);
   };
-  
 
-  
   useEffect(() => {
     PostDetail();
   }, []);
 
-return (
+  return (
     <div>
       <div className="justify-content-center">
         <div className="bg-secondary p-5 ">
           <div className="container-sm">
-            <form >
+            <form>
               <div className="row g-3">
                 <div className="col-lg-4">
                   <div className=" bg-secondary text-center">
@@ -96,31 +91,28 @@ return (
                 </div>
 
                 <div className="col-12  col-md-6 col-sm-9 mx-auto ">
-                    <div className="wrapper">
-                      <div className="container">
-                        <div className="upload-container">
-                          <div className="border-container">
-                            
-                            <div className="icons fa-4x">
-          {selectedImage ? (
-            <img src={selectedImage} alt="" width={100} />
-          ) : (
-            <img src={image} alt="" width={100} />
-          )}
-        </div>
-                            <input
-                              required
-                              type="file"
-                              id="file-upload"
-                              onChange={submitHandler}
-                              style={{ marginTop: "15px" }}
-                              
-                            />
+                  <div className="wrapper">
+                    <div className="container">
+                      <div className="upload-container">
+                        <div className="border-container">
+                          <div className="icons fa-4x">
+                            {selectedImage ? (
+                              <img src={selectedImage} alt="" width={100} />
+                            ) : (
+                              <img src={image} alt="" width={100} />
+                            )}
                           </div>
-                         
+                          <input
+                            required
+                            type="file"
+                            id="file-upload"
+                            onChange={submitHandler}
+                            style={{ marginTop: "15px" }}
+                          />
                         </div>
                       </div>
                     </div>
+                  </div>
 
                   <div className="input-group ">
                     <button className="btn btn-secondary  mt-4" type="button">
@@ -137,10 +129,7 @@ return (
                   </div>
 
                   <div className="input-group ">
-                    <button
-                      className="btn btn-secondary  mt-4"
-                      type="button"
-                    >
+                    <button className="btn btn-secondary  mt-4" type="button">
                       Description
                     </button>
                     <textarea

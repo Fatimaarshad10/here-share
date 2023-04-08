@@ -3,7 +3,6 @@ const passport = require("passport");
 const multer = require("multer");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const  mongoose=require('mongoose');
 const { Users, Register , LoginController  , updateUser , deleteUserData ,  sendEmail , GetOneUser , get_user} = require("../controllers/user");
 const UserRoute = express.Router();
 // Multer
@@ -23,7 +22,6 @@ UserRoute.post( "/login", LoginController);
 // User login successfull
 UserRoute.get("/success", async (req, res) => {
   if (req.user) {
-    console.log(req.user);
     res.status(200).json({
       user: {
         name: req.user.name,
@@ -194,12 +192,9 @@ UserRoute.get("/:id/get", GetOneUser);
 UserRoute.get("/:id/no", get_user);
 // User is register
 UserRoute.post("/register", upload.single("image"), Register);
-// User is logout
-
 // User is updated
 UserRoute.put('/:id',  upload.single('image'), updateUser)
 // User is deleted
-
 UserRoute.delete('/:id',   deleteUserData)
 UserRoute.post('/email', sendEmail)
 UserRoute.get("/logout", (req, res) => {

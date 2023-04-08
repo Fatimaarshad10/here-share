@@ -11,10 +11,8 @@ function Contact() {
   const UserData = useSelector((state) => state.user.session);
   const email = UserData.email;
   const [message, setMessage] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch("http://localhost:3000/user/email", {
         method: "POST",

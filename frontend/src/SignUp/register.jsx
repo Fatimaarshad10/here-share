@@ -1,70 +1,33 @@
 import React, { useState } from "react";
-import "../css/bootstrap.min.css";
-import "../css/main.css";
 import { useDispatch } from "react-redux";
 import registerPhoto from "../img/login.jpg";
-import { useNavigate } from "react-router-dom";
-import { registerSuccess } from "../store/redux/authSlice";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { registerUser } from "../store/redux/authSlice";
+import Authentication from "./authentication";
 function Register() {
-  const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [admin, setAdmin] = useState("");
-  const [image, setImag] = useState(null);
+  const { loginWithGithub, loginWithGoogle, userLoginIn , toast_function} = Authentication();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    admin: "",
+    image: null,
+  });
   const dispatch = useDispatch();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Call login API endpoint
-    const data = new FormData();
-    data.append("name", name);
-    data.append("email", email);
-    data.append("password", password);
-    data.append("admin", admin);
-    data.append("image", image);
-
-    fetch("http://localhost:3000/user/register", {
-      method: "POST",
-      body: data,
-      credentials: "include",
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Network response was not ok");
-        }
+  // register the user
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      registerUser({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        admin: formData.admin,
+        image: formData.image,
       })
-      .then((data) => {
-        // Update Redux store with session information
-        dispatch(registerSuccess(data));
-        setTimeout(() => {
-          navigate("/login");
-        }, 1000);
-        toast.success("Success Notification !", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  // navigate
-  const userSignIn = () => {
-    navigate("/login");
-  };
-  const submitHandler = (e) => {
-    setImag(e.target.files[0]);
-  };
-  // Login with google authentication
-  const loginWithGoogle = () => {
-    window.open("http://localhost:4000/user/auth/google", "_self");
-  };
-  // Login with github authentication
-  const loginWithGithub = () => {
-    window.open("http://localhost:4000/user/auth/github", "_self");
+    ).then(() => {
+      userLoginIn();
+      toast_function()
+    });
   };
   return (
     <>
@@ -83,8 +46,13 @@ function Register() {
                       class="form-control"
                       id="form-floating-1"
                       placeholder="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          name: e.target.value,
+                        })
+                      }
                     />
                     <label htmlFor="form-floating-1">Full Name</label>
                   </div>
@@ -97,8 +65,13 @@ function Register() {
                       class="form-control"
                       id="form-floating-2"
                       placeholder="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          email: e.target.value,
+                        })
+                      }
                     />
                     <label htmlFor="form-floating-2">Email address</label>
                   </div>
@@ -111,8 +84,13 @@ function Register() {
                       class="form-control"
                       id="form-floating-3"
                       placeholder="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={formData.password}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          password: e.target.value,
+                        })
+                      }
                     />
                     <label htmlFor="form-floating-3">Password</label>
                   </div>
@@ -126,7 +104,12 @@ function Register() {
                       name="flexRadioDefault"
                       id="flexRadioDefault1"
                       value="admin"
-                      onChange={(e) => setAdmin(e.target.value)}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          admin: e.target.value,
+                        })
+                      }
                     />
                     Admin
                   </div>
@@ -136,21 +119,35 @@ function Register() {
                       class="form-check-input"
                       type="radio"
                       name="flexRadioDefault"
-                      onChange={(e) => setAdmin(e.target.value)}
                       id="flexRadioDefault2"
                       value="user"
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          admin: e.target.value,
+                        })
+                      }
                     />
                     User
                   </div>
                 </div>
-                <input className="text-primary"
+                <input
+                  className="text-primary"
                   required
                   type="file"
-                  onChange={submitHandler}
+                  name="image"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      image: e.target.files[0],
+                    })
+                  }
                   style={{ marginTop: "15px" }}
                 />
-                <ToastContainer />
-                <button class="btn btn-secondary w-100 py-3 mt-4 " type="submit">
+                <button
+                  class="btn btn-secondary w-100 py-3 mt-4 "
+                  type="submit"
+                >
                   Submit
                 </button>
                 <p className="text-center text-primary">OR</p>
@@ -177,8 +174,11 @@ function Register() {
                   Already registered{" "}
                   <a
                     class=" py-2 text-white "
-                    onClick={userSignIn}
-                    style={{ textDecoration: "underline", cursor: "pointer" }}
+                    onClick={userLoginIn}
+                    style={{
+                      textDecoration: "underline",
+                      cursor: "pointer",
+                    }}
                   >
                     Sign in?{" "}
                   </a>
@@ -187,12 +187,12 @@ function Register() {
             </form>
           </div>
 
-          <div class="col-lg-6" >
+          <div class="col-lg-6">
             <div class="position-relative h-100 ">
               <img
                 src={registerPhoto}
                 class="img-fluid  "
-                style={{height: "121vh" }}
+                style={{ height: "121vh" }}
                 alt="registerPhoto"
               />
             </div>

@@ -7,7 +7,7 @@ import deleteImage from "../img/icons8-close-48.png";
 import readMore from "../img/icons8-more-24.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import '../css/main.css'
+import "../css/main.css";
 function Blog() {
   const UserData = useSelector((state) => state.user.session);
   const navigate = useNavigate();
@@ -71,15 +71,10 @@ function Blog() {
                 <p className="text-uppercase ">{UserData.name}</p>
                 <p>{UserData.email}</p>
                 <p>
-                  {UserData.detail === 'undefine' ? (
-                    <>
-                
-                  </>
-                  ):(
-<>
-{UserData.detail.split(" ").slice(0, 30).join(" ")}
-                  {UserData.detail.split(" ").length > 30 ? "..." : ""}
-</>
+                  {UserData.detail === "undefine" ? (
+                    <></>
+                  ) : (
+                    <>{UserData.detail}</>
                   )}
                 </p>
               </div>
@@ -96,40 +91,33 @@ function Blog() {
                     )
                     .map((data) => (
                       <>
-                       
                         <div class="col-xl-6 col-lg-12 col-md-6" key={data._id}>
                           <div class="blog-item">
                             <div
                               class="team-item position-relative overflow-hidden"
                               style={{ height: "35vh" }}
                             >
-                               
-                                <span className="position-absolute bg-secondary ">
-                                      
-                                      
-                                    </span>
+                              <span className="position-absolute bg-secondary "></span>
                               <img class="img-fluid" src={data.image} alt="" />
                               <div class="team-text w-100 position-absolute top-0 text-center bg-secondary  p-4">
-                              <Link to={`/post/update/${data._id}`} >
-                                        {" "}
-                                        <img
-                                          src={updateImage}
-                                          alt="add_image "
-                                          width={20}
-                                        />{" "}
-                                      </Link>
-                                      <Link className="ms-2">
-                                        {" "}
-                                        <img
-                                      
-                                          src={deleteImage}
-                                          alt="add_image"
-                                          width={20}
-                                          onClick={() => deletePost(data._id)}
-                                        />{" "}
-                                      </Link>
-                      </div>
-
+                                <Link to={`/post/update/${data._id}`}>
+                                  {" "}
+                                  <img
+                                    src={updateImage}
+                                    alt="add_image "
+                                    width={20}
+                                  />{" "}
+                                </Link>
+                                <Link className="ms-2">
+                                  {" "}
+                                  <img
+                                    src={deleteImage}
+                                    alt="add_image"
+                                    width={20}
+                                    onClick={() => deletePost(data._id)}
+                                  />{" "}
+                                </Link>
+                              </div>
                             </div>
 
                             <div class="bg-secondary d-flex">
@@ -141,12 +129,9 @@ function Blog() {
                                   <small class="text-uppercase me-3 text-primary">
                                     <i class="bi bi-person me-2 text-primary "></i>
                                     {data.user.name}
-                                    
-
-                                  
                                   </small>
                                 </div>
-                              
+
                                 <a
                                   class="h5  text-primary"
                                   href=""
@@ -159,7 +144,10 @@ function Blog() {
                                 >
                                   {data.title}
                                 </a>
-                                <Link to={`/detail/${data._id}`} className=" text-primary">
+                                <Link
+                                  to={`/detail/${data._id}`}
+                                  className=" text-primary"
+                                >
                                   More{" "}
                                   <img
                                     src={readMore}
@@ -187,14 +175,21 @@ function Blog() {
                       </Link>
                     </div>
                   </div>
-                  {post.length > 0 && (
+                  {post.length > 4 && (
                     <nav aria-label="Page navigation example">
                       <ul class="pagination justify-content-center">
                         <li
                           class={`page-item  bg-primary text-white border-0 ${
                             currentPage === 1 ? "disabled" : ""
                           }`}
-                        ></li>
+                        >
+                          <a
+                            className="page-link  bg-primary text-white border-0"
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                          >
+                            Previous
+                          </a>
+                        </li>
                         {Array.from({
                           length: Math.ceil(post.length / POSTS_PER_PAGE),
                         }).map((_, index) => (
@@ -219,7 +214,14 @@ function Blog() {
                               ? "disabled"
                               : ""
                           }`}
-                        ></li>
+                        >
+                          <a
+                            className="page-link  bg-primary text-white border-0"
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                          >
+                            Next
+                          </a>
+                        </li>
                       </ul>
                     </nav>
                   )}
@@ -235,7 +237,10 @@ function Blog() {
                   </Link>
                   <h1>Share blogs</h1>
                   <p>When you share blog , they will appear on your profile.</p>
-                  <Link to={`/post/create/${UserData._id}`} className="text-primary ">
+                  <Link
+                    to={`/post/create/${UserData._id}`}
+                    className="text-primary "
+                  >
                     Share your first blog{" "}
                   </Link>
                 </div>

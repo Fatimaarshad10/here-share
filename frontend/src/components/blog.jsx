@@ -46,7 +46,11 @@ function Blog() {
                             class="position-relative overflow-hidden"
                             style={{ height: "35vh" }}
                           >
-                            <img class="img-fluid img-hover" src={data.image} alt="" />
+                            <img
+                              class="img-fluid img-hover"
+                              src={data.image}
+                              alt=""
+                            />
                           </div>
                           <div class="bg-secondary d-flex">
                             <div class="flex-shrink-0 d-flex flex-column justify-content-center text-center bg-primary  px-4">
@@ -59,15 +63,30 @@ function Blog() {
                                   {data.user.name}
                                 </small>
                               </div>
-                              <a class="h5 text-primary" href=""  style={{ width: "150px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}> 
+                              <a
+                                class="h5 text-primary"
+                                href=""
+                                style={{
+                                  width: "150px",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: "nowrap",
+                                }}
+                              >
                                 {data.title}
                               </a>
-                              <Link to={`/detail/${data._id}`} className="text-primary ">Read more</Link>
+                              <Link
+                                to={`/detail/${data._id}`}
+                                className="text-primary "
+                              >
+                                Read more
+                              </Link>
                             </div>
                           </div>
                         </div>
                       </div>
                     ))}
+                    {this_is_user_post.length > 4 && (
                   <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center ">
                       <li
@@ -104,6 +123,7 @@ function Blog() {
                       ></li>
                     </ul>
                   </nav>
+                  )}
                 </div>
               </div>
             </>
@@ -153,10 +173,13 @@ function Blog() {
                       </a>
                     </div>
                   ))}
+                   {this_is_latest_post.length > 4 && (
                 <nav aria-label="Page navigation example">
                   <ul class="pagination justify-content-center ">
                     <li
-                      class={`page-item  bg-primary text-white border-0 ${recentPost === 1 ? "disabled" : ""}`}
+                      class={`page-item  bg-primary text-white border-0 ${
+                        recentPost === 1 ? "disabled" : ""
+                      }`}
                     ></li>
                     {Array.from({
                       length: Math.ceil(
@@ -187,6 +210,7 @@ function Blog() {
                     ></li>
                   </ul>
                 </nav>
+                   )}
               </div>
             ) : (
               <></>

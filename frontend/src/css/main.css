@@ -7,6 +7,17 @@
     --success : #0f3d39;
     --secondary:  #000000;
 }
+
+input:focus, input.form-control:focus {
+
+    outline:none !important;
+    outline-width: 0 !important;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    
+}
+
 body{
     background-color: var(--body-bg);
 }

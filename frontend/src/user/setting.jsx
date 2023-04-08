@@ -1,22 +1,19 @@
-import React  ,{useState , useEffect}from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Success } from "../store/redux/authSlice";
 import { useDispatch } from "react-redux";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
 function Setting() {
   const UserData = useSelector((state) => state.user.session);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const UpdateProducts = async (e) => {
+  const UpdateUser = async (e) => {
     e.preventDefault();
-
     const data = new FormData();
     data.append("email", email);
     data.append("password", password);
@@ -28,9 +25,9 @@ function Setting() {
     const json = await response.json();
     dispatch(Success(json));
     if (response.ok) {
-      toast.success('Successfully User Is Updated!', {
-        position: toast.POSITION.TOP_RIGHT
-    });
+      toast.success("Successfully User Is Updated!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     }
   };
   useEffect(() => {
@@ -45,12 +42,10 @@ function Setting() {
     });
     const p = await res.json();
     console.log(p);
-    dispatch(Success((p)))
-    if(res.ok){
-    navigate("/register");
-
+    dispatch(Success(p));
+    if (res.ok) {
+      navigate("/register");
     }
-
   };
   return (
     <div>
@@ -66,10 +61,9 @@ function Setting() {
                       alt=""
                       class="img-fluid mt-4 "
                       style={{
-                       width:'auto', 
-                       maxHeight:'50%', 
-                        maxWidth:'50%',
-                        
+                        width: "auto",
+                        maxHeight: "50%",
+                        maxWidth: "50%",
                       }}
                     />
                   </div>
@@ -80,7 +74,7 @@ function Setting() {
                       style={{ padding: "30px" }}
                     >
                       <p>
-                      {" "}
+                        {" "}
                         <br />
                         {UserData.name}
                         <br /> {UserData.email}{" "}
@@ -114,8 +108,8 @@ function Setting() {
                     <input
                       type="email"
                       class="form-control bg-white border-0 mb-3"
-                      placeholder="Your Email" 
-                       value={email}
+                      placeholder="Your Email"
+                      value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       style={{ height: "55px" }}
                     />
@@ -126,7 +120,6 @@ function Setting() {
                     </button>
                     <input
                       type="password"
-                      
                       onChange={(e) => setPassword(e.target.value)}
                       class="form-control bg-white border-0 mt-2 "
                       placeholder="New password"
@@ -134,7 +127,11 @@ function Setting() {
                     />
                   </div>
 
-                  <button class="btn btn-secondary w-100 py-3 mt-4" type="submit" onClick={UpdateProducts}>
+                  <button
+                    class="btn btn-secondary w-100 py-3 mt-4"
+                    type="submit"
+                    onClick={UpdateUser}
+                  >
                     Save
                   </button>
                   <p className="text-center mt-4 text-primary">OR</p>
@@ -143,13 +140,15 @@ function Setting() {
                     Once you click the delete button, all your data will be
                     lost.
                   </p>
-                  <button class="btn btn-secondary  w-100 py-3 mt-4" type="submit" onClick={deleteUser}>
+                  <button
+                    class="btn btn-secondary  w-100 py-3 mt-4"
+                    type="submit"
+                    onClick={deleteUser}
+                  >
                     Eliminate
                   </button>
-                  
                 </div>
-<ToastContainer />
-
+                <ToastContainer />
               </div>
             </form>
           </div>

@@ -144,40 +144,6 @@ function Setting() {
                     />
                   </div>
 
-                  {/* <div className="form-check form-check-inline mt-4">
-                    <input
-                      required
-                      className="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
-                      value="admin"
-                      onChange={(e) => setAdmin(e.target.value)}
-                    />
-                    <label
-                      className="form-check-label text-primary"
-                      htmlFor="flexRadioDefault1"
-                    >
-                      Admin
-                    </label>
-                  </div>
-                  <div className="form-check form-check-inline mt-4">
-                    <input
-                      required
-                      className="form-check-input"
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault2"
-                      value="user"
-                      onChange={(e) => setAdmin(e.target.value)}
-                    />
-                    <label
-                      className="form-check-label  text-primary"
-                      htmlFor="flexRadioDefault2"
-                    >
-                      User
-                    </label>
-                  </div> */}
                 <select class="form-select mt-4" aria-label="Default select example" onChange={(e) => setAdmin(e.target.value)} value={admin}>
   <option value="admin">Admin</option>
   <option value="user">User</option>

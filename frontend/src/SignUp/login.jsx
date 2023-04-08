@@ -1,61 +1,30 @@
 import React, { useState } from "react";
-import "../css/bootstrap.min.css";
-import "../css/main.css";
 import register from "../img/login.jpg";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginSuccess } from "../store/redux/authSlice";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { loginUser } from "../store/redux/authSlice";
+import Authentication from "./authentication";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { loginWithGithub, loginWithGoogle, userSignIn } = Authentication();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSubmit = async (e) => {
+  // login the user
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("http://localhost:3000/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-      const data = await response.json();
-      if (response.ok) {
-        dispatch(loginSuccess(data));
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
-        toast.success("Success Notification !", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      } else {
-        toast("Invalid Credentials!");
-      }
-    } catch {
-      toast("All field must be filled ");
-    }
+    dispatch(
+      loginUser({
+        email,
+        password,
+      })
+    ).then(() => {
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    });
   };
 
-  // navigate
-  const userSignIn = () => {
-    navigate("/register");
-  };
-  // Login with google authentication
-  const loginWithGoogle = () => {
-    window.open("http://localhost:4000/user/auth/google", "_self");
-  };
-  // Login with github authentication
-  const loginWithGithub = () => {
-    window.open("http://localhost:4000/user/auth/github", "_self");
-  };
   return (
     <>
       <div class="container-fluid bg-secondary px-0">
@@ -94,9 +63,10 @@ function Login() {
                 </div>
 
                 <div class="col-12">
-                  <ToastContainer />
-
-                  <button class="btn btn-secondary w-100 py-3 mt-4" type="submit">
+                  <button
+                    class="btn btn-secondary w-100 py-3 mt-4"
+                    type="submit"
+                  >
                     Submit
                   </button>
                 </div>

@@ -51,7 +51,7 @@ function App() {
             </>
           ) : (
             <>
-              <Route path="/" element={<Navigate replace to="/home" />} />
+              <Route path="/" element={<Navigate replace to="/" />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
             </>
